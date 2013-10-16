@@ -1,6 +1,6 @@
 import org.junit.Test;
-import uk.org.lidalia.crypto.RsaPrivateCrtKey;
-import uk.org.lidalia.crypto.RsaPublicKey;
+import uk.org.lidalia.crypto.rsa.RsaPrivateCrtKey;
+import uk.org.lidalia.crypto.rsa.RsaPublicKey;
 
 import java.nio.charset.Charset;
 import java.security.spec.InvalidKeySpecException;

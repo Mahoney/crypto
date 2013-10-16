@@ -1,4 +1,6 @@
-package uk.org.lidalia.crypto;
+package uk.org.lidalia.crypto.rsa;
+
+import uk.org.lidalia.crypto.HashAlgorithm;
 
 import java.math.BigInteger;
 import java.security.KeyPairGenerator;
@@ -10,7 +12,8 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 
-import static uk.org.lidalia.crypto.RsaKeyUtils.rsaKeyFactory;
+import static uk.org.lidalia.crypto.rsa.RsaKeyUtils.requiredAlgorithmNotPresentException;
+import static uk.org.lidalia.crypto.rsa.RsaKeyUtils.rsaKeyFactory;
 
 public class RsaPrivateCrtKey implements RSAPrivateCrtKey {
 
@@ -20,7 +23,7 @@ public class RsaPrivateCrtKey implements RSAPrivateCrtKey {
             keyPairGenerator.initialize(1024);
             return new RsaPrivateCrtKey((RSAPrivateCrtKey) keyPairGenerator.generateKeyPair().getPrivate());
         } catch (NoSuchAlgorithmException e) {
-            throw RsaKeyUtils.requiredAlgorithmNotPresentException(e, RsaKeyUtils.RSA_ALGORITHM_NAME);
+            throw requiredAlgorithmNotPresentException(e, RsaKeyUtils.RSA_ALGORITHM_NAME);
         }
     }
 

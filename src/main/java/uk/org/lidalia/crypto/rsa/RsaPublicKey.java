@@ -1,4 +1,6 @@
-package uk.org.lidalia.crypto;
+package uk.org.lidalia.crypto.rsa;
+
+import uk.org.lidalia.crypto.HashAlgorithm;
 
 import java.math.BigInteger;
 import java.security.Signature;
@@ -6,11 +8,13 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 
+import static uk.org.lidalia.crypto.rsa.RsaKeyUtils.rsaKeyFactory;
+
 public class RsaPublicKey implements RSAPublicKey {
 
     public static RsaPublicKey fromEncoded(byte[] publicKeyEncoded) throws InvalidKeySpecException {
         X509EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(publicKeyEncoded);
-        return new RsaPublicKey((RSAPublicKey) RsaKeyUtils.rsaKeyFactory().generatePublic(publicKeySpec));
+        return new RsaPublicKey((RSAPublicKey) rsaKeyFactory().generatePublic(publicKeySpec));
     }
 
     private final RSAPublicKey decorated;
