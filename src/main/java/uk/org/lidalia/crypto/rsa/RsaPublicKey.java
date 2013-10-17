@@ -69,13 +69,8 @@ public class RsaPublicKey implements RSAPublicKey {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof RSAPublicKey)) return false;
-
-        RSAPublicKey publicKey = (RSAPublicKey) o;
-
-        return decorated.equals(publicKey);
+    public boolean equals(Object other) {
+        return this == other || decorated.equals(other);
     }
 
     @Override

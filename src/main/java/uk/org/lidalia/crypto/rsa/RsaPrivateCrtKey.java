@@ -126,13 +126,8 @@ public class RsaPrivateCrtKey implements RSAPrivateCrtKey {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof RSAPrivateCrtKey)) return false;
-
-        RSAPrivateCrtKey privateKey = (RSAPrivateCrtKey) o;
-
-        return decorated.equals(privateKey);
+    public boolean equals(Object other) {
+        return this == other || decorated.equals(other);
     }
 
     @Override
