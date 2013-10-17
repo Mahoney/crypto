@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPublicKey;
+import java.security.spec.InvalidKeySpecException;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -12,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 public class RsaPublicKeyTests {
 
     @Test
-    public void equalsRSAPublicKey() throws NoSuchAlgorithmException {
+    public void equalSymmetric() throws NoSuchAlgorithmException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(RsaKeyUtils.RSA_ALGORITHM_NAME);
         keyPairGenerator.initialize(1024);
 
@@ -21,13 +22,42 @@ public class RsaPublicKeyTests {
 
         assertTrue(javaPublicKey.equals(publicKey));
         assertTrue(publicKey.equals(javaPublicKey));
+    }
 
-        RSAPublicKey javaPublicKey2 = (RSAPublicKey) keyPairGenerator.generateKeyPair().getPublic();
-        RsaPublicKey publicKey2 = new RsaPublicKey(javaPublicKey2);
+    @Test
+    public void notEqualSymmetric() throws NoSuchAlgorithmException {
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(RsaKeyUtils.RSA_ALGORITHM_NAME);
+        keyPairGenerator.initialize(1024);
 
-        assertFalse(javaPublicKey.equals(javaPublicKey2));
-        assertFalse(javaPublicKey.equals(publicKey2));
-        assertFalse(publicKey.equals(javaPublicKey2));
+        RsaPublicKey publicKey = RsaPrivateCrtKey.generate().getPublicKey();
+        RSAPublicKey javaPublicKey = (RSAPublicKey) keyPairGenerator.generateKeyPair().getPublic();
+
+        assertFalse(publicKey.equals(javaPublicKey));
+        assertFalse(javaPublicKey.equals(publicKey));
+    }
+
+    @Test
+    public void equalReflective() {
+        RsaPublicKey publicKey = RsaPrivateCrtKey.generate().getPublicKey();
+
+        assertTrue(publicKey.equals(publicKey));
+    }
+
+    @Test
+    public void equal() throws InvalidKeySpecException {
+        RsaPublicKey publicKey = RsaPrivateCrtKey.generate().getPublicKey();
+        RsaPublicKey publicKey2 = RsaPublicKey.fromEncoded(publicKey.getEncoded());
+
+        assertTrue(publicKey.equals(publicKey2));
+        assertTrue(publicKey2.equals(publicKey));
+    }
+
+    @Test
+    public void notEqual() throws InvalidKeySpecException {
+        RsaPublicKey publicKey = RsaPrivateCrtKey.generate().getPublicKey();
+        RsaPublicKey publicKey2 = RsaPrivateCrtKey.generate().getPublicKey();
+
         assertFalse(publicKey.equals(publicKey2));
+        assertFalse(publicKey2.equals(publicKey));
     }
 }

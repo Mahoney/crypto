@@ -17,20 +17,20 @@ public class RsaKeyTests {
 
     @Test
     public void createSerialiseAndRestorePrivateKey() throws InvalidKeySpecException {
-        RsaPrivateCrtKey privateKey = RsaPrivateCrtKey.generate();
-        byte[] privateKeyEncoded = privateKey.getEncoded();
+        final RsaPrivateCrtKey privateKey = RsaPrivateCrtKey.generate();
+        final byte[] privateKeyEncoded = privateKey.getEncoded();
 
-        RsaPrivateCrtKey restoredPrivateKey = RsaPrivateCrtKey.fromEncoded(privateKeyEncoded);
+        final RsaPrivateCrtKey restoredPrivateKey = RsaPrivateCrtKey.fromEncoded(privateKeyEncoded);
 
         assertThat(restoredPrivateKey, is(privateKey));
     }
 
     @Test
     public void createSerialiseAndRestorePublicKey() throws InvalidKeySpecException {
-        RsaPublicKey publicKey = RsaPrivateCrtKey.generate().getPublicKey();
-        byte[] publicKeyEncoded = publicKey.getEncoded();
+        final RsaPublicKey publicKey = RsaPrivateCrtKey.generate().getPublicKey();
+        final byte[] publicKeyEncoded = publicKey.getEncoded();
 
-        RsaPublicKey restoredPublicKey = RsaPublicKey.fromEncoded(publicKeyEncoded);
+        final RsaPublicKey restoredPublicKey = RsaPublicKey.fromEncoded(publicKeyEncoded);
 
         assertThat(restoredPublicKey, is(publicKey));
     }
@@ -38,21 +38,23 @@ public class RsaKeyTests {
     @Test
     public void signAndVerifyData() {
         final RsaPrivateCrtKey privateKey = RsaPrivateCrtKey.generate();
+        final RsaPublicKey publicKey = privateKey.getPublicKey();
         final String dataToSign = "some random data";
 
         final byte[] signature = privateKey.signatureFor(SHA256, dataToSign.getBytes(UTF_8));
 
-        assertTrue(privateKey.getPublicKey().verifySignature(signature, SHA256, dataToSign.getBytes(UTF_8)));
+        assertTrue(publicKey.verifySignature(signature, SHA256, dataToSign.getBytes(UTF_8)));
     }
 
     @Test
     public void signAndVerifyTamperedData() {
         final RsaPrivateCrtKey privateKey = RsaPrivateCrtKey.generate();
+        final RsaPublicKey publicKey = privateKey.getPublicKey();
         final String dataToSign = "some random data";
 
         final byte[] signature = privateKey.signatureFor(SHA256, dataToSign.getBytes(UTF_8));
 
-        assertFalse(privateKey.getPublicKey().verifySignature(signature, SHA256, "tampered data".getBytes(UTF_8)));
+        assertFalse(publicKey.verifySignature(signature, SHA256, "tampered data".getBytes(UTF_8)));
     }
 
     @Test
