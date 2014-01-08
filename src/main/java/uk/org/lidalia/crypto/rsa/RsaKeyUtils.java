@@ -12,6 +12,8 @@ import java.security.Signature;
 class RsaKeyUtils {
 
     static final String RSA_ALGORITHM_NAME = "RSA";
+    static final String ECB_MODE = "ECB";
+    static final String PKCS1_PADDING = "PKCS1Padding";
 
     static KeyFactory rsaKeyFactory() {
         try {
@@ -35,7 +37,7 @@ class RsaKeyUtils {
     }
 
     static Cipher cipher() {
-        String algorithm = "RSA/ECB/PKCS1Padding";
+        String algorithm = RSA_ALGORITHM_NAME+"/"+ECB_MODE+"/"+ PKCS1_PADDING;
         try {
             return Cipher.getInstance(algorithm);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
