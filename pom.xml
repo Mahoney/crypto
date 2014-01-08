@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>uk.org.lidalia</groupId>
-            <artifactId>standard-test-dependencies</artifactId>
+            <artifactId>lidalia-test-dependencies</artifactId>
             <version>1.0.0</version>
             <scope>test</scope>
             <type>pom</type>

@@ -10,7 +10,7 @@ import java.security.spec.X509EncodedKeySpec;
 
 import static uk.org.lidalia.crypto.rsa.RsaKeyUtils.rsaKeyFactory;
 
-public class RsaPublicKey implements RSAPublicKey {
+public class RsaPublicKey extends RsaKey implements RSAPublicKey {
 
     public static RsaPublicKey fromEncoded(byte[] publicKeyEncoded) throws InvalidKeySpecException {
         X509EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(publicKeyEncoded);

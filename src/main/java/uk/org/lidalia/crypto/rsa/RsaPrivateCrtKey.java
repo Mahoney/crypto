@@ -15,7 +15,7 @@ import java.security.spec.RSAPublicKeySpec;
 import static uk.org.lidalia.crypto.rsa.RsaKeyUtils.requiredAlgorithmNotPresentException;
 import static uk.org.lidalia.crypto.rsa.RsaKeyUtils.rsaKeyFactory;
 
-public class RsaPrivateCrtKey implements RSAPrivateCrtKey {
+public class RsaPrivateCrtKey extends RsaKey implements RSAPrivateCrtKey {
 
     public static RsaPrivateCrtKey generate() {
         try {
