@@ -76,7 +76,7 @@ public class RsaKeyTests {
     }
 
     @Test
-    public void encryptAndDecryptDataAsymmetrically() throws Throwable {
+    public void encryptAndDecryptDataAsymmetrically() {
         RsaPrivateCrtKey keyA = RsaPrivateCrtKey.generate();
         RsaPublicKey keyB = keyA.getPublicKey();
 
@@ -84,7 +84,7 @@ public class RsaKeyTests {
         encryptAndDecryptDataAsymmetrically(keyB, keyA);
     }
 
-    private void encryptAndDecryptDataAsymmetrically(RsaKey keyA, RsaKey keyB) throws UnsupportedEncodingException {
+    private void encryptAndDecryptDataAsymmetrically(RsaKey keyA, RsaKey keyB) {
 
         byte[] encrypted = keyA.encrypt(unencrypted);
         byte[] decrypted = keyB.decrypt(encrypted);
@@ -94,7 +94,7 @@ public class RsaKeyTests {
     }
 
     @Test
-    public void failToDecryptDataSymmetrically() throws Throwable {
+    public void failToDecryptDataSymmetrically() {
         RsaPrivateCrtKey keyA = RsaPrivateCrtKey.generate();
         RsaPublicKey keyB = keyA.getPublicKey();
 
@@ -102,7 +102,7 @@ public class RsaKeyTests {
         failToDecryptDataSymmetrically(keyB);
     }
 
-    private void failToDecryptDataSymmetrically(final RsaKey key) throws Throwable {
+    private void failToDecryptDataSymmetrically(final RsaKey key) {
         final byte[] encrypted = key.encrypt(unencrypted);
         shouldThrow(IllegalStateException.class, new Task() {
             @Override
