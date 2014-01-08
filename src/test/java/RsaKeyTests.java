@@ -4,7 +4,6 @@ import uk.org.lidalia.crypto.rsa.RsaPrivateCrtKey;
 import uk.org.lidalia.crypto.rsa.RsaPublicKey;
 import uk.org.lidalia.lang.Task;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.security.spec.InvalidKeySpecException;
 
