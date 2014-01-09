@@ -1,4 +1,5 @@
 import org.junit.Test;
+import uk.org.lidalia.crypto.DecryptionFailedException;
 import uk.org.lidalia.crypto.rsa.RsaKey;
 import uk.org.lidalia.crypto.rsa.RsaPrivateCrtKey;
 import uk.org.lidalia.crypto.rsa.RsaPublicKey;
@@ -9,6 +10,7 @@ import java.security.spec.InvalidKeySpecException;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -75,7 +77,7 @@ public class RsaKeyTests {
     }
 
     @Test
-    public void encryptAndDecryptDataAsymmetrically() {
+    public void encryptAndDecryptDataAsymmetrically() throws DecryptionFailedException {
         RsaPrivateCrtKey keyA = RsaPrivateCrtKey.generate();
         RsaPublicKey keyB = keyA.getPublicKey();
 
@@ -83,13 +85,13 @@ public class RsaKeyTests {
         encryptAndDecryptDataAsymmetrically(keyB, keyA);
     }
 
-    private void encryptAndDecryptDataAsymmetrically(RsaKey keyA, RsaKey keyB) {
+    private void encryptAndDecryptDataAsymmetrically(RsaKey keyA, RsaKey keyB) throws DecryptionFailedException {
 
         byte[] encrypted = keyA.encrypt(unencrypted);
-        byte[] decrypted = keyB.decrypt(encrypted);
-
-        assertThat(decrypted, is(unencrypted));
         assertThat(encrypted, is(not(unencrypted)));
+
+        byte[] decrypted = keyB.decrypt(encrypted);
+        assertThat(decrypted, is(unencrypted));
     }
 
     @Test
@@ -103,11 +105,13 @@ public class RsaKeyTests {
 
     private void failToDecryptDataSymmetrically(final RsaKey key) {
         final byte[] encrypted = key.encrypt(unencrypted);
-        shouldThrow(IllegalStateException.class, new Task() {
+        DecryptionFailedException exception = shouldThrow(DecryptionFailedException.class, new Task() {
             @Override
             public void perform() throws Exception {
                 key.decrypt(encrypted);
             }
         });
+        assertThat(exception.getMessage(), is("Unable to decrypt data"));
+        assertThat(exception.getCause(), notNullValue());
     }
 }
