@@ -29,7 +29,7 @@ public class RsaPublicKeyTests {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(RsaKeyUtils.RSA_ALGORITHM_NAME);
         keyPairGenerator.initialize(1024);
 
-        RsaPublicKey publicKey = RsaPrivateCrtKey.generate().getPublicKey();
+        RsaPublicKey publicKey = RsaKeyPair.generate().getPublicKey();
         RSAPublicKey javaPublicKey = (RSAPublicKey) keyPairGenerator.generateKeyPair().getPublic();
 
         assertFalse(publicKey.equals(javaPublicKey));
@@ -38,14 +38,14 @@ public class RsaPublicKeyTests {
 
     @Test
     public void equalReflective() {
-        RsaPublicKey publicKey = RsaPrivateCrtKey.generate().getPublicKey();
+        RsaPublicKey publicKey = RsaKeyPair.generate().getPublicKey();
 
         assertTrue(publicKey.equals(publicKey));
     }
 
     @Test
     public void equal() throws InvalidKeySpecException {
-        RsaPublicKey publicKey = RsaPrivateCrtKey.generate().getPublicKey();
+        RsaPublicKey publicKey = RsaKeyPair.generate().getPublicKey();
         RsaPublicKey publicKey2 = RsaPublicKey.fromEncoded(publicKey.getEncoded());
 
         assertTrue(publicKey.equals(publicKey2));
@@ -54,8 +54,8 @@ public class RsaPublicKeyTests {
 
     @Test
     public void notEqual() throws InvalidKeySpecException {
-        RsaPublicKey publicKey = RsaPrivateCrtKey.generate().getPublicKey();
-        RsaPublicKey publicKey2 = RsaPrivateCrtKey.generate().getPublicKey();
+        RsaPublicKey publicKey = RsaKeyPair.generate().getPublicKey();
+        RsaPublicKey publicKey2 = RsaKeyPair.generate().getPublicKey();
 
         assertFalse(publicKey.equals(publicKey2));
         assertFalse(publicKey2.equals(publicKey));

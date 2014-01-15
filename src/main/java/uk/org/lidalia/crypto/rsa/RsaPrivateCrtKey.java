@@ -3,8 +3,6 @@ package uk.org.lidalia.crypto.rsa;
 import uk.org.lidalia.crypto.HashAlgorithm;
 
 import java.math.BigInteger;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
 import java.security.Signature;
 import java.security.interfaces.RSAPrivateCrtKey;
 import java.security.interfaces.RSAPublicKey;
@@ -12,42 +10,17 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 
-import static uk.org.lidalia.crypto.rsa.RsaKeyUtils.requiredAlgorithmNotPresentException;
 import static uk.org.lidalia.crypto.rsa.RsaKeyUtils.rsaKeyFactory;
 
-public class RsaPrivateCrtKey extends RsaKey implements RSAPrivateCrtKey {
-
-    public static RsaPrivateCrtKey generate() {
-        try {
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(RsaKeyUtils.RSA_ALGORITHM_NAME);
-            keyPairGenerator.initialize(1024);
-            return new RsaPrivateCrtKey((RSAPrivateCrtKey) keyPairGenerator.generateKeyPair().getPrivate());
-        } catch (NoSuchAlgorithmException e) {
-            throw requiredAlgorithmNotPresentException(e, RsaKeyUtils.RSA_ALGORITHM_NAME);
-        }
-    }
+public class RsaPrivateCrtKey extends RsaKey<RSAPrivateCrtKey> implements RSAPrivateCrtKey {
 
     public static RsaPrivateCrtKey fromEncoded(byte[] privateKeyEncoded) throws InvalidKeySpecException {
         PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(privateKeyEncoded);
         return new RsaPrivateCrtKey((RSAPrivateCrtKey) rsaKeyFactory().generatePrivate(privateKeySpec));
     }
 
-    private final RSAPrivateCrtKey decorated;
-
     public RsaPrivateCrtKey(RSAPrivateCrtKey decorated) {
-        this.decorated = decorated;
-    }
-
-    public RsaPublicKey getPublicKey() {
-        try {
-            RSAPublicKeySpec publicKeySpec = new RSAPublicKeySpec(
-                    getModulus(),
-                    getPublicExponent()
-            );
-            return new RsaPublicKey((RSAPublicKey) rsaKeyFactory().generatePublic(publicKeySpec));
-        } catch (InvalidKeySpecException e) {
-            throw new IllegalStateException("Create an rsa public key from an rsa private key should always work. Using key="+ this, e);
-        }
+        super(decorated);
     }
 
     public byte[] signatureFor(HashAlgorithm algorithm, final byte[]... contents) {
@@ -60,6 +33,18 @@ public class RsaPrivateCrtKey extends RsaKey implements RSAPrivateCrtKey {
             return signer.sign();
         } catch (Exception e) {
             throw new IllegalStateException("Signing a string with an RSA private key should always work. Using key="+ this, e);
+        }
+    }
+
+    public RsaPublicKey getPublicKey() {
+        try {
+            RSAPublicKeySpec publicKeySpec = new RSAPublicKeySpec(
+                    getModulus(),
+                    getPublicExponent()
+            );
+            return new RsaPublicKey((RSAPublicKey) rsaKeyFactory().generatePublic(publicKeySpec));
+        } catch (InvalidKeySpecException e) {
+            throw new IllegalStateException("Create an rsa public key from an rsa private key should always work. Using key="+ this, e);
         }
     }
 
@@ -98,40 +83,5 @@ public class RsaPrivateCrtKey extends RsaKey implements RSAPrivateCrtKey {
     @Override
     public BigInteger getPrivateExponent() {
         return decorated.getPrivateExponent();
-    }
-
-    @Override
-    public String getAlgorithm() {
-        return decorated.getAlgorithm();
-    }
-
-    @Override
-    public String getFormat() {
-        return decorated.getFormat();
-    }
-
-    @Override
-    public byte[] getEncoded() {
-        return decorated.getEncoded();
-    }
-
-    @Override
-    public BigInteger getModulus() {
-        return decorated.getModulus();
-    }
-
-    @Override
-    public String toString() {
-        return decorated.toString();
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return this == other || decorated.equals(other);
-    }
-
-    @Override
-    public int hashCode() {
-        return decorated.hashCode();
     }
 }
