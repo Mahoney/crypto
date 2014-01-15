@@ -46,8 +46,9 @@ public class RsaKeyTests {
 
     @Test
     public void signAndVerifyData() {
-        final RsaPrivateCrtKey privateKey = RsaKeyPair.generate().getPrivateKey();
-        final RsaPublicKey publicKey = privateKey.getPublicKey();
+        RsaKeyPair keyPair = RsaKeyPair.generate();
+        final RsaPrivateCrtKey privateKey = keyPair.getPrivateKey();
+        final RsaPublicKey publicKey = keyPair.getPublicKey();
         final String dataToSign = "some random data";
 
         final byte[] signature = privateKey.signatureFor(SHA256, dataToSign.getBytes(UTF_8));
@@ -57,8 +58,9 @@ public class RsaKeyTests {
 
     @Test
     public void signAndVerifyTamperedData() {
-        final RsaPrivateCrtKey privateKey = RsaKeyPair.generate().getPrivateKey();
-        final RsaPublicKey publicKey = privateKey.getPublicKey();
+        RsaKeyPair keyPair = RsaKeyPair.generate();
+        final RsaPrivateCrtKey privateKey = keyPair.getPrivateKey();
+        final RsaPublicKey publicKey = keyPair.getPublicKey();
         final String dataToSign = "some random data";
 
         final byte[] signature = privateKey.signatureFor(SHA256, dataToSign.getBytes(UTF_8));
@@ -79,8 +81,9 @@ public class RsaKeyTests {
 
     @Test
     public void encryptAndDecryptDataAsymmetrically() throws DecryptionFailedException {
-        RsaPrivateCrtKey keyA = RsaKeyPair.generate().getPrivateKey();
-        RsaPublicKey keyB = keyA.getPublicKey();
+        RsaKeyPair keyPair = RsaKeyPair.generate();
+        RsaPrivateCrtKey keyA = keyPair.getPrivateKey();
+        RsaPublicKey keyB = keyPair.getPublicKey();
 
         encryptAndDecryptDataAsymmetrically(keyA, keyB);
         encryptAndDecryptDataAsymmetrically(keyB, keyA);
@@ -97,8 +100,9 @@ public class RsaKeyTests {
 
     @Test
     public void failToDecryptDataSymmetrically() {
-        RsaPrivateCrtKey keyA = RsaKeyPair.generate().getPrivateKey();
-        RsaPublicKey keyB = keyA.getPublicKey();
+        RsaKeyPair keyPair = RsaKeyPair.generate();
+        RsaPrivateCrtKey keyA = keyPair.getPrivateKey();
+        RsaPublicKey keyB = keyPair.getPublicKey();
 
         failToDecryptDataSymmetrically(keyA);
         failToDecryptDataSymmetrically(keyB);
