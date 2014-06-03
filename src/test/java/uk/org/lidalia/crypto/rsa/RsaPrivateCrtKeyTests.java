@@ -14,11 +14,10 @@ public class RsaPrivateCrtKeyTests {
 
     @Test
     public void equalSymmetric() throws NoSuchAlgorithmException {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(RsaKeyUtils.RSA_ALGORITHM_NAME);
-        keyPairGenerator.initialize(1024);
-
-        RSAPrivateCrtKey javaPrivateKey = (RSAPrivateCrtKey) keyPairGenerator.generateKeyPair().getPrivate();
-        RsaPrivateCrtKey privateKey = new RsaPrivateCrtKey(javaPrivateKey);
+        final RSAPrivateCrtKey javaPrivateKey
+                = getJavaPrivateKey();
+        final RsaPrivateCrtKey privateKey
+                = RsaPrivateCrtKey.from(javaPrivateKey);
 
         assertTrue(javaPrivateKey.equals(privateKey));
         assertTrue(privateKey.equals(javaPrivateKey));
@@ -26,11 +25,10 @@ public class RsaPrivateCrtKeyTests {
 
     @Test
     public void notEqualSymmetric() throws NoSuchAlgorithmException {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(RsaKeyUtils.RSA_ALGORITHM_NAME);
-        keyPairGenerator.initialize(1024);
-
-        RSAPrivateCrtKey javaPrivateKey = (RSAPrivateCrtKey) keyPairGenerator.generateKeyPair().getPrivate();
-        RsaPrivateCrtKey privateKey = RsaKeyPair.generate().getPrivateKey();
+        final RSAPrivateCrtKey javaPrivateKey
+                = getJavaPrivateKey();
+        final RsaPrivateCrtKey privateKey
+                = RsaKeyPair.generate().getPrivateKey();
 
         assertFalse(javaPrivateKey.equals(privateKey));
         assertFalse(privateKey.equals(javaPrivateKey));
@@ -38,15 +36,18 @@ public class RsaPrivateCrtKeyTests {
 
     @Test
     public void equalReflective() {
-        RsaPrivateCrtKey privateKey = RsaKeyPair.generate().getPrivateKey();
+        final RsaPrivateCrtKey privateKey
+                = RsaKeyPair.generate().getPrivateKey();
 
         assertTrue(privateKey.equals(privateKey));
     }
 
     @Test
     public void equal() throws InvalidKeySpecException {
-        RsaPrivateCrtKey privateKey = RsaKeyPair.generate().getPrivateKey();
-        RsaPrivateCrtKey privateKey2 = RsaPrivateCrtKey.fromEncoded(privateKey.getEncoded());
+        final RsaPrivateCrtKey privateKey
+                = RsaKeyPair.generate().getPrivateKey();
+        final RsaPrivateCrtKey privateKey2
+                = RsaPrivateCrtKey.fromEncoded(privateKey.getEncoded());
 
         assertTrue(privateKey.equals(privateKey2));
         assertTrue(privateKey2.equals(privateKey));
@@ -54,10 +55,24 @@ public class RsaPrivateCrtKeyTests {
 
     @Test
     public void notEqual() throws InvalidKeySpecException {
-        RsaPrivateCrtKey privateKey = RsaKeyPair.generate().getPrivateKey();
-        RsaPrivateCrtKey privateKey2 = RsaKeyPair.generate().getPrivateKey();
+        final RsaPrivateCrtKey privateKey
+                = RsaKeyPair.generate().getPrivateKey();
+        final RsaPrivateCrtKey privateKey2
+                = RsaKeyPair.generate().getPrivateKey();
 
         assertFalse(privateKey.equals(privateKey2));
         assertFalse(privateKey2.equals(privateKey));
+    }
+
+    private RSAPrivateCrtKey getJavaPrivateKey()
+            throws NoSuchAlgorithmException {
+
+        final KeyPairGenerator keyPairGenerator
+                = KeyPairGenerator.getInstance(RsaKeyUtils.RSA_ALGORITHM_NAME);
+        keyPairGenerator.initialize(1024);
+
+        return (RSAPrivateCrtKey) keyPairGenerator
+                .generateKeyPair()
+                .getPrivate();
     }
 }

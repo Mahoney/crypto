@@ -3,48 +3,70 @@ package uk.org.lidalia.crypto.rsa;
 import uk.org.lidalia.crypto.HashAlgorithm;
 
 import java.math.BigInteger;
+import java.security.PrivateKey;
 import java.security.Signature;
 import java.security.interfaces.RSAPrivateCrtKey;
-import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 
 import static uk.org.lidalia.crypto.rsa.RsaKeyUtils.rsaKeyFactory;
 
-public class RsaPrivateCrtKey extends RsaKey<RSAPrivateCrtKey> implements RSAPrivateCrtKey {
+public final class RsaPrivateCrtKey
+        extends RsaKey<RSAPrivateCrtKey>
+        implements RSAPrivateCrtKey {
 
-    public static RsaPrivateCrtKey fromEncoded(byte[] privateKeyEncoded) throws InvalidKeySpecException {
-        PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(privateKeyEncoded);
-        return new RsaPrivateCrtKey((RSAPrivateCrtKey) rsaKeyFactory().generatePrivate(privateKeySpec));
+    public static RsaPrivateCrtKey fromEncoded(final byte[] privateKeyEncoded)
+            throws InvalidKeySpecException {
+        final KeySpec privateKeySpec
+                = new PKCS8EncodedKeySpec(privateKeyEncoded);
+        return fromKeySpec(privateKeySpec);
     }
 
-    public RsaPrivateCrtKey(RSAPrivateCrtKey decorated) {
+    public static RsaPrivateCrtKey fromKeySpec(final KeySpec privateKeySpec)
+            throws InvalidKeySpecException {
+        final PrivateKey privateKey
+                = rsaKeyFactory().generatePrivate(privateKeySpec);
+        return new RsaPrivateCrtKey((RSAPrivateCrtKey) privateKey);
+    }
+
+    public static RsaPrivateCrtKey from(final RSAPrivateCrtKey decorated) {
+        return new RsaPrivateCrtKey(decorated);
+    }
+
+    private RsaPrivateCrtKey(final RSAPrivateCrtKey decorated) {
         super(decorated);
     }
 
-    public byte[] signatureFor(HashAlgorithm algorithm, final byte[]... contents) {
+    public byte[] signatureFor(
+            final HashAlgorithm algorithm,
+            final byte[]... contents) {
         final Signature signer = RsaKeyUtils.signatureFor(algorithm);
         try {
             signer.initSign(this);
-            for (byte[] content : contents) {
+            for (final byte[] content : contents) {
                 signer.update(content);
             }
             return signer.sign();
-        } catch (Exception e) {
-            throw new IllegalStateException("Signing a string with an RSA private key should always work. Using key="+ this, e);
+        } catch (final Exception e) {
+            throw new IllegalStateException(
+                    "Signing a string with an RSA private key should always work. " +
+                            "Using key="+ this, e);
         }
     }
 
     public RsaPublicKey getPublicKey() {
         try {
-            RSAPublicKeySpec publicKeySpec = new RSAPublicKeySpec(
+            final RSAPublicKeySpec publicKeySpec = new RSAPublicKeySpec(
                     getModulus(),
                     getPublicExponent()
             );
-            return new RsaPublicKey((RSAPublicKey) rsaKeyFactory().generatePublic(publicKeySpec));
-        } catch (InvalidKeySpecException e) {
-            throw new IllegalStateException("Create an rsa public key from an rsa private key should always work. Using key="+ this, e);
+            return RsaPublicKey.fromKeySpec(publicKeySpec);
+        } catch (final InvalidKeySpecException e) {
+            throw new IllegalStateException(
+                    "Creating an RSA public key from an RSA private key should always work. " +
+                            "Using key="+ this, e);
         }
     }
 

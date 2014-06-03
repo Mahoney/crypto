@@ -14,13 +14,14 @@ class RsaKeyUtils {
     static final String RSA_ALGORITHM_NAME = "RSA";
     static final String ECB_MODE = "ECB";
     static final String PKCS1_PADDING = "PKCS1Padding";
-    private static final String CIPHER_ALGORITHM = RSA_ALGORITHM_NAME + "/" + ECB_MODE + "/" + PKCS1_PADDING;
+    private static final String CIPHER_ALGORITHM
+            = RSA_ALGORITHM_NAME + "/" + ECB_MODE + "/" + PKCS1_PADDING;
     private static final KeyFactory RSA_KEY_FACTORY = getRsaKeyFactory();
 
     private static KeyFactory getRsaKeyFactory() {
         try {
             return KeyFactory.getInstance(RSA_ALGORITHM_NAME);
-        } catch (NoSuchAlgorithmException e) {
+        } catch (final NoSuchAlgorithmException e) {
             throw requiredAlgorithmNotPresentException(e, RSA_ALGORITHM_NAME);
         }
     }
@@ -29,23 +30,26 @@ class RsaKeyUtils {
         return RSA_KEY_FACTORY;
     }
 
-    static Signature signatureFor(HashAlgorithm hashAlgorithm) {
-        String algorithm = hashAlgorithm + "with" + RSA_ALGORITHM_NAME;
+    static Signature signatureFor(final HashAlgorithm hashAlgorithm) {
+        final String algorithm = hashAlgorithm + "with" + RSA_ALGORITHM_NAME;
         try {
             return Signature.getInstance(algorithm);
-        } catch (NoSuchAlgorithmException e) {
+        } catch (final NoSuchAlgorithmException e) {
             throw requiredAlgorithmNotPresentException(e, algorithm);
         }
     }
 
-    static IllegalStateException requiredAlgorithmNotPresentException(GeneralSecurityException e, final String algorithm) {
-        return new IllegalStateException(algorithm + " is a required algorithm!", e);
+    static IllegalStateException requiredAlgorithmNotPresentException(
+            final GeneralSecurityException e,
+            final String algorithm) {
+        return new IllegalStateException(
+                algorithm + " is a required algorithm!", e);
     }
 
     static Cipher cipher() {
         try {
             return Cipher.getInstance(CIPHER_ALGORITHM);
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+        } catch (final NoSuchAlgorithmException | NoSuchPaddingException e) {
             throw requiredAlgorithmNotPresentException(e, CIPHER_ALGORITHM);
         }
     }

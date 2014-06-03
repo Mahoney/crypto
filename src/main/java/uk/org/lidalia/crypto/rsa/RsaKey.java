@@ -14,32 +14,43 @@ public abstract class RsaKey<T extends Key & RSAKey> implements Key, RSAKey {
 
     final T decorated;
 
-    RsaKey(T decorated) {
+    RsaKey(final T decorated) {
         this.decorated = decorated;
     }
 
-    public byte[] encrypt(byte[] input) {
+    public byte[] encrypt(final byte[] input) {
         try {
             return doCrypto(input, Cipher.ENCRYPT_MODE);
-        } catch (Exception e) {
-            throw new IllegalStateException("Encrypting with an RSA key should always work. Using key="+this, e);
+        } catch (final IllegalStateException e) {
+            throw e;
+        } catch (final Exception e) {
+            throw new IllegalStateException(
+                    "Encrypting with an RSA key should always work. " +
+                    "Using key="+this, e);
         }
     }
 
-    public byte[] decrypt(byte[] input) throws DecryptionFailedException {
+    public byte[] decrypt(final byte[] input) throws DecryptionFailedException {
         try {
             return doCrypto(input, Cipher.DECRYPT_MODE);
-        } catch (Exception e) {
+        } catch (final IllegalStateException e) {
+            throw e;
+        } catch (final Exception e) {
             throw new DecryptionFailedException(e);
         }
     }
 
-    private byte[] doCrypto(byte[] input, int encryptMode) throws Exception {
-        Cipher rsa = RsaKeyUtils.cipher();
+    private byte[] doCrypto(
+            final byte[] input,
+            final int encryptMode) throws Exception {
+
+        final Cipher rsa = RsaKeyUtils.cipher();
         try {
             rsa.init(encryptMode, this);
         } catch (InvalidKeyException e) {
-            throw new IllegalStateException("An RSA Key should never be invalid for doing crypto. Using key="+this, e);
+            throw new IllegalStateException(
+                    "An RSA Key should never be invalid for doing crypto. " +
+                    "Using key="+this, e);
         }
         return rsa.doFinal(input);
     }

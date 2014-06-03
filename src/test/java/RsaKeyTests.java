@@ -25,84 +25,112 @@ public class RsaKeyTests {
     private final byte[] unencrypted = "hello world".getBytes(UTF_8);
 
     @Test
-    public void createSerialiseAndRestorePrivateKey() throws InvalidKeySpecException {
-        final RsaPrivateCrtKey privateKey = RsaKeyPair.generate().getPrivateKey();
+    public void createSerialiseAndRestorePrivateKey()
+            throws InvalidKeySpecException {
+        final RsaPrivateCrtKey privateKey
+                = RsaKeyPair.generate().getPrivateKey();
         final byte[] privateKeyEncoded = privateKey.getEncoded();
 
-        final RsaPrivateCrtKey restoredPrivateKey = RsaPrivateCrtKey.fromEncoded(privateKeyEncoded);
+        final RsaPrivateCrtKey restoredPrivateKey
+                = RsaPrivateCrtKey.fromEncoded(privateKeyEncoded);
 
         assertThat(restoredPrivateKey, is(privateKey));
     }
 
     @Test
-    public void createSerialiseAndRestorePublicKey() throws InvalidKeySpecException {
+    public void createSerialiseAndRestorePublicKey()
+            throws InvalidKeySpecException {
         final RsaPublicKey publicKey = RsaKeyPair.generate().getPublicKey();
         final byte[] publicKeyEncoded = publicKey.getEncoded();
 
-        final RsaPublicKey restoredPublicKey = RsaPublicKey.fromEncoded(publicKeyEncoded);
+        final RsaPublicKey restoredPublicKey
+                = RsaPublicKey.fromEncoded(publicKeyEncoded);
 
         assertThat(restoredPublicKey, is(publicKey));
     }
 
     @Test
     public void signAndVerifyData() {
-        RsaKeyPair keyPair = RsaKeyPair.generate();
+        final RsaKeyPair keyPair = RsaKeyPair.generate();
         final RsaPrivateCrtKey privateKey = keyPair.getPrivateKey();
         final RsaPublicKey publicKey = keyPair.getPublicKey();
         final String dataToSign = "some random data";
 
-        final byte[] signature = privateKey.signatureFor(SHA256, dataToSign.getBytes(UTF_8));
+        final byte[] signature
+                = privateKey.signatureFor(SHA256, dataToSign.getBytes(UTF_8));
 
-        assertTrue(publicKey.verifySignature(signature, SHA256, dataToSign.getBytes(UTF_8)));
+        final boolean signatureValid = publicKey.verifySignature(
+                signature,
+                SHA256,
+                dataToSign.getBytes(UTF_8)
+        );
+        assertTrue(signatureValid);
     }
 
     @Test
     public void signAndVerifyTamperedData() {
-        RsaKeyPair keyPair = RsaKeyPair.generate();
+        final RsaKeyPair keyPair = RsaKeyPair.generate();
         final RsaPrivateCrtKey privateKey = keyPair.getPrivateKey();
         final RsaPublicKey publicKey = keyPair.getPublicKey();
         final String dataToSign = "some random data";
 
-        final byte[] signature = privateKey.signatureFor(SHA256, dataToSign.getBytes(UTF_8));
+        final byte[] signature
+                = privateKey.signatureFor(SHA256, dataToSign.getBytes(UTF_8));
 
-        assertFalse(publicKey.verifySignature(signature, SHA256, "tampered data".getBytes(UTF_8)));
+        final boolean signatureValid = publicKey.verifySignature(
+                signature,
+                SHA256,
+                "tampered data".getBytes(UTF_8)
+        );
+        assertFalse(signatureValid);
     }
 
     @Test
     public void signAndVerifyDifferentKey() {
         final String dataToSign = "some random data";
-        final RsaPrivateCrtKey signingKey = RsaKeyPair.generate().getPrivateKey();
-        final RsaPublicKey nonMatchingPublicKey = RsaKeyPair.generate().getPublicKey();
+        final RsaPrivateCrtKey signingKey
+                = RsaKeyPair.generate().getPrivateKey();
+        final RsaPublicKey nonMatchingPublicKey
+                = RsaKeyPair.generate().getPublicKey();
 
-        final byte[] signature = signingKey.signatureFor(SHA256, dataToSign.getBytes(UTF_8));
+        final byte[] signature
+                = signingKey.signatureFor(SHA256, dataToSign.getBytes(UTF_8));
 
-        assertFalse(nonMatchingPublicKey.verifySignature(signature, SHA256, dataToSign.getBytes(UTF_8)));
+        final boolean signatureValid = nonMatchingPublicKey.verifySignature(
+                signature,
+                SHA256,
+                dataToSign.getBytes(UTF_8)
+        );
+        assertFalse(signatureValid);
     }
 
     @Test
-    public void encryptAndDecryptDataAsymmetrically() throws DecryptionFailedException {
-        RsaKeyPair keyPair = RsaKeyPair.generate();
-        RsaPrivateCrtKey keyA = keyPair.getPrivateKey();
-        RsaPublicKey keyB = keyPair.getPublicKey();
+    public void encryptAndDecryptDataAsymmetrically()
+            throws DecryptionFailedException {
+        final RsaKeyPair keyPair = RsaKeyPair.generate();
+        final RsaPrivateCrtKey keyA = keyPair.getPrivateKey();
+        final RsaPublicKey keyB = keyPair.getPublicKey();
 
         encryptAndDecryptDataAsymmetrically(keyA, keyB);
         encryptAndDecryptDataAsymmetrically(keyB, keyA);
     }
 
-    private void encryptAndDecryptDataAsymmetrically(RsaKey keyA, RsaKey keyB) throws DecryptionFailedException {
+    private void encryptAndDecryptDataAsymmetrically(
+            final RsaKey keyA,
+            final RsaKey keyB) throws DecryptionFailedException {
 
-        byte[] encrypted = keyA.encrypt(unencrypted);
+        final byte[] encrypted = keyA.encrypt(unencrypted);
         assertThat(encrypted, is(not(unencrypted)));
 
-        byte[] decrypted = keyB.decrypt(encrypted);
+        final byte[] decrypted = keyB.decrypt(encrypted);
         assertThat(decrypted, is(unencrypted));
     }
 
     @Test
     public void failToDecryptDataSymmetrically() {
-        RsaKeyPair keyPair = RsaKeyPair.generate();
-        RsaPrivateCrtKey keyA = keyPair.getPrivateKey();
-        RsaPublicKey keyB = keyPair.getPublicKey();
+        final RsaKeyPair keyPair = RsaKeyPair.generate();
+        final RsaPrivateCrtKey keyA = keyPair.getPrivateKey();
+        final RsaPublicKey keyB = keyPair.getPublicKey();
 
         failToDecryptDataSymmetrically(keyA);
         failToDecryptDataSymmetrically(keyB);
@@ -110,7 +138,8 @@ public class RsaKeyTests {
 
     private void failToDecryptDataSymmetrically(final RsaKey key) {
         final byte[] encrypted = key.encrypt(unencrypted);
-        DecryptionFailedException exception = shouldThrow(DecryptionFailedException.class, new Task() {
+        final DecryptionFailedException exception
+                = shouldThrow(DecryptionFailedException.class, new Task() {
             @Override
             public void perform() throws Exception {
                 key.decrypt(encrypted);

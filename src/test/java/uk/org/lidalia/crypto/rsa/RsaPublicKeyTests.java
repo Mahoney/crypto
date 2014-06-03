@@ -14,11 +14,8 @@ public class RsaPublicKeyTests {
 
     @Test
     public void equalSymmetric() throws NoSuchAlgorithmException {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(RsaKeyUtils.RSA_ALGORITHM_NAME);
-        keyPairGenerator.initialize(1024);
-
-        RSAPublicKey javaPublicKey = (RSAPublicKey) keyPairGenerator.generateKeyPair().getPublic();
-        RsaPublicKey publicKey = new RsaPublicKey(javaPublicKey);
+        final RSAPublicKey javaPublicKey = makeJavaPublicKey();
+        final RsaPublicKey publicKey = RsaPublicKey.from(javaPublicKey);
 
         assertTrue(javaPublicKey.equals(publicKey));
         assertTrue(publicKey.equals(javaPublicKey));
@@ -26,11 +23,8 @@ public class RsaPublicKeyTests {
 
     @Test
     public void notEqualSymmetric() throws NoSuchAlgorithmException {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(RsaKeyUtils.RSA_ALGORITHM_NAME);
-        keyPairGenerator.initialize(1024);
-
-        RsaPublicKey publicKey = RsaKeyPair.generate().getPublicKey();
-        RSAPublicKey javaPublicKey = (RSAPublicKey) keyPairGenerator.generateKeyPair().getPublic();
+        final RSAPublicKey javaPublicKey = makeJavaPublicKey();
+        final RsaPublicKey publicKey = RsaKeyPair.generate().getPublicKey();
 
         assertFalse(publicKey.equals(javaPublicKey));
         assertFalse(javaPublicKey.equals(publicKey));
@@ -38,15 +32,16 @@ public class RsaPublicKeyTests {
 
     @Test
     public void equalReflective() {
-        RsaPublicKey publicKey = RsaKeyPair.generate().getPublicKey();
+        final RsaPublicKey publicKey = RsaKeyPair.generate().getPublicKey();
 
         assertTrue(publicKey.equals(publicKey));
     }
 
     @Test
     public void equal() throws InvalidKeySpecException {
-        RsaPublicKey publicKey = RsaKeyPair.generate().getPublicKey();
-        RsaPublicKey publicKey2 = RsaPublicKey.fromEncoded(publicKey.getEncoded());
+        final RsaPublicKey publicKey = RsaKeyPair.generate().getPublicKey();
+        final RsaPublicKey publicKey2
+                = RsaPublicKey.fromEncoded(publicKey.getEncoded());
 
         assertTrue(publicKey.equals(publicKey2));
         assertTrue(publicKey2.equals(publicKey));
@@ -54,10 +49,18 @@ public class RsaPublicKeyTests {
 
     @Test
     public void notEqual() throws InvalidKeySpecException {
-        RsaPublicKey publicKey = RsaKeyPair.generate().getPublicKey();
-        RsaPublicKey publicKey2 = RsaKeyPair.generate().getPublicKey();
+        final RsaPublicKey publicKey = RsaKeyPair.generate().getPublicKey();
+        final RsaPublicKey publicKey2 = RsaKeyPair.generate().getPublicKey();
 
         assertFalse(publicKey.equals(publicKey2));
         assertFalse(publicKey2.equals(publicKey));
+    }
+
+    private RSAPublicKey makeJavaPublicKey() throws NoSuchAlgorithmException {
+        final KeyPairGenerator keyPairGenerator
+                = KeyPairGenerator.getInstance(RsaKeyUtils.RSA_ALGORITHM_NAME);
+        keyPairGenerator.initialize(1024);
+
+        return (RSAPublicKey) keyPairGenerator.generateKeyPair().getPublic();
     }
 }
