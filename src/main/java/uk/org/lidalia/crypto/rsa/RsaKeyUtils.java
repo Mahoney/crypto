@@ -14,13 +14,19 @@ class RsaKeyUtils {
     static final String RSA_ALGORITHM_NAME = "RSA";
     static final String ECB_MODE = "ECB";
     static final String PKCS1_PADDING = "PKCS1Padding";
+    private static final String CIPHER_ALGORITHM = RSA_ALGORITHM_NAME + "/" + ECB_MODE + "/" + PKCS1_PADDING;
+    private static final KeyFactory RSA_KEY_FACTORY = getRsaKeyFactory();
 
-    static KeyFactory rsaKeyFactory() {
+    private static KeyFactory getRsaKeyFactory() {
         try {
             return KeyFactory.getInstance(RSA_ALGORITHM_NAME);
         } catch (NoSuchAlgorithmException e) {
             throw requiredAlgorithmNotPresentException(e, RSA_ALGORITHM_NAME);
         }
+    }
+
+    static KeyFactory rsaKeyFactory() {
+        return RSA_KEY_FACTORY;
     }
 
     static Signature signatureFor(HashAlgorithm hashAlgorithm) {
@@ -37,11 +43,10 @@ class RsaKeyUtils {
     }
 
     static Cipher cipher() {
-        String algorithm = RSA_ALGORITHM_NAME+"/"+ECB_MODE+"/"+ PKCS1_PADDING;
         try {
-            return Cipher.getInstance(algorithm);
+            return Cipher.getInstance(CIPHER_ALGORITHM);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-            throw requiredAlgorithmNotPresentException(e, algorithm);
+            throw requiredAlgorithmNotPresentException(e, CIPHER_ALGORITHM);
         }
     }
 }
