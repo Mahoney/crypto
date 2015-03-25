@@ -8,7 +8,7 @@ import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.interfaces.RSAKey;
 
-import static uk.org.lidalia.crypto.Algorithm.RSA;
+import static uk.org.lidalia.crypto.rsa.Algorithm.RSA;
 
 public abstract class RsaKey<T extends Key & RSAKey> implements Key, RSAKey {
 

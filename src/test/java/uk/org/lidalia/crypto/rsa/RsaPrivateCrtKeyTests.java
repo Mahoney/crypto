@@ -9,7 +9,7 @@ import java.security.spec.InvalidKeySpecException;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static uk.org.lidalia.crypto.Algorithm.RSA;
+import static uk.org.lidalia.crypto.rsa.Algorithm.RSA;
 
 public class RsaPrivateCrtKeyTests {
 

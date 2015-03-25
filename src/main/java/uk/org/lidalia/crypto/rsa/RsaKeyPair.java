@@ -1,14 +1,12 @@
 package uk.org.lidalia.crypto.rsa;
 
-import uk.org.lidalia.crypto.RequiredAlgorithmNotPresent;
-
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.interfaces.RSAPrivateCrtKey;
 
-import static uk.org.lidalia.crypto.Algorithm.RSA;
+import static uk.org.lidalia.crypto.rsa.Algorithm.RSA;
 
 public final class RsaKeyPair {
 

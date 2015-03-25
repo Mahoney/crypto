@@ -11,7 +11,7 @@ import java.security.spec.KeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 
-import static uk.org.lidalia.crypto.Algorithm.RSA;
+import static uk.org.lidalia.crypto.rsa.Algorithm.RSA;
 
 public final class RsaPrivateCrtKey
         extends RsaKey<RSAPrivateCrtKey>
@@ -28,7 +28,7 @@ public final class RsaPrivateCrtKey
             throws InvalidKeySpecException {
         final PrivateKey privateKey
                 = RSA.getKeyFactory().generatePrivate(privateKeySpec);
-        return new RsaPrivateCrtKey((RSAPrivateCrtKey) privateKey);
+        return from((RSAPrivateCrtKey) privateKey);
     }
 
     public static RsaPrivateCrtKey from(final RSAPrivateCrtKey decorated) {
