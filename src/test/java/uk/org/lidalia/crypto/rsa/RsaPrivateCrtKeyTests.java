@@ -29,7 +29,7 @@ public class RsaPrivateCrtKeyTests {
         final RSAPrivateCrtKey javaPrivateKey
                 = getJavaPrivateKey();
         final RsaPrivateCrtKey privateKey
-                = RsaKeyPair.generate().getPrivateKey();
+                = RsaPrivateCrtKey.generate();
 
         assertFalse(javaPrivateKey.equals(privateKey));
         assertFalse(privateKey.equals(javaPrivateKey));
@@ -38,7 +38,7 @@ public class RsaPrivateCrtKeyTests {
     @Test
     public void equalReflective() {
         final RsaPrivateCrtKey privateKey
-                = RsaKeyPair.generate().getPrivateKey();
+                = RsaPrivateCrtKey.generate();
 
         assertTrue(privateKey.equals(privateKey));
     }
@@ -46,7 +46,7 @@ public class RsaPrivateCrtKeyTests {
     @Test
     public void equal() throws InvalidKeySpecException {
         final RsaPrivateCrtKey privateKey
-                = RsaKeyPair.generate().getPrivateKey();
+                = RsaPrivateCrtKey.generate();
         final RsaPrivateCrtKey privateKey2
                 = RsaPrivateCrtKey.fromEncoded(privateKey.getEncoded());
 
@@ -57,9 +57,9 @@ public class RsaPrivateCrtKeyTests {
     @Test
     public void notEqual() throws InvalidKeySpecException {
         final RsaPrivateCrtKey privateKey
-                = RsaKeyPair.generate().getPrivateKey();
+                = RsaPrivateCrtKey.generate();
         final RsaPrivateCrtKey privateKey2
-                = RsaKeyPair.generate().getPrivateKey();
+                = RsaPrivateCrtKey.generate();
 
         assertFalse(privateKey.equals(privateKey2));
         assertFalse(privateKey2.equals(privateKey));

@@ -1,7 +1,6 @@
 import org.junit.Test;
 import uk.org.lidalia.crypto.DecryptionFailedException;
 import uk.org.lidalia.crypto.rsa.RsaKey;
-import uk.org.lidalia.crypto.rsa.RsaKeyPair;
 import uk.org.lidalia.crypto.rsa.RsaPrivateCrtKey;
 import uk.org.lidalia.crypto.rsa.RsaPublicKey;
 import uk.org.lidalia.lang.Task;
@@ -28,7 +27,7 @@ public class RsaKeyTests {
     public void createSerialiseAndRestorePrivateKey()
             throws InvalidKeySpecException {
         final RsaPrivateCrtKey privateKey
-                = RsaKeyPair.generate().getPrivateKey();
+                = RsaPrivateCrtKey.generate();
         final byte[] privateKeyEncoded = privateKey.getEncoded();
 
         final RsaPrivateCrtKey restoredPrivateKey
@@ -40,7 +39,7 @@ public class RsaKeyTests {
     @Test
     public void createSerialiseAndRestorePublicKey()
             throws InvalidKeySpecException {
-        final RsaPublicKey publicKey = RsaKeyPair.generate().getPublicKey();
+        final RsaPublicKey publicKey = RsaPrivateCrtKey.generate().getPublicKey();
         final byte[] publicKeyEncoded = publicKey.getEncoded();
 
         final RsaPublicKey restoredPublicKey
@@ -51,9 +50,8 @@ public class RsaKeyTests {
 
     @Test
     public void signAndVerifyData() {
-        final RsaKeyPair keyPair = RsaKeyPair.generate();
-        final RsaPrivateCrtKey privateKey = keyPair.getPrivateKey();
-        final RsaPublicKey publicKey = keyPair.getPublicKey();
+        final RsaPrivateCrtKey privateKey = RsaPrivateCrtKey.generate();
+        final RsaPublicKey publicKey = privateKey.getPublicKey();
         final String dataToSign = "some random data";
 
         final byte[] signature
@@ -69,9 +67,8 @@ public class RsaKeyTests {
 
     @Test
     public void signAndVerifyTamperedData() {
-        final RsaKeyPair keyPair = RsaKeyPair.generate();
-        final RsaPrivateCrtKey privateKey = keyPair.getPrivateKey();
-        final RsaPublicKey publicKey = keyPair.getPublicKey();
+        final RsaPrivateCrtKey privateKey = RsaPrivateCrtKey.generate();
+        final RsaPublicKey publicKey = privateKey.getPublicKey();
         final String dataToSign = "some random data";
 
         final byte[] signature
@@ -89,9 +86,9 @@ public class RsaKeyTests {
     public void signAndVerifyDifferentKey() {
         final String dataToSign = "some random data";
         final RsaPrivateCrtKey signingKey
-                = RsaKeyPair.generate().getPrivateKey();
+                = RsaPrivateCrtKey.generate();
         final RsaPublicKey nonMatchingPublicKey
-                = RsaKeyPair.generate().getPublicKey();
+                = RsaPrivateCrtKey.generate().getPublicKey();
 
         final byte[] signature
                 = signingKey.signatureFor(SHA256, dataToSign.getBytes(UTF_8));
@@ -107,9 +104,8 @@ public class RsaKeyTests {
     @Test
     public void encryptAndDecryptDataAsymmetrically()
             throws DecryptionFailedException {
-        final RsaKeyPair keyPair = RsaKeyPair.generate();
-        final RsaPrivateCrtKey keyA = keyPair.getPrivateKey();
-        final RsaPublicKey keyB = keyPair.getPublicKey();
+        final RsaPrivateCrtKey keyA = RsaPrivateCrtKey.generate();
+        final RsaPublicKey keyB = keyA.getPublicKey();
 
         encryptAndDecryptDataAsymmetrically(keyA, keyB);
         encryptAndDecryptDataAsymmetrically(keyB, keyA);
@@ -128,9 +124,8 @@ public class RsaKeyTests {
 
     @Test
     public void failToDecryptDataSymmetrically() {
-        final RsaKeyPair keyPair = RsaKeyPair.generate();
-        final RsaPrivateCrtKey keyA = keyPair.getPrivateKey();
-        final RsaPublicKey keyB = keyPair.getPublicKey();
+        final RsaPrivateCrtKey keyA = RsaPrivateCrtKey.generate();
+        final RsaPublicKey keyB = keyA.getPublicKey();
 
         failToDecryptDataSymmetrically(keyA);
         failToDecryptDataSymmetrically(keyB);

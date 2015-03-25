@@ -3,6 +3,9 @@ package uk.org.lidalia.crypto.rsa;
 import uk.org.lidalia.crypto.HashAlgorithm;
 
 import java.math.BigInteger;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.Signature;
 import java.security.interfaces.RSAPrivateCrtKey;
@@ -16,6 +19,21 @@ import static uk.org.lidalia.crypto.rsa.Algorithm.RSA;
 public final class RsaPrivateCrtKey
         extends RsaKey<RSAPrivateCrtKey>
         implements RSAPrivateCrtKey {
+
+    public static RsaPrivateCrtKey generate() throws IllegalStateException {
+        try {
+            final KeyPairGenerator keyPairGenerator
+                    = KeyPairGenerator.getInstance(RSA.getName());
+            keyPairGenerator.initialize(1024);
+            return from(keyPairGenerator.generateKeyPair());
+        } catch (final NoSuchAlgorithmException e) {
+            throw new RequiredAlgorithmNotPresent(RSA.getName(), e);
+        }
+    }
+
+    public static RsaPrivateCrtKey from(KeyPair keyPair) {
+        return from((RSAPrivateCrtKey) keyPair.getPrivate());
+    }
 
     public static RsaPrivateCrtKey fromEncoded(final byte[] privateKeyEncoded)
             throws InvalidKeySpecException {
@@ -35,8 +53,25 @@ public final class RsaPrivateCrtKey
         return new RsaPrivateCrtKey(decorated);
     }
 
+    private final RsaPublicKey publicKey;
+
     private RsaPrivateCrtKey(final RSAPrivateCrtKey decorated) {
         super(decorated);
+        this.publicKey = buildPublicKey();
+    }
+
+    private RsaPublicKey buildPublicKey() {
+        try {
+            final RSAPublicKeySpec publicKeySpec = new RSAPublicKeySpec(
+                    getModulus(),
+                    getPublicExponent()
+            );
+            return RsaPublicKey.fromKeySpec(publicKeySpec);
+        } catch (final InvalidKeySpecException e) {
+            throw new IllegalStateException(
+                    "Creating an RSA public key from an RSA private key should always work. " +
+                            "Using key="+ this, e);
+        }
     }
 
     public byte[] signatureFor(
@@ -56,18 +91,12 @@ public final class RsaPrivateCrtKey
         }
     }
 
+    public KeyPair toKeyPair() {
+        return new KeyPair(publicKey, this);
+    }
+
     public RsaPublicKey getPublicKey() {
-        try {
-            final RSAPublicKeySpec publicKeySpec = new RSAPublicKeySpec(
-                    getModulus(),
-                    getPublicExponent()
-            );
-            return RsaPublicKey.fromKeySpec(publicKeySpec);
-        } catch (final InvalidKeySpecException e) {
-            throw new IllegalStateException(
-                    "Creating an RSA public key from an RSA private key should always work. " +
-                            "Using key="+ this, e);
-        }
+        return publicKey;
     }
 
     /**** REMAINING METHODS DELEGATE ****/
