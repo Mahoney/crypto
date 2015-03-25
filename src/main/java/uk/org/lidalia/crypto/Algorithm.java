@@ -13,14 +13,28 @@ public class Algorithm {
 
     private final String name;
     private final String cipherPadding;
+    private final KeyFactory keyFactory;
 
     private Algorithm(String name, String cipherPadding) {
         this.name = name;
         this.cipherPadding = cipherPadding;
+        this.keyFactory = buildKeyFactory();
+    }
+
+    private KeyFactory buildKeyFactory() {
+        try {
+            return KeyFactory.getInstance(name);
+        } catch (final NoSuchAlgorithmException e) {
+            throw new RequiredAlgorithmNotPresent(name, e);
+        }
     }
 
     public String getName() {
         return name;
+    }
+
+    public KeyFactory getKeyFactory() {
+        return keyFactory;
     }
 
     public Cipher getCipher() {
@@ -29,14 +43,6 @@ public class Algorithm {
             return Cipher.getInstance(algorithmWithPadding);
         } catch (final NoSuchAlgorithmException | NoSuchPaddingException e) {
             throw new RequiredAlgorithmNotPresent(algorithmWithPadding, e);
-        }
-    }
-
-    public KeyFactory getKeyFactory() {
-        try {
-            return KeyFactory.getInstance(name);
-        } catch (final NoSuchAlgorithmException e) {
-            throw new RequiredAlgorithmNotPresent(name, e);
         }
     }
 

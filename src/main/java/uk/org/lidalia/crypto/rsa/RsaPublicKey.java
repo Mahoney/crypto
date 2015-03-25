@@ -26,7 +26,7 @@ public final class RsaPublicKey
     public static RsaPublicKey fromKeySpec(final KeySpec publicKeySpec)
             throws InvalidKeySpecException {
         final PublicKey publicKey
-                = RSA_KEY_FACTORY.generatePublic(publicKeySpec);
+                = RSA.getKeyFactory().generatePublic(publicKeySpec);
         return new RsaPublicKey((RSAPublicKey) publicKey);
     }
 

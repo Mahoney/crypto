@@ -27,7 +27,7 @@ public final class RsaPrivateCrtKey
     public static RsaPrivateCrtKey fromKeySpec(final KeySpec privateKeySpec)
             throws InvalidKeySpecException {
         final PrivateKey privateKey
-                = RSA_KEY_FACTORY.generatePrivate(privateKeySpec);
+                = RSA.getKeyFactory().generatePrivate(privateKeySpec);
         return new RsaPrivateCrtKey((RSAPrivateCrtKey) privateKey);
     }
 
