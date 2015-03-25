@@ -10,7 +10,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
-import static uk.org.lidalia.crypto.rsa.RsaKeyUtils.rsaKeyFactory;
+import static uk.org.lidalia.crypto.Algorithm.RSA;
 
 public final class RsaPublicKey
         extends RsaKey<RSAPublicKey>
@@ -26,7 +26,7 @@ public final class RsaPublicKey
     public static RsaPublicKey fromKeySpec(final KeySpec publicKeySpec)
             throws InvalidKeySpecException {
         final PublicKey publicKey
-                = rsaKeyFactory().generatePublic(publicKeySpec);
+                = RSA_KEY_FACTORY.generatePublic(publicKeySpec);
         return new RsaPublicKey((RSAPublicKey) publicKey);
     }
 
@@ -43,7 +43,7 @@ public final class RsaPublicKey
             final HashAlgorithm hashAlgorithm,
             final byte[]... signedContents) {
         try {
-            final Signature verifier = RsaKeyUtils.signatureFor(hashAlgorithm);
+            final Signature verifier = RSA.signatureFor(hashAlgorithm);
             verifier.initVerify(this);
             for (final byte[] content : signedContents) {
                 verifier.update(content);

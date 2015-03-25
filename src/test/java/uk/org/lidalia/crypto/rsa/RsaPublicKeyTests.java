@@ -9,6 +9,7 @@ import java.security.spec.InvalidKeySpecException;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static uk.org.lidalia.crypto.Algorithm.RSA;
 
 public class RsaPublicKeyTests {
 
@@ -58,7 +59,7 @@ public class RsaPublicKeyTests {
 
     private RSAPublicKey makeJavaPublicKey() throws NoSuchAlgorithmException {
         final KeyPairGenerator keyPairGenerator
-                = KeyPairGenerator.getInstance(RsaKeyUtils.RSA_ALGORITHM_NAME);
+                = KeyPairGenerator.getInstance(RSA.getName());
         keyPairGenerator.initialize(1024);
 
         return (RSAPublicKey) keyPairGenerator.generateKeyPair().getPublic();

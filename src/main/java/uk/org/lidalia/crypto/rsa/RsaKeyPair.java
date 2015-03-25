@@ -1,24 +1,25 @@
 package uk.org.lidalia.crypto.rsa;
 
+import uk.org.lidalia.crypto.RequiredAlgorithmNotPresent;
+
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.interfaces.RSAPrivateCrtKey;
 
-import static uk.org.lidalia.crypto.rsa.RsaKeyUtils.RSA_ALGORITHM_NAME;
-import static uk.org.lidalia.crypto.rsa.RsaKeyUtils.requiredAlgorithmNotPresentException;
+import static uk.org.lidalia.crypto.Algorithm.RSA;
 
 public final class RsaKeyPair {
 
     public static RsaKeyPair generate() throws IllegalStateException {
         try {
             final KeyPairGenerator keyPairGenerator
-                    = KeyPairGenerator.getInstance(RSA_ALGORITHM_NAME);
+                    = KeyPairGenerator.getInstance(RSA.getName());
             keyPairGenerator.initialize(1024);
             return from(keyPairGenerator.generateKeyPair());
         } catch (final NoSuchAlgorithmException e) {
-            throw requiredAlgorithmNotPresentException(e, RSA_ALGORITHM_NAME);
+            throw new RequiredAlgorithmNotPresent(RSA.getName(), e);
         }
     }
 

@@ -2,15 +2,18 @@ package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.DecryptionFailedException;
 
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.Key;
+import java.security.KeyFactory;
 import java.security.interfaces.RSAKey;
 
+import static uk.org.lidalia.crypto.Algorithm.RSA;
+
 public abstract class RsaKey<T extends Key & RSAKey> implements Key, RSAKey {
+
+    static final KeyFactory RSA_KEY_FACTORY = RSA.getKeyFactory();
 
     final T decorated;
 
@@ -44,15 +47,15 @@ public abstract class RsaKey<T extends Key & RSAKey> implements Key, RSAKey {
             final byte[] input,
             final int encryptMode) throws Exception {
 
-        final Cipher rsa = RsaKeyUtils.cipher();
+        final Cipher cipher = RSA.getCipher();
         try {
-            rsa.init(encryptMode, this);
+            cipher.init(encryptMode, this);
         } catch (InvalidKeyException e) {
             throw new IllegalStateException(
                     "An RSA Key should never be invalid for doing crypto. " +
                     "Using key="+this, e);
         }
-        return rsa.doFinal(input);
+        return cipher.doFinal(input);
     }
 
     /**** REMAINING METHODS DELEGATE ****/

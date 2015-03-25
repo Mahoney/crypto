@@ -11,7 +11,7 @@ import java.security.spec.KeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 
-import static uk.org.lidalia.crypto.rsa.RsaKeyUtils.rsaKeyFactory;
+import static uk.org.lidalia.crypto.Algorithm.RSA;
 
 public final class RsaPrivateCrtKey
         extends RsaKey<RSAPrivateCrtKey>
@@ -27,7 +27,7 @@ public final class RsaPrivateCrtKey
     public static RsaPrivateCrtKey fromKeySpec(final KeySpec privateKeySpec)
             throws InvalidKeySpecException {
         final PrivateKey privateKey
-                = rsaKeyFactory().generatePrivate(privateKeySpec);
+                = RSA_KEY_FACTORY.generatePrivate(privateKeySpec);
         return new RsaPrivateCrtKey((RSAPrivateCrtKey) privateKey);
     }
 
@@ -40,9 +40,9 @@ public final class RsaPrivateCrtKey
     }
 
     public byte[] signatureFor(
-            final HashAlgorithm algorithm,
+            final HashAlgorithm hashAlgorithm,
             final byte[]... contents) {
-        final Signature signer = RsaKeyUtils.signatureFor(algorithm);
+        final Signature signer = RSA.signatureFor(hashAlgorithm);
         try {
             signer.initSign(this);
             for (final byte[] content : contents) {
