@@ -4,8 +4,6 @@ import uk.org.lidalia.crypto.HashAlgorithm;
 
 import java.math.BigInteger;
 import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.Signature;
 import java.security.interfaces.RSAPrivateCrtKey;
@@ -14,21 +12,16 @@ import java.security.spec.KeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 
-import static uk.org.lidalia.crypto.rsa.Algorithm.RSA;
+import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
 
 public final class RsaPrivateCrtKey
         extends RsaKey<RSAPrivateCrtKey>
-        implements RSAPrivateCrtKey {
+        implements RSAPrivateCrtKey,
+                   uk.org.lidalia.crypto.PrivateKey<RsaPublicKey, RsaPrivateCrtKey>,
+                   uk.org.lidalia.crypto.KeyPair<RsaPublicKey, RsaPrivateCrtKey> {
 
     public static RsaPrivateCrtKey generate() throws IllegalStateException {
-        try {
-            final KeyPairGenerator keyPairGenerator
-                    = KeyPairGenerator.getInstance(RSA.getName());
-            keyPairGenerator.initialize(1024);
-            return from(keyPairGenerator.generateKeyPair());
-        } catch (final NoSuchAlgorithmException e) {
-            throw new RequiredAlgorithmNotPresent(RSA.getName(), e);
-        }
+        return RSA.generate();
     }
 
     public static RsaPrivateCrtKey from(KeyPair keyPair) {
@@ -53,11 +46,13 @@ public final class RsaPrivateCrtKey
         return new RsaPrivateCrtKey(decorated);
     }
 
+    private final KeyPair keyPair;
     private final RsaPublicKey publicKey;
 
     private RsaPrivateCrtKey(final RSAPrivateCrtKey decorated) {
         super(decorated);
         this.publicKey = buildPublicKey();
+        this.keyPair = new KeyPair(publicKey, this);
     }
 
     private RsaPublicKey buildPublicKey() {
@@ -92,11 +87,17 @@ public final class RsaPrivateCrtKey
     }
 
     public KeyPair toKeyPair() {
-        return new KeyPair(publicKey, this);
+        return keyPair;
     }
 
-    public RsaPublicKey getPublicKey() {
+    @Override
+    public RsaPublicKey publicKey() {
         return publicKey;
+    }
+
+    @Override
+    public RsaPrivateCrtKey privateKey() {
+        return this;
     }
 
     /**** REMAINING METHODS DELEGATE ****/

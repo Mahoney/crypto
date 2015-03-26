@@ -1,16 +1,18 @@
 package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.HashAlgorithm;
+import uk.org.lidalia.crypto.KeyPair;
+import uk.org.lidalia.crypto.PrivateKey;
+import uk.org.lidalia.crypto.PublicKey;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.Signature;
+import java.util.Objects;
 
-enum Algorithm {
-
-    RSA("RSA", "/ECB/PKCS1Padding");
+public abstract class Algorithm<Public extends PublicKey<Public, Private>, Private extends PrivateKey<Public, Private>> {
 
     private final String name;
     private final String cipherPadding;
@@ -38,6 +40,8 @@ enum Algorithm {
         return keyFactory;
     }
 
+    abstract KeyPair<Public, Private> generate();
+
     Cipher getCipher() {
         String algorithmWithPadding = this + cipherPadding;
         try {
@@ -55,4 +59,23 @@ enum Algorithm {
             throw new RequiredAlgorithmNotPresent(algorithm, e);
         }
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Algorithm algorithm = (Algorithm) o;
+        return Objects.equals(name, algorithm.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
 }

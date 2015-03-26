@@ -39,7 +39,7 @@ public class RsaKeyTests {
     @Test
     public void createSerialiseAndRestorePublicKey()
             throws InvalidKeySpecException {
-        final RsaPublicKey publicKey = RsaPrivateCrtKey.generate().getPublicKey();
+        final RsaPublicKey publicKey = RsaPrivateCrtKey.generate().publicKey();
         final byte[] publicKeyEncoded = publicKey.getEncoded();
 
         final RsaPublicKey restoredPublicKey
@@ -51,7 +51,7 @@ public class RsaKeyTests {
     @Test
     public void signAndVerifyData() {
         final RsaPrivateCrtKey privateKey = RsaPrivateCrtKey.generate();
-        final RsaPublicKey publicKey = privateKey.getPublicKey();
+        final RsaPublicKey publicKey = privateKey.publicKey();
         final String dataToSign = "some random data";
 
         final byte[] signature
@@ -68,7 +68,7 @@ public class RsaKeyTests {
     @Test
     public void signAndVerifyTamperedData() {
         final RsaPrivateCrtKey privateKey = RsaPrivateCrtKey.generate();
-        final RsaPublicKey publicKey = privateKey.getPublicKey();
+        final RsaPublicKey publicKey = privateKey.publicKey();
         final String dataToSign = "some random data";
 
         final byte[] signature
@@ -88,7 +88,7 @@ public class RsaKeyTests {
         final RsaPrivateCrtKey signingKey
                 = RsaPrivateCrtKey.generate();
         final RsaPublicKey nonMatchingPublicKey
-                = RsaPrivateCrtKey.generate().getPublicKey();
+                = RsaPrivateCrtKey.generate().publicKey();
 
         final byte[] signature
                 = signingKey.signatureFor(SHA256, dataToSign.getBytes(UTF_8));
@@ -105,7 +105,7 @@ public class RsaKeyTests {
     public void encryptAndDecryptDataAsymmetrically()
             throws DecryptionFailedException {
         final RsaPrivateCrtKey keyA = RsaPrivateCrtKey.generate();
-        final RsaPublicKey keyB = keyA.getPublicKey();
+        final RsaPublicKey keyB = keyA.publicKey();
 
         encryptAndDecryptDataAsymmetrically(keyA, keyB);
         encryptAndDecryptDataAsymmetrically(keyB, keyA);
@@ -125,7 +125,7 @@ public class RsaKeyTests {
     @Test
     public void failToDecryptDataSymmetrically() {
         final RsaPrivateCrtKey keyA = RsaPrivateCrtKey.generate();
-        final RsaPublicKey keyB = keyA.getPublicKey();
+        final RsaPublicKey keyB = keyA.publicKey();
 
         failToDecryptDataSymmetrically(keyA);
         failToDecryptDataSymmetrically(keyB);

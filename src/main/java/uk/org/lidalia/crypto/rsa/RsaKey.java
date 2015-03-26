@@ -8,9 +8,9 @@ import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.interfaces.RSAKey;
 
-import static uk.org.lidalia.crypto.rsa.Algorithm.RSA;
+import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
 
-public abstract class RsaKey<T extends Key & RSAKey> implements Key, RSAKey {
+public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, uk.org.lidalia.crypto.Key<RsaPublicKey, RsaPrivateCrtKey> {
 
     final T decorated;
 
@@ -53,6 +53,11 @@ public abstract class RsaKey<T extends Key & RSAKey> implements Key, RSAKey {
                     "Using key="+this, e);
         }
         return cipher.doFinal(input);
+    }
+
+    @Override
+    public Rsa algorithm() {
+        return RSA;
     }
 
     /**** REMAINING METHODS DELEGATE ****/

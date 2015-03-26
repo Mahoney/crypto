@@ -10,11 +10,11 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
-import static uk.org.lidalia.crypto.rsa.Algorithm.RSA;
+import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
 
 public final class RsaPublicKey
         extends RsaKey<RSAPublicKey>
-        implements RSAPublicKey {
+        implements RSAPublicKey, uk.org.lidalia.crypto.PublicKey<RsaPublicKey, RsaPrivateCrtKey> {
 
     public static RsaPublicKey fromEncoded(final byte[] publicKeyEncoded)
             throws InvalidKeySpecException {
