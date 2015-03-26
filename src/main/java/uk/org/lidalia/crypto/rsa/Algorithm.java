@@ -32,17 +32,17 @@ public abstract class Algorithm<Public extends PublicKey<Public, Private>, Priva
         }
     }
 
-    String getName() {
+    String name() {
         return name;
     }
 
-    KeyFactory getKeyFactory() {
+    KeyFactory keyFactory() {
         return keyFactory;
     }
 
-    abstract KeyPair<Public, Private> generate();
+    abstract KeyPair<Public, Private> generateKeyPair();
 
-    Cipher getCipher() {
+    Cipher cipher() {
         String algorithmWithPadding = this + cipherPadding;
         try {
             return Cipher.getInstance(algorithmWithPadding);

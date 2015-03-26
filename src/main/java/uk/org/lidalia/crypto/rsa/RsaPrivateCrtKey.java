@@ -21,7 +21,7 @@ public final class RsaPrivateCrtKey
                    uk.org.lidalia.crypto.KeyPair<RsaPublicKey, RsaPrivateCrtKey> {
 
     public static RsaPrivateCrtKey generate() throws IllegalStateException {
-        return RSA.generate();
+        return RSA.generateKeyPair();
     }
 
     public static RsaPrivateCrtKey from(KeyPair keyPair) {
@@ -38,7 +38,7 @@ public final class RsaPrivateCrtKey
     public static RsaPrivateCrtKey fromKeySpec(final KeySpec privateKeySpec)
             throws InvalidKeySpecException {
         final PrivateKey privateKey
-                = RSA.getKeyFactory().generatePrivate(privateKeySpec);
+                = RSA.keyFactory().generatePrivate(privateKeySpec);
         return from((RSAPrivateCrtKey) privateKey);
     }
 

@@ -44,7 +44,7 @@ public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, uk.org.l
             final byte[] input,
             final int encryptMode) throws Exception {
 
-        final Cipher cipher = RSA.getCipher();
+        final Cipher cipher = RSA.cipher();
         try {
             cipher.init(encryptMode, this);
         } catch (InvalidKeyException e) {

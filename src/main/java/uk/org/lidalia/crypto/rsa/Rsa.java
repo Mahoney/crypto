@@ -12,14 +12,14 @@ class Rsa extends Algorithm<RsaPublicKey, RsaPrivateCrtKey> {
     }
 
     @Override
-    RsaPrivateCrtKey generate() {
+    RsaPrivateCrtKey generateKeyPair() {
         try {
             final KeyPairGenerator keyPairGenerator
-                    = KeyPairGenerator.getInstance(getName());
+                    = KeyPairGenerator.getInstance(name());
             keyPairGenerator.initialize(1024);
             return RsaPrivateCrtKey.from(keyPairGenerator.generateKeyPair());
         } catch (final NoSuchAlgorithmException e) {
-            throw new RequiredAlgorithmNotPresent(getName(), e);
+            throw new RequiredAlgorithmNotPresent(name(), e);
         }
     }
 }

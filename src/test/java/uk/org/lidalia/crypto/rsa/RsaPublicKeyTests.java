@@ -59,7 +59,7 @@ public class RsaPublicKeyTests {
 
     private RSAPublicKey makeJavaPublicKey() throws NoSuchAlgorithmException {
         final KeyPairGenerator keyPairGenerator
-                = KeyPairGenerator.getInstance(RSA.getName());
+                = KeyPairGenerator.getInstance(RSA.name());
         keyPairGenerator.initialize(1024);
 
         return (RSAPublicKey) keyPairGenerator.generateKeyPair().getPublic();

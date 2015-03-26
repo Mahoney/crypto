@@ -69,7 +69,7 @@ public class RsaPrivateCrtKeyTests {
             throws NoSuchAlgorithmException {
 
         final KeyPairGenerator keyPairGenerator
-                = KeyPairGenerator.getInstance(RSA.getName());
+                = KeyPairGenerator.getInstance(RSA.name());
         keyPairGenerator.initialize(1024);
 
         return (RSAPrivateCrtKey) keyPairGenerator
