@@ -3,16 +3,16 @@ package uk.org.lidalia.crypto.rsa;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 
-class Rsa extends Algorithm<RsaPublicKey, RsaPrivateCrtKey> {
+public class Rsa extends BaseAlgorithm<RsaPublicKey, RsaPrivateCrtKey> {
 
-    static Rsa RSA = new Rsa();
+    public static Rsa RSA = new Rsa();
 
-    Rsa() {
+    private Rsa() {
         super("RSA", "/ECB/PKCS1Padding");
     }
 
     @Override
-    RsaPrivateCrtKey generateKeyPair() {
+    public RsaPrivateCrtKey generateKeyPair() {
         try {
             final KeyPairGenerator keyPairGenerator
                     = KeyPairGenerator.getInstance(name());

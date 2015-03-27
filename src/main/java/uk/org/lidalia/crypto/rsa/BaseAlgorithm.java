@@ -1,7 +1,7 @@
 package uk.org.lidalia.crypto.rsa;
 
+import uk.org.lidalia.crypto.Algorithm;
 import uk.org.lidalia.crypto.HashAlgorithm;
-import uk.org.lidalia.crypto.KeyPair;
 import uk.org.lidalia.crypto.PrivateKey;
 import uk.org.lidalia.crypto.PublicKey;
 
@@ -12,13 +12,13 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Signature;
 import java.util.Objects;
 
-public abstract class Algorithm<Public extends PublicKey<Public, Private>, Private extends PrivateKey<Public, Private>> {
+public abstract class BaseAlgorithm<Public extends PublicKey<Public, Private>, Private extends PrivateKey<Public, Private>> implements Algorithm<Public,Private> {
 
     private final String name;
     private final String cipherPadding;
     private final KeyFactory keyFactory;
 
-    Algorithm(String name, String cipherPadding) {
+    BaseAlgorithm(String name, String cipherPadding) {
         this.name = name;
         this.cipherPadding = cipherPadding;
         this.keyFactory = buildKeyFactory();
@@ -32,15 +32,14 @@ public abstract class Algorithm<Public extends PublicKey<Public, Private>, Priva
         }
     }
 
-    String name() {
+    @Override
+    public String name() {
         return name;
     }
 
     KeyFactory keyFactory() {
         return keyFactory;
     }
-
-    abstract KeyPair<Public, Private> generateKeyPair();
 
     Cipher cipher() {
         String algorithmWithPadding = this + cipherPadding;
@@ -70,7 +69,7 @@ public abstract class Algorithm<Public extends PublicKey<Public, Private>, Priva
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Algorithm algorithm = (Algorithm) o;
-        return Objects.equals(name, algorithm.name);
+        return Objects.equals(name, algorithm.name());
     }
 
     @Override
