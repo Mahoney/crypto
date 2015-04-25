@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class Rsa extends BaseAlgorithm<RsaPublicKey, RsaPrivateCrtKey> {
 
-    public static Rsa RSA = new Rsa();
+    public static final Rsa RSA = new Rsa();
 
     private Rsa() {
         super("RSA", "/ECB/PKCS1Padding");
