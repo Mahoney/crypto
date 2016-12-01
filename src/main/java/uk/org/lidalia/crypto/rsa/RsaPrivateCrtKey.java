@@ -1,8 +1,10 @@
 package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.HashAlgorithm;
+import uk.org.lidalia.encoding.Bytes;
 
 import java.math.BigInteger;
+import java.nio.charset.Charset;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.Signature;
@@ -12,6 +14,7 @@ import java.security.spec.KeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
 
 public final class RsaPrivateCrtKey
@@ -69,21 +72,32 @@ public final class RsaPrivateCrtKey
         }
     }
 
-    public byte[] signatureFor(
+    @Override
+    public Bytes signatureFor(
             final HashAlgorithm hashAlgorithm,
-            final byte[]... contents) {
+            final Bytes contents) {
         final Signature signer = RSA.signatureFor(hashAlgorithm);
         try {
             signer.initSign(this);
-            for (final byte[] content : contents) {
-                signer.update(content);
-            }
-            return signer.sign();
+            signer.update(contents.asArray());
+            return Bytes.of(signer.sign());
         } catch (final Exception e) {
             throw new IllegalStateException(
                     "Signing a string with an RSA private key should always work. " +
                             "Using key="+ this, e);
         }
+    }
+
+    public Bytes encrypt(byte[] input) {
+        return encrypt(Bytes.of(input));
+    }
+
+    public Bytes encrypt(String input, Charset charset) {
+        return encrypt(input.getBytes(charset));
+    }
+
+    public Bytes encrypt(String input) {
+        return encrypt(input, UTF_8);
     }
 
     public KeyPair toKeyPair() {

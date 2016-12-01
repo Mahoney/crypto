@@ -1,5 +1,6 @@
 package uk.org.lidalia.encoding.string;
 
+import uk.org.lidalia.encoding.Bytes;
 import uk.org.lidalia.encoding.Encoder;
 
 import java.nio.charset.Charset;
@@ -24,8 +25,8 @@ public class StringEncoder implements Encoder<StringWithCharset> {
     }
 
     @Override
-    public StringWithCharset encode(byte[] decoded) {
-        return of(new String(decoded, charset));
+    public StringWithCharset encode(Bytes decoded) {
+        return of(decoded.asString(charset));
     }
 
     public Charset getCharset() {

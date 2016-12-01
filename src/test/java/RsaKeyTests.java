@@ -3,6 +3,7 @@ import uk.org.lidalia.crypto.DecryptionFailedException;
 import uk.org.lidalia.crypto.rsa.RsaKey;
 import uk.org.lidalia.crypto.rsa.RsaPrivateCrtKey;
 import uk.org.lidalia.crypto.rsa.RsaPublicKey;
+import uk.org.lidalia.encoding.Bytes;
 import uk.org.lidalia.lang.Task;
 
 import java.nio.charset.Charset;
@@ -21,7 +22,7 @@ public class RsaKeyTests {
 
     private static final Charset UTF_8 = Charset.forName("UTF-8");
 
-    private final byte[] unencrypted = "hello world".getBytes(UTF_8);
+    private final Bytes unencrypted = Bytes.of("hello world");
 
     @Test
     public void createSerialiseAndRestorePrivateKey()
@@ -54,7 +55,7 @@ public class RsaKeyTests {
         final RsaPublicKey publicKey = privateKey.publicKey();
         final String dataToSign = "some random data";
 
-        final byte[] signature
+        final Bytes signature
                 = privateKey.signatureFor(SHA256, dataToSign.getBytes(UTF_8));
 
         final boolean signatureValid = publicKey.verifySignature(
@@ -71,7 +72,7 @@ public class RsaKeyTests {
         final RsaPublicKey publicKey = privateKey.publicKey();
         final String dataToSign = "some random data";
 
-        final byte[] signature
+        final Bytes signature
                 = privateKey.signatureFor(SHA256, dataToSign.getBytes(UTF_8));
 
         final boolean signatureValid = publicKey.verifySignature(
@@ -90,7 +91,7 @@ public class RsaKeyTests {
         final RsaPublicKey nonMatchingPublicKey
                 = RsaPrivateCrtKey.generate().publicKey();
 
-        final byte[] signature
+        final Bytes signature
                 = signingKey.signatureFor(SHA256, dataToSign.getBytes(UTF_8));
 
         final boolean signatureValid = nonMatchingPublicKey.verifySignature(
@@ -115,10 +116,10 @@ public class RsaKeyTests {
             final RsaKey keyA,
             final RsaKey keyB) throws DecryptionFailedException {
 
-        final byte[] encrypted = keyA.encrypt(unencrypted);
+        final Bytes encrypted = keyA.encrypt(unencrypted);
         assertThat(encrypted, is(not(unencrypted)));
 
-        final byte[] decrypted = keyB.decrypt(encrypted);
+        final Bytes decrypted = keyB.decrypt(encrypted);
         assertThat(decrypted, is(unencrypted));
     }
 
@@ -132,7 +133,7 @@ public class RsaKeyTests {
     }
 
     private void failToDecryptDataSymmetrically(final RsaKey key) {
-        final byte[] encrypted = key.encrypt(unencrypted);
+        final Bytes encrypted = key.encrypt(unencrypted);
         final DecryptionFailedException exception
                 = shouldThrow(DecryptionFailedException.class, new Task() {
             @Override

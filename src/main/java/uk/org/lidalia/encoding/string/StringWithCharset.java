@@ -1,5 +1,6 @@
 package uk.org.lidalia.encoding.string;
 
+import uk.org.lidalia.encoding.Bytes;
 import uk.org.lidalia.encoding.EncodedBase;
 
 import java.nio.charset.Charset;
@@ -14,7 +15,7 @@ public class StringWithCharset extends EncodedBase<StringWithCharset> {
     }
 
     @Override
-    public byte[] getDecoded() {
-        return toString().getBytes(charset);
+    public Bytes getDecoded() {
+        return Bytes.of(toString().getBytes(charset));
     }
 }

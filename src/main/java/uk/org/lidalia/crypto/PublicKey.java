@@ -1,72 +1,75 @@
 package uk.org.lidalia.crypto;
 
-import uk.org.lidalia.encoding.base64.Base64;
+import uk.org.lidalia.encoding.Bytes;
 import uk.org.lidalia.encoding.Encoded;
-import uk.org.lidalia.encoding.Encoder;
 
 import java.nio.charset.Charset;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
 
 public interface PublicKey<Public extends PublicKey<Public, Private>, Private extends PrivateKey<Public, Private>> extends java.security.PublicKey, Key<Public, Private> {
 
     boolean verifySignature(
-            byte[] signature,
+            Bytes signature,
             HashAlgorithm hashAlgorithm,
-            byte[]... signedContents);
+            Bytes signedContents
+    );
 
     default boolean verifySignature(byte[] signature, HashAlgorithm hashAlgorithm, String contents, Charset charset) {
-        return verifySignature(signature, hashAlgorithm, contents.getBytes(charset));
+        return verifySignature(signature, hashAlgorithm, Bytes.of(contents, charset));
     }
 
     default boolean verifySignature(byte[] signature, HashAlgorithm hashAlgorithm, String contents) {
         return verifySignature(signature, hashAlgorithm, contents, UTF_8);
     }
 
-    default boolean verifySignature(Encoded<?> signature, HashAlgorithm hashAlgorithm, byte[]... contents) {
+    default boolean verifySignature(byte[] signature, HashAlgorithm hashAlgorithm, Bytes contents) {
+        return verifySignature(Bytes.of(signature), hashAlgorithm, contents);
+    }
+
+    default boolean verifySignature(byte[] signature, HashAlgorithm hashAlgorithm, byte[] contents) {
+        return verifySignature(Bytes.of(signature), hashAlgorithm, contents);
+    }
+
+    default boolean verifySignature(Bytes signature, HashAlgorithm hashAlgorithm, byte[] contents) {
+        return verifySignature(signature, hashAlgorithm, Bytes.of(contents));
+    }
+
+    default boolean verifySignature(Bytes signature, HashAlgorithm hashAlgorithm, String contents, Charset charset) {
+        return verifySignature(signature, hashAlgorithm, Bytes.of(contents, charset));
+    }
+
+    default boolean verifySignature(Bytes signature, HashAlgorithm hashAlgorithm, String contents) {
+        return verifySignature(signature, hashAlgorithm, contents, UTF_8);
+    }
+
+    default boolean verifySignature(Encoded<?> signature, HashAlgorithm hashAlgorithm, Bytes contents) {
+        return verifySignature(signature.getDecoded(), hashAlgorithm, contents.asArray());
+    }
+
+    default boolean verifySignature(Encoded<?> signature, HashAlgorithm hashAlgorithm, byte[] contents) {
         return verifySignature(signature.getDecoded(), hashAlgorithm, contents);
     }
 
     default boolean verifySignature(Encoded<?> signature, HashAlgorithm hashAlgorithm, String contents, Charset charset) {
-        return verifySignature(signature, hashAlgorithm, contents.getBytes(charset));
+        return verifySignature(signature, hashAlgorithm, Bytes.of(contents, charset));
     }
 
     default boolean verifySignature(Encoded<?> signature, HashAlgorithm hashAlgorithm, String contents) {
         return verifySignature(signature, hashAlgorithm, contents, UTF_8);
     }
 
-    byte[] encrypt(byte[] input);
+    Bytes encrypt(Bytes input);
 
-    default byte[] encrypt(String input, Charset charset) {
-        return encrypt(input.getBytes(charset));
+    default Bytes encrypt(byte[] input) {
+        return encrypt(Bytes.of(input));
     }
 
-    default byte[] encrypt(String input) {
+    default Bytes encrypt(String input, Charset charset) {
+        return encrypt(Bytes.of(input, charset));
+    }
+
+    default Bytes encrypt(String input) {
         return encrypt(input, UTF_8);
-    }
-
-    default <T extends Encoded<T>> T encryptAndEncode(byte[] input, Encoder<T> encoder) {
-        return encoder.encode(encrypt(input));
-    }
-
-    default <T extends Encoded<T>> T encryptAndEncode(String input, Charset charset, Encoder<T> encoder) {
-        return encryptAndEncode(input.getBytes(charset), encoder);
-    }
-
-    default <T extends Encoded<T>> T encryptAndEncode(String input, Encoder<T> encoder) {
-        return encryptAndEncode(input, UTF_8, encoder);
-    }
-
-    default Base64 encryptAndEncode(byte[] input) {
-        return encryptAndEncode(input, base64);
-    }
-
-    default Base64 encryptAndEncode(String input, Charset charset) {
-        return encryptAndEncode(input.getBytes(charset));
-    }
-
-    default Base64 encryptAndEncode(String input) {
-        return encryptAndEncode(input, UTF_8);
     }
 }

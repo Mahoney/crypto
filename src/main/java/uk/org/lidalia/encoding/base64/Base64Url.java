@@ -1,5 +1,6 @@
 package uk.org.lidalia.encoding.base64;
 
+import uk.org.lidalia.encoding.Bytes;
 import uk.org.lidalia.encoding.EncodedBase;
 
 public class Base64Url extends EncodedBase<Base64Url> {
@@ -9,7 +10,7 @@ public class Base64Url extends EncodedBase<Base64Url> {
     }
 
     @Override
-    public byte[] getDecoded() {
-        return java.util.Base64.getUrlDecoder().decode(toString());
+    public Bytes getDecoded() {
+        return Bytes.of(java.util.Base64.getUrlDecoder().decode(toString()));
     }
 }

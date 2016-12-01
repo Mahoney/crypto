@@ -1,6 +1,7 @@
 package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.DecryptionFailedException;
+import uk.org.lidalia.encoding.Bytes;
 
 import javax.crypto.Cipher;
 import java.math.BigInteger;
@@ -18,9 +19,9 @@ public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, uk.org.l
         this.decorated = decorated;
     }
 
-    public byte[] encrypt(final byte[] input) {
+    public Bytes encrypt(final Bytes decrypted) {
         try {
-            return doCrypto(input, Cipher.ENCRYPT_MODE);
+            return doCrypto(decrypted, Cipher.ENCRYPT_MODE);
         } catch (final IllegalStateException e) {
             throw e;
         } catch (final Exception e) {
@@ -30,9 +31,9 @@ public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, uk.org.l
         }
     }
 
-    public byte[] decrypt(final byte[] input) throws DecryptionFailedException {
+    public Bytes decrypt(final Bytes encrypted) throws DecryptionFailedException {
         try {
-            return doCrypto(input, Cipher.DECRYPT_MODE);
+            return doCrypto(encrypted, Cipher.DECRYPT_MODE);
         } catch (final IllegalStateException e) {
             throw e;
         } catch (final Exception e) {
@@ -40,8 +41,8 @@ public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, uk.org.l
         }
     }
 
-    private byte[] doCrypto(
-            final byte[] input,
+    private Bytes doCrypto(
+            final Bytes input,
             final int encryptMode) throws Exception {
 
         final Cipher cipher = RSA.cipher();
@@ -52,7 +53,7 @@ public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, uk.org.l
                     "An RSA Key should never be invalid for doing crypto. " +
                     "Using key="+this, e);
         }
-        return cipher.doFinal(input);
+        return Bytes.of(cipher.doFinal(input.asArray()));
     }
 
     @Override

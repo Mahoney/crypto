@@ -1,5 +1,6 @@
 package uk.org.lidalia.encoding.hex;
 
+import uk.org.lidalia.encoding.Bytes;
 import uk.org.lidalia.encoding.EncodedBase;
 import uk.org.lidalia.encoding.Encoder;
 
@@ -17,7 +18,7 @@ public class Hex extends EncodedBase<Hex> {
     }
 
     @Override
-    public byte[] getDecoded() {
+    public Bytes getDecoded() {
 
         char[] chars = toString().toCharArray();
         byte[] decoded = new byte[chars.length / 2];
@@ -28,6 +29,6 @@ public class Hex extends EncodedBase<Hex> {
             decoded[i] = (byte) (nibble1*16+nibble2);
         }
 
-        return decoded;
+        return Bytes.of(decoded);
     }
 }

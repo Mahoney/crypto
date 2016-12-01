@@ -1,6 +1,7 @@
 package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.HashAlgorithm;
+import uk.org.lidalia.encoding.Bytes;
 
 import java.math.BigInteger;
 import java.security.PublicKey;
@@ -39,16 +40,15 @@ public final class RsaPublicKey
     }
 
     public boolean verifySignature(
-            final byte[] signature,
-            final HashAlgorithm hashAlgorithm,
-            final byte[]... signedContents) {
+        final Bytes signature,
+        final HashAlgorithm hashAlgorithm,
+        final Bytes signedContents
+    ) {
         try {
             final Signature verifier = RSA.signatureFor(hashAlgorithm);
             verifier.initVerify(this);
-            for (final byte[] content : signedContents) {
-                verifier.update(content);
-            }
-            return verifier.verify(signature);
+            verifier.update(signedContents.asArray());
+            return verifier.verify(signature.asArray());
         } catch (final Exception e) {
             throw new IllegalStateException(
                     "Verifying a string with an RSA private key should always work. " +

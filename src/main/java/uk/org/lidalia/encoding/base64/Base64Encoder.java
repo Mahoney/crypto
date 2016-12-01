@@ -1,5 +1,6 @@
 package uk.org.lidalia.encoding.base64;
 
+import uk.org.lidalia.encoding.Bytes;
 import uk.org.lidalia.encoding.Encoder;
 
 import static java.util.Base64.getEncoder;
@@ -16,7 +17,7 @@ public class Base64Encoder implements Encoder<Base64> {
     }
 
     @Override
-    public Base64 encode(byte[] decoded) {
-        return of(getEncoder().encodeToString(decoded));
+    public Base64 encode(Bytes decoded) {
+        return of(getEncoder().encodeToString(decoded.asArray()));
     }
 }

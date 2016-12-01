@@ -8,13 +8,17 @@ public interface Encoder<T extends Encoded<T>> {
 
     T of(String encoded);
 
-    T encode(byte[] decoded);
+    T encode(Bytes decoded);
+
+    default T encode(byte[] decoded) {
+        return encode(Bytes.of(decoded));
+    }
 
     default T encode(String decoded) {
         return encode(decoded, UTF_8);
     }
 
     default T encode(String decoded, Charset charset) {
-        return encode(decoded.getBytes(charset));
+        return encode(Bytes.of(decoded, charset));
     }
 }

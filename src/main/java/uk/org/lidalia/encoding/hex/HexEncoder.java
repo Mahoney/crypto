@@ -1,5 +1,6 @@
 package uk.org.lidalia.encoding.hex;
 
+import uk.org.lidalia.encoding.Bytes;
 import uk.org.lidalia.encoding.Encoder;
 
 public class HexEncoder implements Encoder<Hex> {
@@ -14,13 +15,15 @@ public class HexEncoder implements Encoder<Hex> {
     }
 
     @Override
-    public Hex encode(byte[] decoded) {
+    public Hex encode(Bytes decoded) {
 
-        final char[] chars = new char[decoded.length * 2];
+        byte[] decodedByes = decoded.asArray();
 
-        for (int i = 0; i < decoded.length; i++) {
-            int nibble1 = (0xF0 & decoded[i]) >>> 4;
-            int nibble2 = 0x0F & decoded[i];
+        final char[] chars = new char[decodedByes.length * 2];
+
+        for (int i = 0; i < decodedByes.length; i++) {
+            int nibble1 = (0xF0 & decodedByes[i]) >>> 4;
+            int nibble2 = 0x0F & decodedByes[i];
             chars[i*2] = Character.forDigit(nibble1, 16);
             chars[i*2+1] = Character.forDigit(nibble2, 16);
         }
