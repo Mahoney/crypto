@@ -44,11 +44,11 @@ public interface PublicKey<Public extends PublicKey<Public, Private>, Private ex
     }
 
     default boolean verifySignature(Encoded<?> signature, HashAlgorithm hashAlgorithm, Bytes contents) {
-        return verifySignature(signature.getDecoded(), hashAlgorithm, contents.asArray());
+        return verifySignature(signature.decode(), hashAlgorithm, contents.asArray());
     }
 
     default boolean verifySignature(Encoded<?> signature, HashAlgorithm hashAlgorithm, byte[] contents) {
-        return verifySignature(signature.getDecoded(), hashAlgorithm, contents);
+        return verifySignature(signature.decode(), hashAlgorithm, contents);
     }
 
     default boolean verifySignature(Encoded<?> signature, HashAlgorithm hashAlgorithm, String contents, Charset charset) {

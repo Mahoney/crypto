@@ -10,7 +10,7 @@ public class Base64Url extends EncodedBase<Base64Url> {
     }
 
     @Override
-    public Bytes getDecoded() {
+    public Bytes decode() {
         return Bytes.of(java.util.Base64.getUrlDecoder().decode(toString()));
     }
 }

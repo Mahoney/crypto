@@ -4,6 +4,6 @@ public interface Encoded<T extends Encoded<T>> {
 
     Encoder<T> getEncoder();
 
-    Bytes getDecoded();
+    Bytes decode();
 
 }

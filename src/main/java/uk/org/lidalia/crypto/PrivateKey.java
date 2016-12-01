@@ -33,6 +33,6 @@ public interface PrivateKey<Public extends PublicKey<Public, Private>, Private e
     }
 
     default Bytes decrypt(Encoded<?> encrypted) throws DecryptionFailedException {
-        return decrypt(encrypted.getDecoded());
+        return decrypt(encrypted.decode());
     }
 }

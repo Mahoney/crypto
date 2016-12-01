@@ -3,8 +3,6 @@ package uk.org.lidalia.encoding;
 import org.junit.Test;
 import uk.org.lidalia.encoding.hex.Hex;
 
-import java.net.URI;
-
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static uk.org.lidalia.encoding.hex.HexEncoder.hex;
@@ -19,8 +17,8 @@ public class HexTests {
 
         // expect:
         assertThat(encoded.toString(), is("416e79206f6c6420737472696e67"));
-        assertThat(encoded.getDecoded(), is(Bytes.of("Any old string")));
-        assertThat(encoded.getDecoded().asString(), is("Any old string"));
+        assertThat(encoded.decode(), is(Bytes.of("Any old string")));
+        assertThat(encoded.decode().asString(), is("Any old string"));
     }
 
     @Test
@@ -31,8 +29,8 @@ public class HexTests {
 
         // expect:
         assertThat(encoded.toString(), is("416e79206f6c6420737472696e67"));
-        assertThat(encoded.getDecoded(), is(Bytes.of("Any old string")));
-        assertThat(encoded.getDecoded().asString(), is("Any old string"));
+        assertThat(encoded.decode(), is(Bytes.of("Any old string")));
+        assertThat(encoded.decode().asString(), is("Any old string"));
     }
 
     @Test
@@ -43,8 +41,8 @@ public class HexTests {
 
         // expect:
         assertThat(encoded.toString(), is("416E79206F6C6420737472696E67"));
-        assertThat(encoded.getDecoded(), is(Bytes.of("Any old string")));
-        assertThat(encoded.getDecoded().asString(), is("Any old string"));
+        assertThat(encoded.decode(), is(Bytes.of("Any old string")));
+        assertThat(encoded.decode().asString(), is("Any old string"));
     }
 
     @Test(expected = IllegalArgumentException.class)

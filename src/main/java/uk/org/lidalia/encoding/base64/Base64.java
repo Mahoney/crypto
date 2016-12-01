@@ -11,7 +11,7 @@ public class Base64 extends EncodedBase<Base64> {
     }
 
     @Override
-    public Bytes getDecoded() {
+    public Bytes decode() {
         return Bytes.of(java.util.Base64.getDecoder().decode(toString()));
     }
 }

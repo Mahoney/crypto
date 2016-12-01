@@ -18,7 +18,7 @@ public class Hex extends EncodedBase<Hex> {
     }
 
     @Override
-    public Bytes getDecoded() {
+    public Bytes decode() {
 
         char[] chars = toString().toCharArray();
         byte[] decoded = new byte[chars.length / 2];

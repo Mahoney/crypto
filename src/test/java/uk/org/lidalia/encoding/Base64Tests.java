@@ -17,7 +17,7 @@ public class Base64Tests {
 
         // expect:
         assertThat(encoded.toString(), is("QW55IG9sZCBzdHJpbmc="));
-        assertThat(encoded.getDecoded(), is(Bytes.of("Any old string")));
-        assertThat(encoded.getDecoded().asString(), is("Any old string"));
+        assertThat(encoded.decode(), is(Bytes.of("Any old string")));
+        assertThat(encoded.decode().asString(), is("Any old string"));
     }
 }

@@ -15,7 +15,7 @@ public class StringWithCharset extends EncodedBase<StringWithCharset> {
     }
 
     @Override
-    public Bytes getDecoded() {
+    public Bytes decode() {
         return Bytes.of(toString().getBytes(charset));
     }
 }
