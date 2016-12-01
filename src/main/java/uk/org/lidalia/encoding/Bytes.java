@@ -12,7 +12,7 @@ import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
 public class Bytes extends AbstractList<Byte> {
 
     public static Bytes of(byte[] bytes) {
-        return new Bytes(bytes);
+        return new Bytes(Arrays.copyOf(bytes, bytes.length));
     }
 
     public static Bytes of(String text, Charset charset) {
@@ -25,12 +25,12 @@ public class Bytes extends AbstractList<Byte> {
 
     private final byte[] bytes;
 
-    public Bytes(byte[] bytes) {
+    private Bytes(byte[] bytes) {
         this.bytes = bytes;
     }
 
     public byte[] asArray() {
-        return bytes;
+        return Arrays.copyOf(bytes, bytes.length);
     }
 
     public String asString(Charset charset) {
