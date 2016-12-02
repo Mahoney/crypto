@@ -53,7 +53,7 @@ public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, uk.org.l
                     "An RSA Key should never be invalid for doing crypto. " +
                     "Using key="+this, e);
         }
-        return Bytes.of(cipher.doFinal(input.asArray()));
+        return Bytes.of(cipher.doFinal(input.array()));
     }
 
     @Override

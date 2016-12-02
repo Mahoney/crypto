@@ -18,6 +18,6 @@ public class Base64UrlEncoder implements Encoder<Base64Url> {
 
     @Override
     public Base64Url encode(Bytes decoded) {
-        return of(getEncoder().encodeToString(decoded.asArray()));
+        return of(getEncoder().encodeToString(decoded.array()));
     }
 }

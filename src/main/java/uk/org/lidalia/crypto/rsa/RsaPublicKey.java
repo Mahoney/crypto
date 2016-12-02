@@ -47,8 +47,8 @@ public final class RsaPublicKey
         try {
             final Signature verifier = RSA.signatureFor(hashAlgorithm);
             verifier.initVerify(this);
-            verifier.update(signedContents.asArray());
-            return verifier.verify(signature.asArray());
+            verifier.update(signedContents.array());
+            return verifier.verify(signature.array());
         } catch (final Exception e) {
             throw new IllegalStateException(
                     "Verifying a string with an RSA private key should always work. " +

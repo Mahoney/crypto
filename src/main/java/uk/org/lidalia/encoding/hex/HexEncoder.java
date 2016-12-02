@@ -17,7 +17,7 @@ public class HexEncoder implements Encoder<Hex> {
     @Override
     public Hex encode(Bytes decoded) {
 
-        byte[] decodedByes = decoded.asArray();
+        byte[] decodedByes = decoded.array();
 
         final char[] chars = new char[decodedByes.length * 2];
 

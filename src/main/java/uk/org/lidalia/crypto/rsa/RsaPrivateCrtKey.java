@@ -79,7 +79,7 @@ public final class RsaPrivateCrtKey
         final Signature signer = RSA.signatureFor(hashAlgorithm);
         try {
             signer.initSign(this);
-            signer.update(contents.asArray());
+            signer.update(contents.array());
             return Bytes.of(signer.sign());
         } catch (final Exception e) {
             throw new IllegalStateException(

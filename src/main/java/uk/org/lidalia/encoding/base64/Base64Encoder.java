@@ -18,6 +18,6 @@ public class Base64Encoder implements Encoder<Base64> {
 
     @Override
     public Base64 encode(Bytes decoded) {
-        return of(getEncoder().encodeToString(decoded.asArray()));
+        return of(getEncoder().encodeToString(decoded.array()));
     }
 }

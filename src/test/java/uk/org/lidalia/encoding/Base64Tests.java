@@ -21,7 +21,7 @@ public class Base64Tests {
         // expect:
         assertThat(encoded.toString(), is("QW55IG9sZCBzdHJpbmc="));
         assertThat(encoded.decode(), is(Bytes.of("Any old string")));
-        assertThat(encoded.decode().asString(), is("Any old string"));
+        assertThat(encoded.decode().string(), is("Any old string"));
     }
 
     @Test
@@ -33,7 +33,7 @@ public class Base64Tests {
         // expect:
         assertThat(encoded.toString(), is(""));
         assertThat(encoded.decode(), is(Bytes.of(new byte[0])));
-        assertThat(encoded.decode().asString(), is(""));
+        assertThat(encoded.decode().string(), is(""));
     }
 
     @Test
@@ -46,7 +46,7 @@ public class Base64Tests {
         Base64 encoded = base64.encode(toEncode);
 
         // expect:
-        assertThat(encoded.decode().asString(), is(toEncode));
+        assertThat(encoded.decode().string(), is(toEncode));
     }
 
     @Test(expected = IllegalArgumentException.class)

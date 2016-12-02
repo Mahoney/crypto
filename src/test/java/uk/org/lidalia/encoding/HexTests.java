@@ -18,7 +18,7 @@ public class HexTests {
         // expect:
         assertThat(encoded.toString(), is("416e79206f6c6420737472696e67"));
         assertThat(encoded.decode(), is(Bytes.of("Any old string")));
-        assertThat(encoded.decode().asString(), is("Any old string"));
+        assertThat(encoded.decode().string(), is("Any old string"));
     }
 
     @Test
@@ -30,7 +30,7 @@ public class HexTests {
         // expect:
         assertThat(encoded.toString(), is("416e79206f6c6420737472696e67"));
         assertThat(encoded.decode(), is(Bytes.of("Any old string")));
-        assertThat(encoded.decode().asString(), is("Any old string"));
+        assertThat(encoded.decode().string(), is("Any old string"));
     }
 
     @Test
@@ -42,7 +42,7 @@ public class HexTests {
         // expect:
         assertThat(encoded.toString(), is("416E79206F6C6420737472696E67"));
         assertThat(encoded.decode(), is(Bytes.of("Any old string")));
-        assertThat(encoded.decode().asString(), is("Any old string"));
+        assertThat(encoded.decode().string(), is("Any old string"));
     }
 
     @Test(expected = IllegalArgumentException.class)

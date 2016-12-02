@@ -44,7 +44,7 @@ public interface PublicKey<Public extends PublicKey<Public, Private>, Private ex
     }
 
     default boolean verifySignature(Encoded<?> signature, HashAlgorithm hashAlgorithm, Bytes contents) {
-        return verifySignature(signature.decode(), hashAlgorithm, contents.asArray());
+        return verifySignature(signature.decode(), hashAlgorithm, contents.array());
     }
 
     default boolean verifySignature(Encoded<?> signature, HashAlgorithm hashAlgorithm, byte[] contents) {

@@ -26,7 +26,7 @@ public class StringEncoder implements Encoder<StringWithCharset> {
 
     @Override
     public StringWithCharset encode(Bytes decoded) {
-        return of(decoded.asString(charset));
+        return of(decoded.string(charset));
     }
 
     public Charset getCharset() {

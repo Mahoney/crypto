@@ -29,16 +29,16 @@ public class Bytes extends AbstractList<Byte> {
         this.bytes = bytes;
     }
 
-    public byte[] asArray() {
+    public byte[] array() {
         return Arrays.copyOf(bytes, bytes.length);
     }
 
-    public String asString(Charset charset) {
+    public String string(Charset charset) {
         return new String(bytes, charset);
     }
 
-    public String asString() {
-        return asString(UTF_8);
+    public String string() {
+        return string(UTF_8);
     }
 
     public <T extends Encoded<T>> T encode(Encoder<T> encoder) {
