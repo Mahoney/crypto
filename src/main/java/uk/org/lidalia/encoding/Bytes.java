@@ -2,6 +2,8 @@ package uk.org.lidalia.encoding;
 
 import uk.org.lidalia.encoding.base64.Base64;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -39,6 +41,10 @@ public class Bytes extends AbstractList<Byte> {
 
     public String string() {
         return string(UTF_8);
+    }
+
+    public InputStream inputStream() {
+        return new ByteArrayInputStream(bytes);
     }
 
     public <T extends Encoded<T>> T encode(Encoder<T> encoder) {
