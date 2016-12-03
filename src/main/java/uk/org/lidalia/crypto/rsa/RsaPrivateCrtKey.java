@@ -6,7 +6,6 @@ import uk.org.lidalia.encoding.Bytes;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.security.KeyPair;
-import java.security.PrivateKey;
 import java.security.Signature;
 import java.security.interfaces.RSAPrivateCrtKey;
 import java.security.spec.InvalidKeySpecException;
@@ -44,9 +43,7 @@ public final class RsaPrivateCrtKey
 
     public static RsaPrivateCrtKey fromKeySpec(final KeySpec privateKeySpec)
             throws InvalidKeySpecException {
-        final PrivateKey privateKey
-                = RSA.keyFactory().generatePrivate(privateKeySpec);
-        return from((RSAPrivateCrtKey) privateKey);
+        return RSA.privateKey(privateKeySpec);
     }
 
     public static RsaPrivateCrtKey from(final RSAPrivateCrtKey decorated) {
@@ -80,7 +77,7 @@ public final class RsaPrivateCrtKey
     public Bytes signatureFor(
             final HashAlgorithm hashAlgorithm,
             final Bytes contents) {
-        final Signature signer = RSA.signatureFor(hashAlgorithm);
+        final Signature signer = signatureFor(hashAlgorithm);
         try {
             signer.initSign(this);
             signer.update(contents.array());

@@ -7,7 +7,7 @@ import static java.util.Base64.getEncoder;
 
 public class Base64UrlEncoder implements Encoder<Base64Url> {
 
-    public static Base64UrlEncoder base64Url = new Base64UrlEncoder();
+    public static final Base64UrlEncoder base64Url = new Base64UrlEncoder();
 
     private Base64UrlEncoder() {}
 

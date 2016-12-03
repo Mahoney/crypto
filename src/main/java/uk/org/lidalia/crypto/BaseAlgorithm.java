@@ -1,12 +1,7 @@
-package uk.org.lidalia.crypto.rsa;
+package uk.org.lidalia.crypto;
 
-import uk.org.lidalia.crypto.*;
-
-import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
-import java.security.Signature;
 import java.util.Objects;
 
 public abstract class BaseAlgorithm<
@@ -16,12 +11,12 @@ public abstract class BaseAlgorithm<
     > implements Algorithm<Public,Private, Pair> {
 
     private final String name;
-    private final String cipherPadding;
+    private final String defaultCipherPadding;
     private final KeyFactory keyFactory;
 
-    BaseAlgorithm(String name, String cipherPadding) {
+    protected BaseAlgorithm(String name, String defaultCipherPadding) {
         this.name = name;
-        this.cipherPadding = cipherPadding;
+        this.defaultCipherPadding = defaultCipherPadding;
         this.keyFactory = buildKeyFactory();
     }
 
@@ -38,26 +33,13 @@ public abstract class BaseAlgorithm<
         return name;
     }
 
-    KeyFactory keyFactory() {
+    @Override
+    public String defaultCipherPadding() {
+        return defaultCipherPadding;
+    }
+
+    protected KeyFactory keyFactory() {
         return keyFactory;
-    }
-
-    Cipher cipher() {
-        String algorithmWithPadding = this + cipherPadding;
-        try {
-            return Cipher.getInstance(algorithmWithPadding);
-        } catch (final NoSuchAlgorithmException | NoSuchPaddingException e) {
-            throw new RequiredAlgorithmNotPresent(algorithmWithPadding, e);
-        }
-    }
-
-    Signature signatureFor(HashAlgorithm hashAlgorithm) {
-        final String algorithm = hashAlgorithm + "with" + this;
-        try {
-            return Signature.getInstance(algorithm);
-        } catch (final NoSuchAlgorithmException e) {
-            throw new RequiredAlgorithmNotPresent(algorithm, e);
-        }
     }
 
     @Override

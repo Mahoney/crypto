@@ -7,7 +7,7 @@ public abstract class EncodedBase<T extends Encoded<T>> implements Encoded<T> {
     private final String encoded;
     private final Encoder<T> encoder;
 
-    public EncodedBase(String encoded, Encoder<T> encoder) {
+    protected EncodedBase(String encoded, Encoder<T> encoder) {
         this.encoded = encoded;
         this.encoder = encoder;
     }

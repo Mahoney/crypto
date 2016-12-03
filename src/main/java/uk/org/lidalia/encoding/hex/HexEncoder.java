@@ -5,7 +5,7 @@ import uk.org.lidalia.encoding.Encoder;
 
 public class HexEncoder implements Encoder<Hex> {
 
-    public static HexEncoder hex = new HexEncoder();
+    public static final HexEncoder hex = new HexEncoder();
 
     private HexEncoder() {}
 

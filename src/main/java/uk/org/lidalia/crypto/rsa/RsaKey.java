@@ -1,12 +1,17 @@
 package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.DecryptionFailedException;
+import uk.org.lidalia.crypto.HashAlgorithm;
+import uk.org.lidalia.crypto.RequiredAlgorithmNotPresent;
 import uk.org.lidalia.encoding.Bytes;
 
 import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.security.Signature;
 import java.security.interfaces.RSAKey;
 
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
@@ -45,7 +50,7 @@ public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, uk.org.l
             final Bytes input,
             final int encryptMode) throws Exception {
 
-        final Cipher cipher = RSA.cipher();
+        final Cipher cipher = cipher();
         try {
             cipher.init(encryptMode, this);
         } catch (InvalidKeyException e) {
@@ -59,6 +64,24 @@ public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, uk.org.l
     @Override
     public Rsa algorithm() {
         return RSA;
+    }
+
+    protected Signature signatureFor(HashAlgorithm hashAlgorithm) {
+        final String algorithm = hashAlgorithm + "with" + algorithm();
+        try {
+            return Signature.getInstance(algorithm);
+        } catch (final NoSuchAlgorithmException e) {
+            throw new RequiredAlgorithmNotPresent(algorithm, e);
+        }
+    }
+
+    private Cipher cipher() {
+        String algorithmWithPadding = algorithm() + algorithm().defaultCipherPadding();
+        try {
+            return Cipher.getInstance(algorithmWithPadding);
+        } catch (final NoSuchAlgorithmException | NoSuchPaddingException e) {
+            throw new RequiredAlgorithmNotPresent(algorithmWithPadding, e);
+        }
     }
 
     /**** REMAINING METHODS DELEGATE ****/
