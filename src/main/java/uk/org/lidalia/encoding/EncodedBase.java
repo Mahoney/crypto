@@ -17,7 +17,7 @@ public abstract class EncodedBase<T extends Encoded<T>> implements Encoded<T> {
     }
 
     @Override
-    public final Encoder<T> getEncoder() {
+    public final Encoder<T> encoder() {
         return encoder;
     }
 

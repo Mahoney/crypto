@@ -29,7 +29,7 @@ public class StringEncoder implements Encoder<StringWithCharset> {
         return of(decoded.string(charset));
     }
 
-    public Charset getCharset() {
+    public Charset charset() {
         return charset;
     }
 }
