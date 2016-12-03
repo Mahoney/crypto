@@ -1,5 +1,7 @@
 package uk.org.lidalia.crypto.rsa;
 
+import uk.org.lidalia.crypto.RequiredAlgorithmNotPresent;
+
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 
