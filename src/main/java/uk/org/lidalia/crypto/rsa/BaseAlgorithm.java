@@ -9,7 +9,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Signature;
 import java.util.Objects;
 
-public abstract class BaseAlgorithm<Public extends PublicKey<Public, Private, KeyP>, Private extends PrivateKey<Public, Private, KeyP>, KeyP extends KeyPair<Public, Private, KeyP>> implements Algorithm<Public,Private, KeyP> {
+public abstract class BaseAlgorithm<
+        Public extends PublicKey<Public, Private, Pair>,
+        Private extends PrivateKey<Public, Private, Pair>,
+        Pair extends KeyPair<Public, Private, Pair>
+    > implements Algorithm<Public,Private, Pair> {
 
     private final String name;
     private final String cipherPadding;

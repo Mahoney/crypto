@@ -7,7 +7,11 @@ import java.nio.charset.Charset;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public interface PrivateKey<Public extends PublicKey<Public, Private, KeyP>, Private extends PrivateKey<Public, Private, KeyP>, KeyP extends KeyPair<Public, Private, KeyP>> extends java.security.PrivateKey, Key<Public, Private, KeyP> {
+public interface PrivateKey<
+        Public extends PublicKey<Public, Private, Pair>,
+        Private extends PrivateKey<Public, Private, Pair>,
+        Pair extends KeyPair<Public, Private, Pair>
+    > extends java.security.PrivateKey, Key<Public, Private, Pair> {
 
     Bytes signatureFor(
         HashAlgorithm hashAlgorithm,
