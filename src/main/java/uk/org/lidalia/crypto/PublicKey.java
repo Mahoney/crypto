@@ -7,7 +7,7 @@ import java.nio.charset.Charset;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public interface PublicKey<Public extends PublicKey<Public, Private>, Private extends PrivateKey<Public, Private>> extends java.security.PublicKey, Key<Public, Private> {
+public interface PublicKey<Public extends PublicKey<Public, Private, KeyP>, Private extends PrivateKey<Public, Private, KeyP>, KeyP extends KeyPair<Public, Private, KeyP>> extends java.security.PublicKey, Key<Public, Private, KeyP> {
 
     boolean verifySignature(
             Bytes signature,

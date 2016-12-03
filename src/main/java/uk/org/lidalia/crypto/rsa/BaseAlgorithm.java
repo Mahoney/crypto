@@ -1,9 +1,6 @@
 package uk.org.lidalia.crypto.rsa;
 
-import uk.org.lidalia.crypto.Algorithm;
-import uk.org.lidalia.crypto.HashAlgorithm;
-import uk.org.lidalia.crypto.PrivateKey;
-import uk.org.lidalia.crypto.PublicKey;
+import uk.org.lidalia.crypto.*;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
@@ -12,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Signature;
 import java.util.Objects;
 
-public abstract class BaseAlgorithm<Public extends PublicKey<Public, Private>, Private extends PrivateKey<Public, Private>> implements Algorithm<Public,Private> {
+public abstract class BaseAlgorithm<Public extends PublicKey<Public, Private, KeyP>, Private extends PrivateKey<Public, Private, KeyP>, KeyP extends KeyPair<Public, Private, KeyP>> implements Algorithm<Public,Private, KeyP> {
 
     private final String name;
     private final String cipherPadding;

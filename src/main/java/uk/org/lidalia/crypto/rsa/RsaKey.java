@@ -11,7 +11,7 @@ import java.security.interfaces.RSAKey;
 
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
 
-public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, uk.org.lidalia.crypto.Key<RsaPublicKey, RsaPrivateCrtKey> {
+public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, uk.org.lidalia.crypto.Key<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey> {
 
     final T decorated;
 

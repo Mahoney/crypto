@@ -20,11 +20,15 @@ import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
 public final class RsaPrivateCrtKey
         extends RsaKey<RSAPrivateCrtKey>
         implements RSAPrivateCrtKey,
-                   uk.org.lidalia.crypto.PrivateKey<RsaPublicKey, RsaPrivateCrtKey>,
-                   uk.org.lidalia.crypto.KeyPair<RsaPublicKey, RsaPrivateCrtKey> {
+                   uk.org.lidalia.crypto.PrivateKey<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey>,
+                   uk.org.lidalia.crypto.KeyPair<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey> {
 
     public static RsaPrivateCrtKey generate() throws IllegalStateException {
-        return RSA.generateKeyPair();
+        return generate(2048);
+    }
+
+    public static RsaPrivateCrtKey generate(int keysize) throws IllegalStateException {
+        return RSA.generateKeyPair(keysize);
     }
 
     public static RsaPrivateCrtKey from(KeyPair keyPair) {

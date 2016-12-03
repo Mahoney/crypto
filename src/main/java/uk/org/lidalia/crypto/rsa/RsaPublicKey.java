@@ -15,7 +15,7 @@ import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
 
 public final class RsaPublicKey
         extends RsaKey<RSAPublicKey>
-        implements RSAPublicKey, uk.org.lidalia.crypto.PublicKey<RsaPublicKey, RsaPrivateCrtKey> {
+        implements RSAPublicKey, uk.org.lidalia.crypto.PublicKey<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey> {
 
     public static RsaPublicKey fromEncoded(final byte[] publicKeyEncoded)
             throws InvalidKeySpecException {

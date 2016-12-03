@@ -1,8 +1,12 @@
 package uk.org.lidalia.crypto;
 
-public interface Algorithm<Public extends PublicKey<Public, Private>, Private extends PrivateKey<Public, Private>> {
+public interface Algorithm<Public extends PublicKey<Public, Private, KeyP>, Private extends PrivateKey<Public, Private, KeyP>, KeyP extends KeyPair<Public, Private, KeyP>> {
 
     String name();
 
-    KeyPair<Public, Private> generateKeyPair();
+    default KeyP generateKeyPair() {
+        return generateKeyPair(2048);
+    }
+
+    KeyP generateKeyPair(int keysize);
 }
