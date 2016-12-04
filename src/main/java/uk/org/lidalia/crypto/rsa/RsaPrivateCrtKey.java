@@ -1,6 +1,6 @@
 package uk.org.lidalia.crypto.rsa;
 
-import uk.org.lidalia.crypto.CipherPadding;
+import uk.org.lidalia.crypto.CipherAlgorithm;
 import uk.org.lidalia.crypto.DecryptionFailedException;
 import uk.org.lidalia.crypto.HashAlgorithm;
 import uk.org.lidalia.encoding.Bytes;
@@ -90,9 +90,9 @@ public final class RsaPrivateCrtKey
         }
     }
 
-    public Bytes decrypt(final Bytes encrypted, CipherPadding cipherPadding) throws DecryptionFailedException {
+    public Bytes decrypt(final Bytes encrypted, CipherAlgorithm cipherAlgorithm) throws DecryptionFailedException {
         try {
-            return doCrypto(encrypted, cipherPadding, Cipher.DECRYPT_MODE);
+            return doCrypto(encrypted, cipherAlgorithm, Cipher.DECRYPT_MODE);
         } catch (final IllegalStateException e) {
             throw e;
         } catch (final Exception e) {

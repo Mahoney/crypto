@@ -1,6 +1,6 @@
 package uk.org.lidalia.crypto.rsa;
 
-import uk.org.lidalia.crypto.CipherPadding;
+import uk.org.lidalia.crypto.CipherAlgorithm;
 import uk.org.lidalia.crypto.HashAlgorithm;
 import uk.org.lidalia.encoding.Bytes;
 
@@ -55,9 +55,9 @@ public final class RsaPublicKey
         }
     }
 
-    public Bytes encrypt(final Bytes decrypted, CipherPadding cipherPadding) {
+    public Bytes encrypt(final Bytes decrypted, CipherAlgorithm cipherAlgorithm) {
         try {
-            return doCrypto(decrypted, cipherPadding, Cipher.ENCRYPT_MODE);
+            return doCrypto(decrypted, cipherAlgorithm, Cipher.ENCRYPT_MODE);
         } catch (final IllegalStateException e) {
             throw e;
         } catch (final Exception e) {

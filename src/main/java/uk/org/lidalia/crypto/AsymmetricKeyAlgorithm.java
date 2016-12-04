@@ -21,5 +21,5 @@ public interface AsymmetricKeyAlgorithm<
 
     Private privateKey(KeySpec keySpec) throws InvalidKeySpecException;
 
-    CipherPadding defaultCipherPadding();
+    CipherAlgorithm defaultCipherPadding();
 }

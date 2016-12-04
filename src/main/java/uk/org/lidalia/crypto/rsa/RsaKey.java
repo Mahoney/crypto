@@ -1,7 +1,7 @@
 package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.AsymmetricKey;
-import uk.org.lidalia.crypto.CipherPadding;
+import uk.org.lidalia.crypto.CipherAlgorithm;
 import uk.org.lidalia.crypto.HashAlgorithm;
 import uk.org.lidalia.crypto.RequiredAlgorithmNotPresent;
 import uk.org.lidalia.encoding.Bytes;
@@ -32,10 +32,10 @@ public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, Asymmetr
 
     protected Bytes doCrypto(
             final Bytes input,
-            final CipherPadding cipherPadding,
+            final CipherAlgorithm cipherAlgorithm,
             final int encryptMode) throws Exception {
 
-        final Cipher cipher = cipher(cipherPadding);
+        final Cipher cipher = cipher(cipherAlgorithm);
         try {
             cipher.init(encryptMode, this);
         } catch (InvalidKeyException e) {
@@ -46,8 +46,8 @@ public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, Asymmetr
         return Bytes.of(cipher.doFinal(input.array()));
     }
 
-    private Cipher cipher(CipherPadding cipherPadding) {
-        String algorithmWithPadding = algorithm() +""+ cipherPadding;
+    private Cipher cipher(CipherAlgorithm cipherAlgorithm) {
+        String algorithmWithPadding = algorithm() +"/"+ cipherAlgorithm;
         try {
             return Cipher.getInstance(algorithmWithPadding);
         } catch (final NoSuchAlgorithmException | NoSuchPaddingException e) {

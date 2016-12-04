@@ -7,14 +7,14 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
-import static uk.org.lidalia.crypto.CipherPadding.EcbPkcs1;
+import static uk.org.lidalia.crypto.CipherAlgorithm.EcbOaepWithSha1AndMgf1;
 
 public class Rsa extends BaseAsymmetricKeyAlgorithm<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey> {
 
     public static final Rsa RSA = new Rsa();
 
     private Rsa() {
-        super("RSA", EcbPkcs1);
+        super("RSA", EcbOaepWithSha1AndMgf1);
     }
 
     @Override
