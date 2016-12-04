@@ -10,7 +10,7 @@ import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 
-public class CipherAlgorithm<EncryptKey extends Key, DecryptKey extends Key> {
+public class CipherAlgorithm<E extends EncryptKey<E, D>, D extends DecryptKey<E, D>> {
 
     private final String cipherPaddingName;
 

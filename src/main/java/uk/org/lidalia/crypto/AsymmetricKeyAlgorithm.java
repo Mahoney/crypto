@@ -7,7 +7,7 @@ public interface AsymmetricKeyAlgorithm<
         Public extends PublicKey<Public, Private, Pair>,
         Private extends PrivateKey<Public, Private, Pair>,
         Pair extends KeyPair<Public, Private, Pair>
-    > {
+    > extends KeyAlgorithm<Public, Private> {
 
     String name();
 

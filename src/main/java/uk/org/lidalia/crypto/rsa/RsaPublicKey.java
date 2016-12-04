@@ -1,7 +1,7 @@
 package uk.org.lidalia.crypto.rsa;
 
-import uk.org.lidalia.crypto.CipherAlgorithm;
 import uk.org.lidalia.crypto.HashAlgorithm;
+import uk.org.lidalia.crypto.PublicKey;
 import uk.org.lidalia.encoding.Bytes;
 
 import java.math.BigInteger;
@@ -15,7 +15,7 @@ import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
 
 public final class RsaPublicKey
         extends RsaKey<RSAPublicKey>
-        implements RSAPublicKey, uk.org.lidalia.crypto.PublicKey<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey> {
+        implements RSAPublicKey, PublicKey<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey> {
 
     public static RsaPublicKey fromEncoded(final byte[] publicKeyEncoded)
             throws InvalidKeySpecException {
@@ -52,10 +52,6 @@ public final class RsaPublicKey
                     "Verifying a string with an RSA private key should always work. " +
                             "Using key="+ this, e);
         }
-    }
-
-    public Bytes encrypt(final Bytes decrypted, CipherAlgorithm<RsaPublicKey, RsaPrivateCrtKey> cipherAlgorithm) {
-        return cipherAlgorithm.encrypt(decrypted, this);
     }
 
     /**** REMAINING METHODS DELEGATE ****/

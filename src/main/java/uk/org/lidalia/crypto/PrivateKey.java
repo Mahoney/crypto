@@ -11,7 +11,10 @@ public interface PrivateKey<
         Public extends PublicKey<Public, Private, Pair>,
         Private extends PrivateKey<Public, Private, Pair>,
         Pair extends KeyPair<Public, Private, Pair>
-    > extends java.security.PrivateKey, AsymmetricKey<Public, Private, Pair> {
+    > extends
+        java.security.PrivateKey,
+        AsymmetricKey<Public, Private, Pair>,
+        DecryptKey<Public, Private> {
 
     Bytes signatureFor(
         HashAlgorithm hashAlgorithm,
@@ -28,27 +31,5 @@ public interface PrivateKey<
 
     default Bytes signatureFor(HashAlgorithm hashAlgorithm, String contents) {
         return signatureFor(hashAlgorithm, contents, UTF_8);
-    }
-
-    Bytes decrypt(Bytes encrypted, CipherAlgorithm<Public, Private> cipherAlgorithm) throws DecryptionFailedException;
-
-    default Bytes decrypt(Bytes encrypted) throws DecryptionFailedException {
-        return decrypt(encrypted, algorithm().defaultCipherAlgorithm());
-    }
-
-    default Bytes decrypt(byte[] encrypted, CipherAlgorithm<Public, Private> cipherAlgorithm) throws DecryptionFailedException {
-        return decrypt(Bytes.of(encrypted), cipherAlgorithm);
-    }
-
-    default Bytes decrypt(byte[] encrypted) throws DecryptionFailedException {
-        return decrypt(encrypted, algorithm().defaultCipherAlgorithm());
-    }
-
-    default Bytes decrypt(Encoded<?> encrypted, CipherAlgorithm<Public, Private> cipherAlgorithm) throws DecryptionFailedException {
-        return decrypt(encrypted.decode(), cipherAlgorithm);
-    }
-
-    default Bytes decrypt(Encoded<?> encrypted) throws DecryptionFailedException {
-        return decrypt(encrypted, algorithm().defaultCipherAlgorithm());
     }
 }

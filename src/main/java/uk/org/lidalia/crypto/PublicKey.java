@@ -11,7 +11,10 @@ public interface PublicKey<
         Public extends PublicKey<Public, Private, Pair>,
         Private extends PrivateKey<Public, Private, Pair>,
         Pair extends KeyPair<Public, Private, Pair>
-    > extends java.security.PublicKey, AsymmetricKey<Public, Private, Pair> {
+    > extends
+        java.security.PublicKey,
+        AsymmetricKey<Public, Private, Pair>,
+        EncryptKey<Public, Private> {
 
     boolean verifySignature(
             Bytes signature,
@@ -62,35 +65,4 @@ public interface PublicKey<
     default boolean verifySignature(Encoded<?> signature, HashAlgorithm hashAlgorithm, String contents) {
         return verifySignature(signature, hashAlgorithm, contents, UTF_8);
     }
-
-    Bytes encrypt(Bytes decrypted, CipherAlgorithm<Public, Private> cipherAlgorithm);
-
-    default Bytes encrypt(Bytes decrypted) {
-        return encrypt(decrypted, algorithm().defaultCipherAlgorithm());
-    }
-
-    default Bytes encrypt(byte[] decrypted, CipherAlgorithm<Public, Private> cipherAlgorithm) {
-        return encrypt(Bytes.of(decrypted), cipherAlgorithm);
-    }
-
-    default Bytes encrypt(byte[] decrypted) {
-        return encrypt(decrypted, algorithm().defaultCipherAlgorithm());
-    }
-
-    default Bytes encrypt(String input, Charset charset, CipherAlgorithm<Public, Private> cipherAlgorithm) {
-        return encrypt(input.getBytes(charset), cipherAlgorithm);
-    }
-
-    default Bytes encrypt(String input, Charset charset) {
-        return encrypt(input, charset, algorithm().defaultCipherAlgorithm());
-    }
-
-    default Bytes encrypt(String input, CipherAlgorithm<Public, Private> cipherAlgorithm) {
-        return encrypt(input, UTF_8, cipherAlgorithm);
-    }
-
-    default Bytes encrypt(String input) {
-        return encrypt(input, UTF_8);
-    }
-
 }

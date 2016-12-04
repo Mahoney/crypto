@@ -1,7 +1,5 @@
 package uk.org.lidalia.crypto.rsa;
 
-import uk.org.lidalia.crypto.CipherAlgorithm;
-import uk.org.lidalia.crypto.DecryptionFailedException;
 import uk.org.lidalia.crypto.HashAlgorithm;
 import uk.org.lidalia.encoding.Bytes;
 
@@ -87,10 +85,6 @@ public final class RsaPrivateCrtKey
                     "Signing a string with an RSA private key should always work. " +
                             "Using key="+ this, e);
         }
-    }
-
-    public Bytes decrypt(final Bytes encrypted, CipherAlgorithm<RsaPublicKey, RsaPrivateCrtKey> cipherAlgorithm) throws DecryptionFailedException {
-        return cipherAlgorithm.decrypt(encrypted, this);
     }
 
     public KeyPair toKeyPair() {
