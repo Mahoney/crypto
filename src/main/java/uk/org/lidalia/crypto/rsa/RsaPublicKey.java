@@ -54,7 +54,7 @@ public final class RsaPublicKey
         }
     }
 
-    public Bytes encrypt(final Bytes decrypted, CipherAlgorithm cipherAlgorithm) {
+    public Bytes encrypt(final Bytes decrypted, CipherAlgorithm<RsaPublicKey, RsaPrivateCrtKey> cipherAlgorithm) {
         return cipherAlgorithm.encrypt(decrypted, this);
     }
 

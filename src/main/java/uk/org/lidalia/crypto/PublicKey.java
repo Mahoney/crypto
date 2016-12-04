@@ -63,29 +63,29 @@ public interface PublicKey<
         return verifySignature(signature, hashAlgorithm, contents, UTF_8);
     }
 
-    Bytes encrypt(Bytes decrypted, CipherAlgorithm cipherAlgorithm);
+    Bytes encrypt(Bytes decrypted, CipherAlgorithm<Public, Private> cipherAlgorithm);
 
     default Bytes encrypt(Bytes decrypted) {
-        return encrypt(decrypted, algorithm().defaultCipherPadding());
+        return encrypt(decrypted, algorithm().defaultCipherAlgorithm());
     }
 
-    default Bytes encrypt(byte[] decrypted, CipherAlgorithm cipherAlgorithm) {
+    default Bytes encrypt(byte[] decrypted, CipherAlgorithm<Public, Private> cipherAlgorithm) {
         return encrypt(Bytes.of(decrypted), cipherAlgorithm);
     }
 
     default Bytes encrypt(byte[] decrypted) {
-        return encrypt(decrypted, algorithm().defaultCipherPadding());
+        return encrypt(decrypted, algorithm().defaultCipherAlgorithm());
     }
 
-    default Bytes encrypt(String input, Charset charset, CipherAlgorithm cipherAlgorithm) {
+    default Bytes encrypt(String input, Charset charset, CipherAlgorithm<Public, Private> cipherAlgorithm) {
         return encrypt(input.getBytes(charset), cipherAlgorithm);
     }
 
     default Bytes encrypt(String input, Charset charset) {
-        return encrypt(input, charset, algorithm().defaultCipherPadding());
+        return encrypt(input, charset, algorithm().defaultCipherAlgorithm());
     }
 
-    default Bytes encrypt(String input, CipherAlgorithm cipherAlgorithm) {
+    default Bytes encrypt(String input, CipherAlgorithm<Public, Private> cipherAlgorithm) {
         return encrypt(input, UTF_8, cipherAlgorithm);
     }
 

@@ -12,10 +12,10 @@ public abstract class BaseAsymmetricKeyAlgorithm<
     > implements AsymmetricKeyAlgorithm<Public,Private, Pair> {
 
     private final String name;
-    private final CipherAlgorithm defaultCipherAlgorithm;
+    private final CipherAlgorithm<Public, Private> defaultCipherAlgorithm;
     private final KeyFactory keyFactory;
 
-    protected BaseAsymmetricKeyAlgorithm(String name, CipherAlgorithm defaultCipherAlgorithm) {
+    protected BaseAsymmetricKeyAlgorithm(String name, CipherAlgorithm<Public, Private> defaultCipherAlgorithm) {
         this.name = name;
         this.defaultCipherAlgorithm = defaultCipherAlgorithm;
         this.keyFactory = buildKeyFactory();
@@ -35,7 +35,7 @@ public abstract class BaseAsymmetricKeyAlgorithm<
     }
 
     @Override
-    public CipherAlgorithm defaultCipherPadding() {
+    public CipherAlgorithm<Public, Private> defaultCipherAlgorithm() {
         return defaultCipherAlgorithm;
     }
 

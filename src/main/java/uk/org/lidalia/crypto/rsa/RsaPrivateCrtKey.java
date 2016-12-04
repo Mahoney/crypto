@@ -5,7 +5,6 @@ import uk.org.lidalia.crypto.DecryptionFailedException;
 import uk.org.lidalia.crypto.HashAlgorithm;
 import uk.org.lidalia.encoding.Bytes;
 
-import javax.crypto.Cipher;
 import java.math.BigInteger;
 import java.security.KeyPair;
 import java.security.Signature;
@@ -90,7 +89,7 @@ public final class RsaPrivateCrtKey
         }
     }
 
-    public Bytes decrypt(final Bytes encrypted, CipherAlgorithm cipherAlgorithm) throws DecryptionFailedException {
+    public Bytes decrypt(final Bytes encrypted, CipherAlgorithm<RsaPublicKey, RsaPrivateCrtKey> cipherAlgorithm) throws DecryptionFailedException {
         return cipherAlgorithm.decrypt(encrypted, this);
     }
 

@@ -30,25 +30,25 @@ public interface PrivateKey<
         return signatureFor(hashAlgorithm, contents, UTF_8);
     }
 
-    Bytes decrypt(Bytes encrypted, CipherAlgorithm cipherAlgorithm) throws DecryptionFailedException;
+    Bytes decrypt(Bytes encrypted, CipherAlgorithm<Public, Private> cipherAlgorithm) throws DecryptionFailedException;
 
     default Bytes decrypt(Bytes encrypted) throws DecryptionFailedException {
-        return decrypt(encrypted, algorithm().defaultCipherPadding());
+        return decrypt(encrypted, algorithm().defaultCipherAlgorithm());
     }
 
-    default Bytes decrypt(byte[] encrypted, CipherAlgorithm cipherAlgorithm) throws DecryptionFailedException {
+    default Bytes decrypt(byte[] encrypted, CipherAlgorithm<Public, Private> cipherAlgorithm) throws DecryptionFailedException {
         return decrypt(Bytes.of(encrypted), cipherAlgorithm);
     }
 
     default Bytes decrypt(byte[] encrypted) throws DecryptionFailedException {
-        return decrypt(encrypted, algorithm().defaultCipherPadding());
+        return decrypt(encrypted, algorithm().defaultCipherAlgorithm());
     }
 
-    default Bytes decrypt(Encoded<?> encrypted, CipherAlgorithm cipherAlgorithm) throws DecryptionFailedException {
+    default Bytes decrypt(Encoded<?> encrypted, CipherAlgorithm<Public, Private> cipherAlgorithm) throws DecryptionFailedException {
         return decrypt(encrypted.decode(), cipherAlgorithm);
     }
 
     default Bytes decrypt(Encoded<?> encrypted) throws DecryptionFailedException {
-        return decrypt(encrypted, algorithm().defaultCipherPadding());
+        return decrypt(encrypted, algorithm().defaultCipherAlgorithm());
     }
 }
