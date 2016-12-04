@@ -5,17 +5,17 @@ import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
-public abstract class BaseAlgorithm<
+public abstract class BaseAsymmetricKeyAlgorithm<
         Public extends PublicKey<Public, Private, Pair>,
         Private extends PrivateKey<Public, Private, Pair>,
         Pair extends KeyPair<Public, Private, Pair>
-    > implements Algorithm<Public,Private, Pair> {
+    > implements AsymmetricKeyAlgorithm<Public,Private, Pair> {
 
     private final String name;
     private final CipherPadding defaultCipherPadding;
     private final KeyFactory keyFactory;
 
-    protected BaseAlgorithm(String name, CipherPadding defaultCipherPadding) {
+    protected BaseAsymmetricKeyAlgorithm(String name, CipherPadding defaultCipherPadding) {
         this.name = name;
         this.defaultCipherPadding = defaultCipherPadding;
         this.keyFactory = buildKeyFactory();
@@ -52,7 +52,7 @@ public abstract class BaseAlgorithm<
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Algorithm algorithm = (Algorithm) o;
+        AsymmetricKeyAlgorithm algorithm = (AsymmetricKeyAlgorithm) o;
         return Objects.equals(name, algorithm.name());
     }
 

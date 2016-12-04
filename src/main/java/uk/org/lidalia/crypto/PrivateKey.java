@@ -11,7 +11,7 @@ public interface PrivateKey<
         Public extends PublicKey<Public, Private, Pair>,
         Private extends PrivateKey<Public, Private, Pair>,
         Pair extends KeyPair<Public, Private, Pair>
-    > extends java.security.PrivateKey, Key<Public, Private, Pair> {
+    > extends java.security.PrivateKey, AsymmetricKey<Public, Private, Pair> {
 
     Bytes signatureFor(
         HashAlgorithm hashAlgorithm,

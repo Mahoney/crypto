@@ -1,8 +1,11 @@
 package uk.org.lidalia.crypto.rsa;
 
+import uk.org.lidalia.crypto.CipherPadding;
+import uk.org.lidalia.crypto.DecryptionFailedException;
 import uk.org.lidalia.crypto.HashAlgorithm;
 import uk.org.lidalia.encoding.Bytes;
 
+import javax.crypto.Cipher;
 import java.math.BigInteger;
 import java.security.KeyPair;
 import java.security.Signature;
@@ -84,6 +87,16 @@ public final class RsaPrivateCrtKey
             throw new IllegalStateException(
                     "Signing a string with an RSA private key should always work. " +
                             "Using key="+ this, e);
+        }
+    }
+
+    public Bytes decrypt(final Bytes encrypted, CipherPadding cipherPadding) throws DecryptionFailedException {
+        try {
+            return doCrypto(encrypted, cipherPadding, Cipher.DECRYPT_MODE);
+        } catch (final IllegalStateException e) {
+            throw e;
+        } catch (final Exception e) {
+            throw new DecryptionFailedException(e);
         }
     }
 

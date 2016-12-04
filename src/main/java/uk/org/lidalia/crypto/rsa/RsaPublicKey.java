@@ -1,8 +1,10 @@
 package uk.org.lidalia.crypto.rsa;
 
+import uk.org.lidalia.crypto.CipherPadding;
 import uk.org.lidalia.crypto.HashAlgorithm;
 import uk.org.lidalia.encoding.Bytes;
 
+import javax.crypto.Cipher;
 import java.math.BigInteger;
 import java.security.Signature;
 import java.security.interfaces.RSAPublicKey;
@@ -50,6 +52,18 @@ public final class RsaPublicKey
             throw new IllegalStateException(
                     "Verifying a string with an RSA private key should always work. " +
                             "Using key="+ this, e);
+        }
+    }
+
+    public Bytes encrypt(final Bytes decrypted, CipherPadding cipherPadding) {
+        try {
+            return doCrypto(decrypted, cipherPadding, Cipher.ENCRYPT_MODE);
+        } catch (final IllegalStateException e) {
+            throw e;
+        } catch (final Exception e) {
+            throw new IllegalStateException(
+                    "Encrypting with an RSA key should always work. " +
+                            "Using key="+this, e);
         }
     }
 
