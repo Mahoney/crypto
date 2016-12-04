@@ -9,12 +9,8 @@ import uk.org.lidalia.lang.Task;
 import java.nio.charset.Charset;
 import java.security.spec.InvalidKeySpecException;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 import static uk.org.lidalia.crypto.HashAlgorithm.SHA256;
 import static uk.org.lidalia.test.ShouldThrow.shouldThrow;
 

@@ -76,7 +76,7 @@ public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, uk.org.l
     }
 
     private Cipher cipher() {
-        String algorithmWithPadding = algorithm() + algorithm().defaultCipherPadding();
+        String algorithmWithPadding = algorithm() +""+ algorithm().defaultCipherPadding();
         try {
             return Cipher.getInstance(algorithmWithPadding);
         } catch (final NoSuchAlgorithmException | NoSuchPaddingException e) {

@@ -21,5 +21,5 @@ public interface Algorithm<
 
     Private privateKey(KeySpec keySpec) throws InvalidKeySpecException;
 
-    String defaultCipherPadding();
+    CipherPadding defaultCipherPadding();
 }

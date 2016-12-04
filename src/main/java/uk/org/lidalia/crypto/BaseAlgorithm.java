@@ -1,6 +1,7 @@
 package uk.org.lidalia.crypto;
 
 import java.security.KeyFactory;
+import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
@@ -11,10 +12,10 @@ public abstract class BaseAlgorithm<
     > implements Algorithm<Public,Private, Pair> {
 
     private final String name;
-    private final String defaultCipherPadding;
+    private final CipherPadding defaultCipherPadding;
     private final KeyFactory keyFactory;
 
-    protected BaseAlgorithm(String name, String defaultCipherPadding) {
+    protected BaseAlgorithm(String name, CipherPadding defaultCipherPadding) {
         this.name = name;
         this.defaultCipherPadding = defaultCipherPadding;
         this.keyFactory = buildKeyFactory();
@@ -34,7 +35,7 @@ public abstract class BaseAlgorithm<
     }
 
     @Override
-    public String defaultCipherPadding() {
+    public CipherPadding defaultCipherPadding() {
         return defaultCipherPadding;
     }
 
@@ -60,4 +61,16 @@ public abstract class BaseAlgorithm<
         return Objects.hash(name);
     }
 
+    protected java.security.KeyPair generateDecoratedKeyPair(int keySize) {
+        java.security.KeyPair keyPair;
+        try {
+            final KeyPairGenerator keyPairGenerator
+                    = KeyPairGenerator.getInstance(name());
+            keyPairGenerator.initialize(keySize);
+            keyPair = keyPairGenerator.generateKeyPair();
+        } catch (final NoSuchAlgorithmException e) {
+            throw new RequiredAlgorithmNotPresent(name(), e);
+        }
+        return keyPair;
+    }
 }

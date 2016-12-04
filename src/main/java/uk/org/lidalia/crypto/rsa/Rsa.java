@@ -1,33 +1,25 @@
 package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.BaseAlgorithm;
-import uk.org.lidalia.crypto.RequiredAlgorithmNotPresent;
 
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPrivateCrtKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+
+import static uk.org.lidalia.crypto.CipherPadding.EcbPkcs1;
 
 public class Rsa extends BaseAlgorithm<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey> {
 
     public static final Rsa RSA = new Rsa();
 
     private Rsa() {
-        super("RSA", "/ECB/PKCS1Padding");
+        super("RSA", EcbPkcs1);
     }
 
     @Override
     public RsaPrivateCrtKey generateKeyPair(int keySize) {
-        try {
-            final KeyPairGenerator keyPairGenerator
-                    = KeyPairGenerator.getInstance(name());
-            keyPairGenerator.initialize(keySize);
-            return RsaPrivateCrtKey.from(keyPairGenerator.generateKeyPair());
-        } catch (final NoSuchAlgorithmException e) {
-            throw new RequiredAlgorithmNotPresent(name(), e);
-        }
+        return RsaPrivateCrtKey.from(generateDecoratedKeyPair(keySize));
     }
 
     @Override
