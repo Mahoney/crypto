@@ -91,13 +91,7 @@ public final class RsaPrivateCrtKey
     }
 
     public Bytes decrypt(final Bytes encrypted, CipherAlgorithm cipherAlgorithm) throws DecryptionFailedException {
-        try {
-            return doCrypto(encrypted, cipherAlgorithm, Cipher.DECRYPT_MODE);
-        } catch (final IllegalStateException e) {
-            throw e;
-        } catch (final Exception e) {
-            throw new DecryptionFailedException(e);
-        }
+        return cipherAlgorithm.decrypt(encrypted, this);
     }
 
     public KeyPair toKeyPair() {

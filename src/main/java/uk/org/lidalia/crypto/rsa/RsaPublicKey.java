@@ -4,7 +4,6 @@ import uk.org.lidalia.crypto.CipherAlgorithm;
 import uk.org.lidalia.crypto.HashAlgorithm;
 import uk.org.lidalia.encoding.Bytes;
 
-import javax.crypto.Cipher;
 import java.math.BigInteger;
 import java.security.Signature;
 import java.security.interfaces.RSAPublicKey;
@@ -56,15 +55,7 @@ public final class RsaPublicKey
     }
 
     public Bytes encrypt(final Bytes decrypted, CipherAlgorithm cipherAlgorithm) {
-        try {
-            return doCrypto(decrypted, cipherAlgorithm, Cipher.ENCRYPT_MODE);
-        } catch (final IllegalStateException e) {
-            throw e;
-        } catch (final Exception e) {
-            throw new IllegalStateException(
-                    "Encrypting with an RSA key should always work. " +
-                            "Using key="+this, e);
-        }
+        return cipherAlgorithm.encrypt(decrypted, this);
     }
 
     /**** REMAINING METHODS DELEGATE ****/

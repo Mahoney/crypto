@@ -1,20 +1,22 @@
 package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.BaseAsymmetricKeyAlgorithm;
+import uk.org.lidalia.crypto.CipherAlgorithm;
 
 import java.security.interfaces.RSAPrivateCrtKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
-import static uk.org.lidalia.crypto.CipherAlgorithm.EcbOaepWithSha1AndMgf1;
-
 public class Rsa extends BaseAsymmetricKeyAlgorithm<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey> {
+
+    public static final CipherAlgorithm RsaEcbPkcs1Padding = new CipherAlgorithm("RSA/ECB/PKCS1Padding");
+    public static final CipherAlgorithm RsaEcbOaepWithSha1AndMgf1Padding = new CipherAlgorithm("RSA/ECB/OAEPWithSHA-1AndMGF1Padding");
 
     public static final Rsa RSA = new Rsa();
 
     private Rsa() {
-        super("RSA", EcbOaepWithSha1AndMgf1);
+        super("RSA", RsaEcbPkcs1Padding);
     }
 
     @Override
