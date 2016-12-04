@@ -12,6 +12,7 @@ public class Rsa extends BaseAsymmetricKeyAlgorithm<RsaPublicKey, RsaPrivateCrtK
 
     public static final CipherAlgorithm RsaEcbPkcs1Padding = new CipherAlgorithm("RSA/ECB/PKCS1Padding");
     public static final CipherAlgorithm RsaEcbOaepWithSha1AndMgf1Padding = new CipherAlgorithm("RSA/ECB/OAEPWithSHA-1AndMGF1Padding");
+    public static final CipherAlgorithm RsaEcbOaepWithSha256AndMgf1Padding = new CipherAlgorithm("RSA/ECB/OAEPWithSHA-256AndMGF1Padding");
 
     public static final Rsa RSA = new Rsa();
 
