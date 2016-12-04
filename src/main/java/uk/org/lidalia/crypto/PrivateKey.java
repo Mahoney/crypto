@@ -30,13 +30,25 @@ public interface PrivateKey<
         return signatureFor(hashAlgorithm, contents, UTF_8);
     }
 
-    Bytes decrypt(Bytes encrypted) throws DecryptionFailedException;
+    Bytes decrypt(Bytes encrypted, CipherPadding cipherPadding) throws DecryptionFailedException;
+
+    default Bytes decrypt(Bytes encrypted) throws DecryptionFailedException {
+        return decrypt(encrypted, algorithm().defaultCipherPadding());
+    }
+
+    default Bytes decrypt(byte[] encrypted, CipherPadding cipherPadding) throws DecryptionFailedException {
+        return decrypt(Bytes.of(encrypted), cipherPadding);
+    }
 
     default Bytes decrypt(byte[] encrypted) throws DecryptionFailedException {
-        return decrypt(Bytes.of(encrypted));
+        return decrypt(encrypted, algorithm().defaultCipherPadding());
+    }
+
+    default Bytes decrypt(Encoded<?> encrypted, CipherPadding cipherPadding) throws DecryptionFailedException {
+        return decrypt(encrypted.decode(), cipherPadding);
     }
 
     default Bytes decrypt(Encoded<?> encrypted) throws DecryptionFailedException {
-        return decrypt(encrypted.decode());
+        return decrypt(encrypted, algorithm().defaultCipherPadding());
     }
 }

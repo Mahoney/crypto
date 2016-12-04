@@ -4,7 +4,6 @@ import uk.org.lidalia.crypto.HashAlgorithm;
 import uk.org.lidalia.encoding.Bytes;
 
 import java.math.BigInteger;
-import java.nio.charset.Charset;
 import java.security.KeyPair;
 import java.security.Signature;
 import java.security.interfaces.RSAPrivateCrtKey;
@@ -13,7 +12,6 @@ import java.security.spec.KeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
 
 public final class RsaPrivateCrtKey
@@ -87,18 +85,6 @@ public final class RsaPrivateCrtKey
                     "Signing a string with an RSA private key should always work. " +
                             "Using key="+ this, e);
         }
-    }
-
-    public Bytes encrypt(byte[] input) {
-        return encrypt(Bytes.of(input));
-    }
-
-    public Bytes encrypt(String input, Charset charset) {
-        return encrypt(input.getBytes(charset));
-    }
-
-    public Bytes encrypt(String input) {
-        return encrypt(input, UTF_8);
     }
 
     public KeyPair toKeyPair() {

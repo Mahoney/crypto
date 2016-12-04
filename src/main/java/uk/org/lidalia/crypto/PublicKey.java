@@ -63,17 +63,34 @@ public interface PublicKey<
         return verifySignature(signature, hashAlgorithm, contents, UTF_8);
     }
 
-    Bytes encrypt(Bytes input);
+    Bytes encrypt(Bytes decrypted, CipherPadding cipherPadding);
 
-    default Bytes encrypt(byte[] input) {
-        return encrypt(Bytes.of(input));
+    default Bytes encrypt(Bytes decrypted) {
+        return encrypt(decrypted, algorithm().defaultCipherPadding());
+    }
+
+    default Bytes encrypt(byte[] decrypted, CipherPadding cipherPadding) {
+        return encrypt(Bytes.of(decrypted), cipherPadding);
+    }
+
+    default Bytes encrypt(byte[] decrypted) {
+        return encrypt(decrypted, algorithm().defaultCipherPadding());
+    }
+
+    default Bytes encrypt(String input, Charset charset, CipherPadding cipherPadding) {
+        return encrypt(input.getBytes(charset), cipherPadding);
     }
 
     default Bytes encrypt(String input, Charset charset) {
-        return encrypt(Bytes.of(input, charset));
+        return encrypt(input, charset, algorithm().defaultCipherPadding());
+    }
+
+    default Bytes encrypt(String input, CipherPadding cipherPadding) {
+        return encrypt(input, UTF_8, cipherPadding);
     }
 
     default Bytes encrypt(String input) {
         return encrypt(input, UTF_8);
     }
+
 }
