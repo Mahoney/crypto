@@ -1,20 +1,20 @@
 package uk.org.lidalia.crypto.rsa;
 
-import uk.org.lidalia.crypto.*;
+import uk.org.lidalia.crypto.AsymmetricKey;
+import uk.org.lidalia.crypto.CipherPadding;
+import uk.org.lidalia.crypto.HashAlgorithm;
+import uk.org.lidalia.crypto.RequiredAlgorithmNotPresent;
 import uk.org.lidalia.encoding.Bytes;
-import uk.org.lidalia.encoding.Encoded;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 import java.math.BigInteger;
-import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.security.Signature;
 import java.security.interfaces.RSAKey;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
 
 public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, AsymmetricKey<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey> {

@@ -1,6 +1,5 @@
 import org.junit.Test;
 import uk.org.lidalia.crypto.DecryptionFailedException;
-import uk.org.lidalia.crypto.rsa.RsaKey;
 import uk.org.lidalia.crypto.rsa.RsaPrivateCrtKey;
 import uk.org.lidalia.crypto.rsa.RsaPublicKey;
 import uk.org.lidalia.encoding.Bytes;
@@ -12,7 +11,6 @@ import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.*;
 import static uk.org.lidalia.crypto.HashAlgorithm.SHA256;
-import static uk.org.lidalia.test.ShouldThrow.shouldThrow;
 
 public class RsaKeyTests {
 
