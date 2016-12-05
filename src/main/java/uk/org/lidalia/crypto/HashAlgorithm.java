@@ -11,7 +11,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public enum HashAlgorithm {
 
-    NONE(null),
+    NONE(""),
     MD2("MD2"),
     MD5("MD5"),
     SHA1("SHA-1"),
@@ -27,14 +27,14 @@ public enum HashAlgorithm {
     }
 
     public Hash hash(Bytes input) {
-        if (algName == null) {
+        if (this == NONE) {
             return Hash.of(input, this);
         } else {
             try {
                 MessageDigest messageDigest = MessageDigest.getInstance(algName);
                 return Hash.of(Bytes.of(messageDigest.digest(input.array())), this);
             } catch (NoSuchAlgorithmException e) {
-                throw new RuntimeException(e); // BETTER exception here!
+                throw new RuntimeException(e); // TODO BETTER exception here!
             }
         }
     }
