@@ -13,8 +13,7 @@ public interface PublicKey<
         Pair extends KeyPair<Public, Private, Pair>
     > extends
         java.security.PublicKey,
-        AsymmetricKey<Public, Private, Pair>,
-        EncryptKey<Public, Private> {
+        AsymmetricKey<Public, Private, Pair> {
 
     default boolean verify(Signature signature, Bytes signedContents) {
         return signature.matches(signedContents, this);

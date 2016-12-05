@@ -13,8 +13,7 @@ public interface PrivateKey<
         Pair extends KeyPair<Public, Private, Pair>
     > extends
         java.security.PrivateKey,
-        AsymmetricKey<Public, Private, Pair>,
-        DecryptKey<Public, Private> {
+        AsymmetricKey<Public, Private, Pair> {
 
     default Signature sign(Bytes contents, HashAlgorithm hashAlgorithm) {
 

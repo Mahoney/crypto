@@ -76,7 +76,7 @@ public class Signature {
         return hashAlgorithm;
     }
 
-    static java.security.Signature signatureFor(HashAlgorithm hashAlgorithm, Key<?, ?> key) {
+    static java.security.Signature signatureFor(HashAlgorithm hashAlgorithm, Key key) {
         final String algorithm = hashAlgorithm + "with" + key.algorithm();
         try {
             return java.security.Signature.getInstance(algorithm);

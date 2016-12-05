@@ -2,6 +2,7 @@ package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.BaseAsymmetricKeyAlgorithm;
 import uk.org.lidalia.crypto.CipherAlgorithm;
+import uk.org.lidalia.crypto.CryptoKeyAlgorithm;
 import uk.org.lidalia.crypto.RequiredAlgorithmNotPresent;
 
 import javax.crypto.NoSuchPaddingException;
@@ -11,7 +12,7 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
-public class Rsa extends BaseAsymmetricKeyAlgorithm<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey> {
+public class Rsa extends BaseAsymmetricKeyAlgorithm<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey> implements CryptoKeyAlgorithm<RsaPublicKey, RsaPrivateCrtKey> {
 
     public static final CipherAlgorithm<RsaPublicKey, RsaPrivateCrtKey> RsaEcbPkcs1Padding;
     public static final CipherAlgorithm<RsaPublicKey, RsaPrivateCrtKey> RsaEcbOaepWithSha1AndMgf1Padding;
@@ -30,7 +31,7 @@ public class Rsa extends BaseAsymmetricKeyAlgorithm<RsaPublicKey, RsaPrivateCrtK
     public static final Rsa RSA = new Rsa();
 
     private Rsa() {
-        super("RSA", RsaEcbPkcs1Padding);
+        super("RSA");
     }
 
     @Override
@@ -46,5 +47,10 @@ public class Rsa extends BaseAsymmetricKeyAlgorithm<RsaPublicKey, RsaPrivateCrtK
     @Override
     public RsaPrivateCrtKey privateKey(KeySpec keySpec) throws InvalidKeySpecException {
         return RsaPrivateCrtKey.from((RSAPrivateCrtKey) keyFactory().generatePrivate(keySpec));
+    }
+
+    @Override
+    public CipherAlgorithm<RsaPublicKey, RsaPrivateCrtKey> defaultCipherAlgorithm() {
+        return RsaEcbPkcs1Padding;
     }
 }

@@ -1,5 +1,8 @@
 package uk.org.lidalia.crypto.rsa;
 
+import uk.org.lidalia.crypto.DecryptKey;
+import uk.org.lidalia.crypto.PrivateKey;
+
 import java.math.BigInteger;
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateCrtKey;
@@ -13,8 +16,9 @@ import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
 public final class RsaPrivateCrtKey
         extends RsaKey<RSAPrivateCrtKey>
         implements RSAPrivateCrtKey,
-                   uk.org.lidalia.crypto.PrivateKey<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey>,
-                   uk.org.lidalia.crypto.KeyPair<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey> {
+                   PrivateKey<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey>,
+                   uk.org.lidalia.crypto.KeyPair<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey>,
+                   DecryptKey<RsaPublicKey, RsaPrivateCrtKey>{
 
     public static RsaPrivateCrtKey generate() throws IllegalStateException {
         return generate(2048);

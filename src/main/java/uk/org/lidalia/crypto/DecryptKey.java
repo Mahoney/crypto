@@ -6,9 +6,9 @@ import uk.org.lidalia.encoding.Encoded;
 public interface DecryptKey<
         E extends EncryptKey<E, D>,
         D extends DecryptKey<E, D>
-    > extends Key<E, D> {
+    > extends CryptoKey<E, D> {
 
-    default Bytes decrypt(Bytes encrypted, CipherAlgorithm<E, D> cipherAlgorithm) throws DecryptionFailedException {
+    default Bytes decrypt(Bytes encrypted, CipherAlgorithm cipherAlgorithm) throws DecryptionFailedException {
         return cipherAlgorithm.decrypt(encrypted, this);
     }
 

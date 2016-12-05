@@ -6,7 +6,7 @@ import java.nio.charset.Charset;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public interface EncryptKey<E extends EncryptKey<E, D>, D extends DecryptKey<E, D>> extends Key<E, D> {
+public interface EncryptKey<E extends EncryptKey<E, D>, D extends DecryptKey<E, D>> extends CryptoKey<E, D> {
 
     default Bytes encrypt(Bytes decrypted, CipherAlgorithm<E, D> cipherAlgorithm) {
         return cipherAlgorithm.encrypt(decrypted, this);
