@@ -15,7 +15,10 @@ class HashAlgorithmTest extends Specification {
         then:
             hash.matches(toHash)
             !hash.matches(anotherValue)
-            hash.bytes().string() != toHash
+
+            if (hash != HashAlgorithm.NONE) {
+                hash.bytes().string() != toHash
+            }
 
         where:
             toHash = RandomStringUtils.random(100);
