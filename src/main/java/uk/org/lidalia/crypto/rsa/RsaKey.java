@@ -1,15 +1,10 @@
 package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.AsymmetricKey;
-import uk.org.lidalia.crypto.CipherAlgorithm;
 import uk.org.lidalia.crypto.HashAlgorithm;
 import uk.org.lidalia.crypto.RequiredAlgorithmNotPresent;
-import uk.org.lidalia.encoding.Bytes;
 
-import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
 import java.math.BigInteger;
-import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.security.Signature;
@@ -28,31 +23,6 @@ public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, Asymmetr
     @Override
     public Rsa algorithm() {
         return RSA;
-    }
-
-    protected Bytes doCrypto(
-            final Bytes input,
-            final CipherAlgorithm cipherAlgorithm,
-            final int encryptMode) throws Exception {
-
-        final Cipher cipher = cipher(cipherAlgorithm);
-        try {
-            cipher.init(encryptMode, this);
-        } catch (InvalidKeyException e) {
-            throw new IllegalStateException(
-                    "An RSA Key should never be invalid for doing crypto. " +
-                    "Using key="+this, e);
-        }
-        return Bytes.of(cipher.doFinal(input.array()));
-    }
-
-    private Cipher cipher(CipherAlgorithm cipherAlgorithm) {
-        String algorithmWithPadding = algorithm() +"/"+ cipherAlgorithm;
-        try {
-            return Cipher.getInstance(algorithmWithPadding);
-        } catch (final NoSuchAlgorithmException | NoSuchPaddingException e) {
-            throw new RequiredAlgorithmNotPresent(algorithmWithPadding, e);
-        }
     }
 
     protected Signature signatureFor(HashAlgorithm hashAlgorithm) {
