@@ -14,7 +14,6 @@ public class Base64 extends EncodedBase<Base64> {
 
     Base64(String encoded, Encoder<Base64> encoder) {
         super(encoded, encoder);
-        System.out.println(encoded);
         if (!legalBase64Encoding.matcher(encoded).matches()) {
             throw new IllegalArgumentException(toString()+" is not a valid base64 string");
         }
