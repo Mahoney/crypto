@@ -1,7 +1,7 @@
+package uk.org.lidalia.crypto.rsa;
+
 import org.junit.Test;
 import uk.org.lidalia.crypto.DecryptionFailedException;
-import uk.org.lidalia.crypto.rsa.RsaPrivateCrtKey;
-import uk.org.lidalia.crypto.rsa.RsaPublicKey;
 import uk.org.lidalia.encoding.Bytes;
 
 import java.nio.charset.Charset;
