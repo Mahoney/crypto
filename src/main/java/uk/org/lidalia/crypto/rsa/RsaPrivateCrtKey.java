@@ -1,11 +1,7 @@
 package uk.org.lidalia.crypto.rsa;
 
-import uk.org.lidalia.crypto.HashAlgorithm;
-import uk.org.lidalia.encoding.Bytes;
-
 import java.math.BigInteger;
 import java.security.KeyPair;
-import java.security.Signature;
 import java.security.interfaces.RSAPrivateCrtKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
@@ -67,22 +63,6 @@ public final class RsaPrivateCrtKey
         } catch (final InvalidKeySpecException e) {
             throw new IllegalStateException(
                     "Creating an RSA public key from an RSA private key should always work. " +
-                            "Using key="+ this, e);
-        }
-    }
-
-    @Override
-    public Bytes signatureFor(
-            final HashAlgorithm hashAlgorithm,
-            final Bytes contents) {
-        final Signature signer = signatureFor(hashAlgorithm);
-        try {
-            signer.initSign(this);
-            signer.update(contents.array());
-            return Bytes.of(signer.sign());
-        } catch (final Exception e) {
-            throw new IllegalStateException(
-                    "Signing a string with an RSA private key should always work. " +
                             "Using key="+ this, e);
         }
     }

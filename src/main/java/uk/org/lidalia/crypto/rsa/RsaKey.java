@@ -1,13 +1,9 @@
 package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.AsymmetricKey;
-import uk.org.lidalia.crypto.HashAlgorithm;
-import uk.org.lidalia.crypto.RequiredAlgorithmNotPresent;
 
 import java.math.BigInteger;
 import java.security.Key;
-import java.security.NoSuchAlgorithmException;
-import java.security.Signature;
 import java.security.interfaces.RSAKey;
 
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
@@ -23,15 +19,6 @@ public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, Asymmetr
     @Override
     public Rsa algorithm() {
         return RSA;
-    }
-
-    protected Signature signatureFor(HashAlgorithm hashAlgorithm) {
-        final String algorithm = hashAlgorithm + "with" + algorithm();
-        try {
-            return Signature.getInstance(algorithm);
-        } catch (final NoSuchAlgorithmException e) {
-            throw new RequiredAlgorithmNotPresent(algorithm, e);
-        }
     }
 
     /**** REMAINING METHODS DELEGATE ****/

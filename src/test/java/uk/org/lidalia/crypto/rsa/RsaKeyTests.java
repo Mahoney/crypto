@@ -2,15 +2,15 @@ package uk.org.lidalia.crypto.rsa;
 
 import org.junit.Test;
 import uk.org.lidalia.crypto.DecryptionFailedException;
+import uk.org.lidalia.crypto.Signature;
 import uk.org.lidalia.encoding.Bytes;
 
 import java.nio.charset.Charset;
 import java.security.spec.InvalidKeySpecException;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.*;
-import static uk.org.lidalia.crypto.HashAlgorithm.SHA256;
 
 public class RsaKeyTests {
 
@@ -49,15 +49,9 @@ public class RsaKeyTests {
         final RsaPublicKey publicKey = privateKey.publicKey();
         final String dataToSign = "some random data";
 
-        final Bytes signature
-                = privateKey.signatureFor(SHA256, dataToSign.getBytes(UTF_8));
+        final Signature signature = privateKey.sign(dataToSign);
 
-        final boolean signatureValid = publicKey.verifySignature(
-                signature,
-                SHA256,
-                dataToSign.getBytes(UTF_8)
-        );
-        assertTrue(signatureValid);
+        assertTrue(publicKey.verify(signature, dataToSign));
     }
 
     @Test
@@ -66,15 +60,9 @@ public class RsaKeyTests {
         final RsaPublicKey publicKey = privateKey.publicKey();
         final String dataToSign = "some random data";
 
-        final Bytes signature
-                = privateKey.signatureFor(SHA256, dataToSign.getBytes(UTF_8));
+        final Signature signature = privateKey.sign(dataToSign);
 
-        final boolean signatureValid = publicKey.verifySignature(
-                signature,
-                SHA256,
-                "tampered data".getBytes(UTF_8)
-        );
-        assertFalse(signatureValid);
+        assertFalse(publicKey.verify(signature, "tampered data"));
     }
 
     @Test
@@ -85,15 +73,9 @@ public class RsaKeyTests {
         final RsaPublicKey nonMatchingPublicKey
                 = RsaPrivateCrtKey.generate().publicKey();
 
-        final Bytes signature
-                = signingKey.signatureFor(SHA256, dataToSign.getBytes(UTF_8));
+        final Signature signature = signingKey.sign(dataToSign);
 
-        final boolean signatureValid = nonMatchingPublicKey.verifySignature(
-                signature,
-                SHA256,
-                dataToSign.getBytes(UTF_8)
-        );
-        assertFalse(signatureValid);
+        assertFalse(nonMatchingPublicKey.verify(signature, dataToSign));
     }
 
     @Test

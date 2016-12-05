@@ -16,53 +16,75 @@ public interface PublicKey<
         AsymmetricKey<Public, Private, Pair>,
         EncryptKey<Public, Private> {
 
-    boolean verifySignature(
+    default boolean verify(Signature signature, Bytes signedContents) {
+        return signature.matches(signedContents, this);
+    }
+
+    default boolean verify(Signature signature, byte[] signedContents) {
+        return verify(signature, Bytes.of(signedContents));
+    }
+
+    default boolean verify(Signature signature, Encoded<?> signedContents) {
+        return verify(signature, signedContents.decode());
+    }
+
+    default boolean verify(Signature signature, String signedContents, Charset charset) {
+        return verify(signature, Bytes.of(signedContents, charset));
+    }
+
+    default boolean verify(Signature signature, String signedContents) {
+        return verify(signature, signedContents, UTF_8);
+    }
+
+    default boolean verify(
             Bytes signature,
             HashAlgorithm hashAlgorithm,
             Bytes signedContents
-    );
+    ) {
+        return verify(Signature.of(signature, hashAlgorithm), signedContents);
+    };
 
-    default boolean verifySignature(byte[] signature, HashAlgorithm hashAlgorithm, String contents, Charset charset) {
-        return verifySignature(signature, hashAlgorithm, Bytes.of(contents, charset));
+    default boolean verify(byte[] signature, HashAlgorithm hashAlgorithm, String contents, Charset charset) {
+        return verify(signature, hashAlgorithm, Bytes.of(contents, charset));
     }
 
-    default boolean verifySignature(byte[] signature, HashAlgorithm hashAlgorithm, String contents) {
-        return verifySignature(signature, hashAlgorithm, contents, UTF_8);
+    default boolean verify(byte[] signature, HashAlgorithm hashAlgorithm, String contents) {
+        return verify(signature, hashAlgorithm, contents, UTF_8);
     }
 
-    default boolean verifySignature(byte[] signature, HashAlgorithm hashAlgorithm, Bytes contents) {
-        return verifySignature(Bytes.of(signature), hashAlgorithm, contents);
+    default boolean verify(byte[] signature, HashAlgorithm hashAlgorithm, Bytes contents) {
+        return verify(Bytes.of(signature), hashAlgorithm, contents);
     }
 
-    default boolean verifySignature(byte[] signature, HashAlgorithm hashAlgorithm, byte[] contents) {
-        return verifySignature(Bytes.of(signature), hashAlgorithm, contents);
+    default boolean verify(byte[] signature, HashAlgorithm hashAlgorithm, byte[] contents) {
+        return verify(Bytes.of(signature), hashAlgorithm, contents);
     }
 
-    default boolean verifySignature(Bytes signature, HashAlgorithm hashAlgorithm, byte[] contents) {
-        return verifySignature(signature, hashAlgorithm, Bytes.of(contents));
+    default boolean verify(Bytes signature, HashAlgorithm hashAlgorithm, byte[] contents) {
+        return verify(signature, hashAlgorithm, Bytes.of(contents));
     }
 
-    default boolean verifySignature(Bytes signature, HashAlgorithm hashAlgorithm, String contents, Charset charset) {
-        return verifySignature(signature, hashAlgorithm, Bytes.of(contents, charset));
+    default boolean verify(Bytes signature, HashAlgorithm hashAlgorithm, String contents, Charset charset) {
+        return verify(signature, hashAlgorithm, Bytes.of(contents, charset));
     }
 
-    default boolean verifySignature(Bytes signature, HashAlgorithm hashAlgorithm, String contents) {
-        return verifySignature(signature, hashAlgorithm, contents, UTF_8);
+    default boolean verify(Bytes signature, HashAlgorithm hashAlgorithm, String contents) {
+        return verify(signature, hashAlgorithm, contents, UTF_8);
     }
 
-    default boolean verifySignature(Encoded<?> signature, HashAlgorithm hashAlgorithm, Bytes contents) {
-        return verifySignature(signature.decode(), hashAlgorithm, contents.array());
+    default boolean verify(Encoded<?> signature, HashAlgorithm hashAlgorithm, Bytes contents) {
+        return verify(signature.decode(), hashAlgorithm, contents.array());
     }
 
-    default boolean verifySignature(Encoded<?> signature, HashAlgorithm hashAlgorithm, byte[] contents) {
-        return verifySignature(signature.decode(), hashAlgorithm, contents);
+    default boolean verify(Encoded<?> signature, HashAlgorithm hashAlgorithm, byte[] contents) {
+        return verify(signature.decode(), hashAlgorithm, contents);
     }
 
-    default boolean verifySignature(Encoded<?> signature, HashAlgorithm hashAlgorithm, String contents, Charset charset) {
-        return verifySignature(signature, hashAlgorithm, Bytes.of(contents, charset));
+    default boolean verify(Encoded<?> signature, HashAlgorithm hashAlgorithm, String contents, Charset charset) {
+        return verify(signature, hashAlgorithm, Bytes.of(contents, charset));
     }
 
-    default boolean verifySignature(Encoded<?> signature, HashAlgorithm hashAlgorithm, String contents) {
-        return verifySignature(signature, hashAlgorithm, contents, UTF_8);
+    default boolean verify(Encoded<?> signature, HashAlgorithm hashAlgorithm, String contents) {
+        return verify(signature, hashAlgorithm, contents, UTF_8);
     }
 }
