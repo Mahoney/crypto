@@ -11,17 +11,18 @@ import static uk.org.lidalia.crypto.dsa.Dsa.DSA
 
 class DsaKeyTest extends Specification {
 
+    static keyPair = DSA.generateKeyPair(1024)
+    def publicKey = keyPair.publicKey()
+    def privateKey = keyPair.privateKey()
+
     @Unroll
     def 'can sign and verify using #algorithm'() {
 
-        given:
-            def keyPair = DSA.generateKeyPair(1024)
-
         when:
-            def signature = keyPair.privateKey().sign(message, algorithm)
+            def signature = privateKey.sign(message, algorithm)
 
         then:
-            keyPair.publicKey().verify(signature, message)
+            publicKey.verify(signature, message)
 
         where:
             message = RandomStringUtils.random(60)

@@ -1,6 +1,7 @@
 package uk.org.lidalia.crypto
 
 import org.apache.commons.lang3.RandomStringUtils
+import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 import uk.org.lidalia.crypto.rsa.Rsa
@@ -9,7 +10,7 @@ import static uk.org.lidalia.crypto.rsa.Rsa.RSA
 
 class RsaKeyTest extends Specification {
 
-    def keyPair = RSA.generateKeyPair()
+    static keyPair = RSA.generateKeyPair()
     def publicKey = keyPair.publicKey()
     def privateKey = keyPair.privateKey()
 
@@ -35,10 +36,10 @@ class RsaKeyTest extends Specification {
     def 'can sign and verify using #algorithm'() {
 
         when:
-            def signature = keyPair.privateKey().sign(message, algorithm)
+            def signature = privateKey.sign(message, algorithm)
 
         then:
-            keyPair.publicKey().verify(signature, message)
+            publicKey.verify(signature, message)
 
         where:
             message = RandomStringUtils.random(60)
