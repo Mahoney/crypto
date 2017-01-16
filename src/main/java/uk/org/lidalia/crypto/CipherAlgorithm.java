@@ -10,7 +10,7 @@ import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 
-public class CipherAlgorithm<E extends EncryptKey<E, D>, D extends DecryptKey<E, D>> {
+public final class CipherAlgorithm<E extends EncryptKey<E, D>, D extends DecryptKey<E, D>> {
 
     private final String cipherPaddingName;
 
@@ -19,9 +19,9 @@ public class CipherAlgorithm<E extends EncryptKey<E, D>, D extends DecryptKey<E,
         this.cipherPaddingName = cipherPaddingName;
     }
 
-    public Bytes encrypt(final Bytes decrypted, EncryptKey key) {
+    EncryptedBytes encrypt(final Bytes decrypted, EncryptKey key) {
         try {
-            return doCrypto(decrypted, key, Cipher.ENCRYPT_MODE);
+            return EncryptedBytes.of(doCrypto(decrypted, key, Cipher.ENCRYPT_MODE));
         } catch (BadPaddingException | IllegalBlockSizeException e) {
             throw new AssertionError("Should not be possible to get these on encryption", e);
         } catch (InvalidKeyException e) {
@@ -29,15 +29,15 @@ public class CipherAlgorithm<E extends EncryptKey<E, D>, D extends DecryptKey<E,
         }
     }
 
-    public Bytes decrypt(final Bytes encrypted, DecryptKey key) throws DecryptionFailedException {
+    Bytes decrypt(final EncryptedBytes encrypted, DecryptKey key) throws DecryptionFailedException {
         try {
-            return doCrypto(encrypted, key, Cipher.DECRYPT_MODE);
+            return Bytes.of(doCrypto(encrypted, key, Cipher.DECRYPT_MODE));
         } catch (final Exception e) {
             throw new DecryptionFailedException(e);
         }
     }
 
-    private Bytes doCrypto(
+    private byte[] doCrypto(
         final Bytes input,
         final Key key,
         final int encryptMode
@@ -45,7 +45,7 @@ public class CipherAlgorithm<E extends EncryptKey<E, D>, D extends DecryptKey<E,
 
         final Cipher cipher = cipher();
         cipher.init(encryptMode, key);
-        return Bytes.of(cipher.doFinal(input.array()));
+        return cipher.doFinal(input.array());
     }
 
     private Cipher cipher() {

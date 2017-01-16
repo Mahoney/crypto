@@ -3,6 +3,7 @@ package uk.org.lidalia.crypto.rsa;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import uk.org.lidalia.crypto.DecryptionFailedException;
+import uk.org.lidalia.crypto.EncryptedBytes;
 import uk.org.lidalia.crypto.Signature;
 import uk.org.lidalia.encoding.Bytes;
 
@@ -82,7 +83,7 @@ public class RsaKeyTests {
         final RsaPrivateCrtKey keyA = RsaPrivateCrtKey.generate();
         final RsaPublicKey keyB = keyA.publicKey();
 
-        final Bytes encrypted = keyB.encrypt(unencrypted);
+        final EncryptedBytes encrypted = keyB.encrypt(unencrypted);
         assertThat(encrypted, is(not(unencrypted)));
 
         final Bytes decrypted = keyA.decrypt(encrypted);

@@ -14,7 +14,7 @@ import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
 public class Bytes extends AbstractList<Byte> {
 
     public static Bytes of(byte[] bytes) {
-        return new Bytes(Arrays.copyOf(bytes, bytes.length));
+        return new Bytes(bytes);
     }
 
     public static Bytes of(String text, Charset charset) {
@@ -27,8 +27,8 @@ public class Bytes extends AbstractList<Byte> {
 
     private final byte[] bytes;
 
-    private Bytes(byte[] bytes) {
-        this.bytes = bytes;
+    protected Bytes(byte[] bytes) {
+        this.bytes = Arrays.copyOf(bytes, bytes.length);
     }
 
     public byte[] array() {
@@ -66,7 +66,7 @@ public class Bytes extends AbstractList<Byte> {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public final boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bytes bytes1 = (Bytes) o;
@@ -74,7 +74,7 @@ public class Bytes extends AbstractList<Byte> {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return Arrays.hashCode(bytes);
     }
 }
