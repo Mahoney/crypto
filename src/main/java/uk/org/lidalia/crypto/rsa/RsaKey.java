@@ -6,6 +6,7 @@ import java.math.BigInteger;
 import java.security.Key;
 import java.security.interfaces.RSAKey;
 
+import static java.util.Objects.requireNonNull;
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
 
 public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, AsymmetricKey<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey> {
@@ -13,7 +14,7 @@ public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, Asymmetr
     final T decorated;
 
     RsaKey(final T decorated) {
-        this.decorated = decorated;
+        this.decorated = requireNonNull(decorated);
     }
 
     @Override

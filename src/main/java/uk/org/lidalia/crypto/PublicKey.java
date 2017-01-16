@@ -16,7 +16,16 @@ public interface PublicKey<
         AsymmetricKey<Public, Private, Pair> {
 
     default boolean verify(Signature signature, Bytes signedContents) {
-        return signature.matches(signedContents, this);
+        try {
+            final java.security.Signature verifier = Signature.signatureFor(signature.algorithm(), this);
+            verifier.initVerify(this);
+            verifier.update(signedContents.array());
+            return verifier.verify(signature.bytes().array());
+        } catch (final Exception e) {
+            throw new IllegalStateException(
+                    "Verifying a string with an RSA private key should always work. " +
+                            "Using key="+ signature, e);
+        }
     }
 
     default boolean verify(Signature signature, byte[] signedContents) {

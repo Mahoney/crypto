@@ -5,6 +5,8 @@ import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
+import static java.util.Objects.requireNonNull;
+
 public abstract class BaseAsymmetricKeyAlgorithm<
         Public extends PublicKey<Public, Private, Pair>,
         Private extends PrivateKey<Public, Private, Pair>,
@@ -15,7 +17,7 @@ public abstract class BaseAsymmetricKeyAlgorithm<
     private final KeyFactory keyFactory;
 
     protected BaseAsymmetricKeyAlgorithm(String name) {
-        this.name = name;
+        this.name = requireNonNull(name);
         this.keyFactory = buildKeyFactory();
     }
 

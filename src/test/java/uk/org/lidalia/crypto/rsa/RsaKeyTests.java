@@ -1,11 +1,11 @@
 package uk.org.lidalia.crypto.rsa;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import uk.org.lidalia.crypto.DecryptionFailedException;
 import uk.org.lidalia.crypto.Signature;
 import uk.org.lidalia.encoding.Bytes;
 
-import java.nio.charset.Charset;
 import java.security.spec.InvalidKeySpecException;
 
 import static org.hamcrest.Matchers.is;
@@ -14,9 +14,7 @@ import static org.junit.Assert.*;
 
 public class RsaKeyTests {
 
-    private static final Charset UTF_8 = Charset.forName("UTF-8");
-
-    private final Bytes unencrypted = Bytes.of("hello world");
+    private final String unencrypted = RandomStringUtils.random(60);
 
     @Test
     public void createSerialiseAndRestorePrivateKey()
@@ -88,6 +86,6 @@ public class RsaKeyTests {
         assertThat(encrypted, is(not(unencrypted)));
 
         final Bytes decrypted = keyA.decrypt(encrypted);
-        assertThat(decrypted, is(unencrypted));
+        assertThat(decrypted.string(), is(unencrypted));
     }
 }

@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
 public class Signature {
 
@@ -35,37 +36,8 @@ public class Signature {
     private final HashAlgorithm hashAlgorithm;
 
     private Signature(Bytes hash, HashAlgorithm hashAlgorithm) {
-        this.hash = hash;
-        this.hashAlgorithm = hashAlgorithm;
-    }
-
-    public boolean matches(Bytes toVerify, PublicKey<?, ?, ?> publicKey) {
-        try {
-            final java.security.Signature verifier = signatureFor(hashAlgorithm, publicKey);
-            verifier.initVerify(publicKey);
-            verifier.update(toVerify.array());
-            return verifier.verify(hash.array());
-        } catch (final Exception e) {
-            throw new IllegalStateException(
-                    "Verifying a string with an RSA private key should always work. " +
-                            "Using key="+ this, e);
-        }
-    }
-
-    public boolean matches(byte[] toVerify, PublicKey<?, ?, ?> publicKey) {
-        return matches(Bytes.of(toVerify), publicKey);
-    }
-
-    public boolean matches(Encoded<?> toVerify, PublicKey<?, ?, ?> publicKey) {
-        return matches(toVerify.decode(), publicKey);
-    }
-
-    public boolean matches(String toVerify, Charset charset, PublicKey<?, ?, ?> publicKey) {
-        return matches(Bytes.of(toVerify, charset), publicKey);
-    }
-
-    public boolean matches(String toVerify, PublicKey<?, ?, ?> publicKey) {
-        return matches(toVerify, UTF_8, publicKey);
+        this.hash = requireNonNull(hash);
+        this.hashAlgorithm = requireNonNull(hashAlgorithm);
     }
 
     public Bytes bytes() {
@@ -77,7 +49,7 @@ public class Signature {
     }
 
     static java.security.Signature signatureFor(HashAlgorithm hashAlgorithm, Key key) {
-        final String algorithm = hashAlgorithm + "with" + key.algorithm();
+        final String algorithm = hashAlgorithm.toStringInAlgorithm() + "with" + key.algorithm();
         try {
             return java.security.Signature.getInstance(algorithm);
         } catch (final NoSuchAlgorithmException e) {

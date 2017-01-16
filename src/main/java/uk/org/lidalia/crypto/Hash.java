@@ -7,6 +7,7 @@ import java.nio.charset.Charset;
 import java.util.Objects;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
 public class Hash {
 
@@ -34,8 +35,8 @@ public class Hash {
     private final HashAlgorithm algorithm;
 
     private Hash(Bytes hash, HashAlgorithm algorithm) {
-        this.hash = hash;
-        this.algorithm = algorithm;
+        this.hash = requireNonNull(hash);
+        this.algorithm = requireNonNull(algorithm);
     }
 
     public boolean matches(Bytes input) {
