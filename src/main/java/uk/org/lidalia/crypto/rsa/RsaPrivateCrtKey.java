@@ -2,6 +2,7 @@ package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.DecryptKey;
 import uk.org.lidalia.crypto.PrivateKey;
+import uk.org.lidalia.encoding.Bytes;
 
 import java.math.BigInteger;
 import java.security.KeyPair;
@@ -32,10 +33,10 @@ public final class RsaPrivateCrtKey
         return from((RSAPrivateCrtKey) keyPair.getPrivate());
     }
 
-    public static RsaPrivateCrtKey fromEncoded(final byte[] privateKeyEncoded)
+    public static RsaPrivateCrtKey fromEncoded(final Bytes privateKeyEncoded)
             throws InvalidKeySpecException {
         final KeySpec privateKeySpec
-                = new PKCS8EncodedKeySpec(privateKeyEncoded);
+                = new PKCS8EncodedKeySpec(privateKeyEncoded.array());
         return fromKeySpec(privateKeySpec);
     }
 

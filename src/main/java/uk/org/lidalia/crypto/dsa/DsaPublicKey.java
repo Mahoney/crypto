@@ -17,10 +17,10 @@ public final class DsaPublicKey
         extends DsaKey<DSAPublicKey>
         implements DSAPublicKey, PublicKey<DsaPublicKey, DsaPrivateKey, DsaKeyPair> {
 
-    public static DsaPublicKey fromEncoded(final byte[] publicKeyEncoded)
+    public static DsaPublicKey fromEncoded(final Bytes publicKeyEncoded)
             throws InvalidKeySpecException {
         final X509EncodedKeySpec publicKeySpec
-                = new X509EncodedKeySpec(publicKeyEncoded);
+                = new X509EncodedKeySpec(publicKeyEncoded.array());
         return fromKeySpec(publicKeySpec);
     }
 

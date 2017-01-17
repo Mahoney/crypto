@@ -68,7 +68,7 @@ public class Bytes extends AbstractList<Byte> {
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Bytes)) return false;
         Bytes bytes1 = (Bytes) o;
         return Arrays.equals(bytes, bytes1.bytes);
     }

@@ -1,18 +1,25 @@
 package uk.org.lidalia.crypto
 
 import org.apache.commons.lang3.RandomStringUtils
-import spock.lang.Shared
-import spock.lang.Specification
 import spock.lang.Unroll
 import uk.org.lidalia.crypto.rsa.Rsa
+import uk.org.lidalia.crypto.rsa.RsaPrivateCrtKey
+import uk.org.lidalia.crypto.rsa.RsaPublicKey
+import uk.org.lidalia.encoding.Bytes
 
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA
 
-class RsaKeyTest extends Specification {
+class RsaKeyTest extends AsymmetricKeyTests {
 
-    static keyPair = RSA.generateKeyPair()
-    def publicKey = keyPair.publicKey()
-    def privateKey = keyPair.privateKey()
+    @Override
+    KeyPair generateKeyPair() {
+        RSA.generateKeyPair()
+    }
+
+    @Override
+    List<HashAlgorithm> supportedAlgorithms() {
+        HashAlgorithm.values().toList()
+    }
 
     @Unroll
     def 'can encrypt and decrypt using algorithm #algorithm'() {
@@ -21,10 +28,11 @@ class RsaKeyTest extends Specification {
             def encrypted = publicKey.encrypt(decrypted, algorithm)
 
         then:
-            privateKey.decrypt(encrypted, algorithm).string() == decrypted
+            encrypted != decrypted
+            privateKey.decrypt(encrypted, algorithm) == decrypted
 
         where:
-            decrypted = RandomStringUtils.random(60)
+            decrypted = Bytes.of(RandomStringUtils.random(60))
             algorithm << [
                     Rsa.RsaEcbOaepWithSha1AndMgf1Padding,
                     Rsa.RsaEcbOaepWithSha256AndMgf1Padding,
@@ -32,17 +40,21 @@ class RsaKeyTest extends Specification {
             ]
     }
 
-    @Unroll
-    def 'can sign and verify using #algorithm'() {
+    def 'create serialise and restore private key'() {
 
-        when:
-            def signature = privateKey.sign(message, algorithm)
+        given:
+            def privateKeyEncoded = privateKey.bytes()
 
-        then:
-            publicKey.verify(signature, message)
+        expect:
+            RsaPrivateCrtKey.fromEncoded(privateKeyEncoded) == privateKey
+    }
 
-        where:
-            message = RandomStringUtils.random(60)
-            algorithm << HashAlgorithm.values().toList()
+    def 'create serialise and restore public key'() {
+
+        given:
+            def publicKeyEncoded = publicKey.bytes()
+
+        expect:
+            RsaPublicKey.fromEncoded(publicKeyEncoded) == publicKey
     }
 }

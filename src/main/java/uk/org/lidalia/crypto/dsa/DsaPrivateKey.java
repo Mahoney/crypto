@@ -26,10 +26,10 @@ public final class DsaPrivateKey
         return from((DSAPrivateKey) keyPair.getPrivate());
     }
 
-    public static DsaPrivateKey fromEncoded(final byte[] privateKeyEncoded)
+    public static DsaPrivateKey fromEncoded(final Bytes privateKeyEncoded)
             throws InvalidKeySpecException {
         final KeySpec privateKeySpec
-                = new PKCS8EncodedKeySpec(privateKeyEncoded);
+                = new PKCS8EncodedKeySpec(privateKeyEncoded.array());
         return fromKeySpec(privateKeySpec);
     }
 

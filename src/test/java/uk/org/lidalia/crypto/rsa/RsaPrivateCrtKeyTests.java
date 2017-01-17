@@ -48,7 +48,7 @@ public class RsaPrivateCrtKeyTests {
         final RsaPrivateCrtKey privateKey
                 = RsaPrivateCrtKey.generate();
         final RsaPrivateCrtKey privateKey2
-                = RsaPrivateCrtKey.fromEncoded(privateKey.getEncoded());
+                = RsaPrivateCrtKey.fromEncoded(privateKey.bytes());
 
         assertTrue(privateKey.equals(privateKey2));
         assertTrue(privateKey2.equals(privateKey));

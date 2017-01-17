@@ -1,31 +1,40 @@
 package uk.org.lidalia.crypto
 
-import org.apache.commons.lang3.RandomStringUtils
-import spock.lang.Specification
-import spock.lang.Unroll
+import uk.org.lidalia.crypto.dsa.DsaPrivateKey
+import uk.org.lidalia.crypto.dsa.DsaPublicKey
 
 import static uk.org.lidalia.crypto.HashAlgorithm.SHA1
 import static uk.org.lidalia.crypto.HashAlgorithm.SHA224
 import static uk.org.lidalia.crypto.HashAlgorithm.SHA256
 import static uk.org.lidalia.crypto.dsa.Dsa.DSA
 
-class DsaKeyTest extends Specification {
+class DsaKeyTest extends AsymmetricKeyTests {
 
-    static keyPair = DSA.generateKeyPair(1024)
-    def publicKey = keyPair.publicKey()
-    def privateKey = keyPair.privateKey()
+    @Override
+    KeyPair generateKeyPair() {
+        DSA.generateKeyPair(1024)
+    }
 
-    @Unroll
-    def 'can sign and verify using #algorithm'() {
+    @Override
+    List<HashAlgorithm> supportedAlgorithms() {
+        [SHA1, SHA224, SHA256]
+    }
 
-        when:
-            def signature = privateKey.sign(message, algorithm)
+    def 'create serialise and restore private key'() {
 
-        then:
-            publicKey.verify(signature, message)
+        given:
+            def privateKeyEncoded = privateKey.bytes()
 
-        where:
-            message = RandomStringUtils.random(60)
-            algorithm << [SHA1, SHA224, SHA256]
+        expect:
+            DsaPrivateKey.fromEncoded(privateKeyEncoded) == privateKey
+    }
+
+    def 'create serialise and restore public key'() {
+
+        given:
+            def publicKeyEncoded = publicKey.bytes()
+
+        expect:
+            DsaPublicKey.fromEncoded(publicKeyEncoded) == publicKey
     }
 }

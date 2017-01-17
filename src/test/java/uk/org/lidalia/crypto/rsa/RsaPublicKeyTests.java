@@ -42,7 +42,7 @@ public class RsaPublicKeyTests {
     public void equal() throws InvalidKeySpecException {
         final RsaPublicKey publicKey = RsaPrivateCrtKey.generate().publicKey();
         final RsaPublicKey publicKey2
-                = RsaPublicKey.fromEncoded(publicKey.getEncoded());
+                = RsaPublicKey.fromEncoded(publicKey.bytes());
 
         assertTrue(publicKey.equals(publicKey2));
         assertTrue(publicKey2.equals(publicKey));

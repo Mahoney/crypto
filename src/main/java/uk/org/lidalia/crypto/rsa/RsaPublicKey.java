@@ -2,6 +2,7 @@ package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.EncryptKey;
 import uk.org.lidalia.crypto.PublicKey;
+import uk.org.lidalia.encoding.Bytes;
 
 import java.math.BigInteger;
 import java.security.interfaces.RSAPublicKey;
@@ -16,10 +17,10 @@ public final class RsaPublicKey
         implements RSAPublicKey, PublicKey<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey>,
         EncryptKey<RsaPublicKey, RsaPrivateCrtKey> {
 
-    public static RsaPublicKey fromEncoded(final byte[] publicKeyEncoded)
+    public static RsaPublicKey fromEncoded(final Bytes publicKeyEncoded)
             throws InvalidKeySpecException {
         final X509EncodedKeySpec publicKeySpec
-                = new X509EncodedKeySpec(publicKeyEncoded);
+                = new X509EncodedKeySpec(publicKeyEncoded.array());
         return fromKeySpec(publicKeySpec);
     }
 

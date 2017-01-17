@@ -24,9 +24,7 @@ public interface PrivateKey<
             signer.update(contents.array());
             return Signature.of(Bytes.of(signer.sign()), hashAlgorithm);
         } catch (final Exception e) {
-            throw new IllegalStateException(
-                    "Signing a string with an RSA private key should always work. " +
-                            "Using key="+ this, e);
+            throw new IllegalArgumentException("Key "+this+", algorithm "+hashAlgorithm+" could not sign "+contents.string(), e);
         }
     }
 
