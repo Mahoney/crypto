@@ -1,6 +1,7 @@
 package uk.org.lidalia.crypto;
 
 import uk.org.lidalia.encoding.Bytes;
+import uk.org.lidalia.encoding.Encoded;
 
 import java.nio.charset.Charset;
 
@@ -32,10 +33,13 @@ public interface PrivateKey<
         return sign(Bytes.of(contents), hashAlgorithm);
     }
 
+    default Signature sign(Encoded<?> contents, HashAlgorithm hashAlgorithm) {
+        return sign(contents.decode(), hashAlgorithm);
+    }
+
     default Signature sign(String contents, Charset charset, HashAlgorithm hashAlgorithm) {
         return sign(Bytes.of(contents, charset), hashAlgorithm);
     }
-
     default Signature sign(String contents, HashAlgorithm hashAlgorithm) {
         return sign(contents, UTF_8, hashAlgorithm);
     }
@@ -45,6 +49,10 @@ public interface PrivateKey<
     }
 
     default Signature sign(byte[] contents) {
+        return sign(contents, SHA256);
+    }
+
+    default Signature sign(Encoded<?> contents) {
         return sign(contents, SHA256);
     }
 
