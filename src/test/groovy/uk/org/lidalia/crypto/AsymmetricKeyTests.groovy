@@ -80,24 +80,24 @@ abstract class AsymmetricKeyTests extends Specification {
     def 'signing works using overloaded method #method'() {
 
         given:
-            def signature = method.invoke(privateKey, args.toArray()) as Signature
+            def signature = doSign() as Signature
 
         expect:
             publicKey.verify(signature, message)
 
         where:
-            method                                                       | args
-            PrivateKey.getMethod('sign', Bytes, HashAlgorithm)           | [message, SHA256]
-            PrivateKey.getMethod('sign', byte[], HashAlgorithm)          | [message.array(), SHA256]
-            PrivateKey.getMethod('sign', Encoded, HashAlgorithm)         | [message.encode(), SHA256]
-            PrivateKey.getMethod('sign', String, Charset, HashAlgorithm) | [message.string(), UTF_8, SHA256]
-            PrivateKey.getMethod('sign', String, HashAlgorithm)          | [message.string(), SHA256]
+            method                                                       | doSign
+            PrivateKey.getMethod('sign', Bytes, HashAlgorithm)           | { privateKey.sign(message, SHA256) }
+            PrivateKey.getMethod('sign', byte[], HashAlgorithm)          | { privateKey.sign(message.array(), SHA256) }
+            PrivateKey.getMethod('sign', Encoded, HashAlgorithm)         | { privateKey.sign(message.encode(), SHA256) }
+            PrivateKey.getMethod('sign', String, Charset, HashAlgorithm) | { privateKey.sign(message.string(), UTF_8, SHA256) }
+            PrivateKey.getMethod('sign', String, HashAlgorithm)          | { privateKey.sign(message.string(), SHA256) }
 
-            PrivateKey.getMethod('sign', Bytes)                          | [message]
-            PrivateKey.getMethod('sign', byte[])                         | [message.array()]
-            PrivateKey.getMethod('sign', Encoded)                        | [message.encode()]
-            PrivateKey.getMethod('sign', String, Charset)                | [message.string(), UTF_8]
-            PrivateKey.getMethod('sign', String)                         | [message.string()]
+            PrivateKey.getMethod('sign', Bytes)                          | { privateKey.sign(message) }
+            PrivateKey.getMethod('sign', byte[])                         | { privateKey.sign(message.array()) }
+            PrivateKey.getMethod('sign', Encoded)                        | { privateKey.sign(message.encode()) }
+            PrivateKey.getMethod('sign', String, Charset)                | { privateKey.sign(message.string(), UTF_8) }
+            PrivateKey.getMethod('sign', String)                         | { privateKey.sign(message.string()) }
     }
 
     def 'does not verify with different key'() {
