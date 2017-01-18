@@ -58,16 +58,19 @@ abstract class AsymmetricKeyTests extends Specification {
             PublicKey.getMethod('verify', Signature, Encoded)                      | { Signature sig -> publicKey.verify(sig, message.encode()) }
             PublicKey.getMethod('verify', Signature, String, Charset)              | { Signature sig -> publicKey.verify(sig, message.string(), UTF_8) }
             PublicKey.getMethod('verify', Signature, String)                       | { Signature sig -> publicKey.verify(sig, message.string()) }
+
             PublicKey.getMethod('verify', Bytes, HashAlgorithm, Bytes)             | { Signature sig -> publicKey.verify(sig.bytes(), SHA256, message) }
             PublicKey.getMethod('verify', Bytes, HashAlgorithm, byte[])            | { Signature sig -> publicKey.verify(sig.bytes(), SHA256, message.array()) }
             PublicKey.getMethod('verify', Bytes, HashAlgorithm, Encoded)           | { Signature sig -> publicKey.verify(sig.bytes(), SHA256, message.encode()) }
             PublicKey.getMethod('verify', Bytes, HashAlgorithm, String, Charset)   | { Signature sig -> publicKey.verify(sig.bytes(), SHA256, message.string(), UTF_8) }
             PublicKey.getMethod('verify', Bytes, HashAlgorithm, String)            | { Signature sig -> publicKey.verify(sig.bytes(), SHA256, message.string()) }
+
             PublicKey.getMethod('verify', byte[], HashAlgorithm, Bytes)            | { Signature sig -> publicKey.verify(sig.bytes().array(), SHA256, message) }
             PublicKey.getMethod('verify', byte[], HashAlgorithm, byte[])           | { Signature sig -> publicKey.verify(sig.bytes().array(), SHA256, message.array()) }
             PublicKey.getMethod('verify', byte[], HashAlgorithm, Encoded)          | { Signature sig -> publicKey.verify(sig.bytes().array(), SHA256, message.encode()) }
             PublicKey.getMethod('verify', byte[], HashAlgorithm, String, Charset)  | { Signature sig -> publicKey.verify(sig.bytes().array(), SHA256, message.string(), UTF_8) }
             PublicKey.getMethod('verify', byte[], HashAlgorithm, String)           | { Signature sig -> publicKey.verify(sig.bytes().array(), SHA256, message.string()) }
+
             PublicKey.getMethod('verify', Encoded, HashAlgorithm, Bytes)           | { Signature sig -> publicKey.verify(sig.bytes().encode(), SHA256, message) }
             PublicKey.getMethod('verify', Encoded, HashAlgorithm, byte[])          | { Signature sig -> publicKey.verify(sig.bytes().encode(), SHA256, message.array()) }
             PublicKey.getMethod('verify', Encoded, HashAlgorithm, Encoded)         | { Signature sig -> publicKey.verify(sig.bytes().encode(), SHA256, message.encode()) }
