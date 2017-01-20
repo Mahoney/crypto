@@ -4,58 +4,103 @@ import spock.lang.Specification
 
 abstract class EqualsAndHashcodeTests<T> extends Specification {
 
-    abstract T getInstance1()
-    abstract T getEqualToInstance1()
-    abstract T getInstance2()
-    abstract T getEqualToInstance2()
+    abstract T getInstance1A()
+    abstract T getInstance1B()
+    abstract T getInstance1C()
+    
+    abstract T getInstance2A()
+    abstract T getInstance2B()
+    abstract T getInstance2C()
 
     def 'hashCode is constant'() {
         expect:
-            getInstance1().hashCode() == getInstance1().hashCode()
-            getEqualToInstance1().hashCode() == getEqualToInstance1().hashCode()
-            getInstance2().hashCode() == getInstance2().hashCode()
-            getEqualToInstance2().hashCode() == getEqualToInstance2().hashCode()
+            instance1A.hashCode() == instance1A.hashCode()
+            instance1B.hashCode() == instance1B.hashCode()
+            instance1C.hashCode() == instance1C.hashCode()
+            instance2A.hashCode() == instance2A.hashCode()
+            instance2B.hashCode() == instance2B.hashCode()
+            instance2C.hashCode() == instance2C.hashCode()
     }
 
     def 'hashCode is same for equal instances'() {
         expect:
-            getInstance1().hashCode() == getEqualToInstance1().hashCode()
-            getInstance2().hashCode() == getEqualToInstance2().hashCode()
+            instance1A.hashCode() == instance1B.hashCode()
+            instance1A.hashCode() == instance1C.hashCode()
+            instance1A.hashCode() == instance1C.hashCode()
+        
+            instance2A.hashCode() == instance2B.hashCode()
+            instance2A.hashCode() == instance2C.hashCode()
+            instance2A.hashCode() == instance2C.hashCode()
     }
 
     def 'hashCode is different in unequal instance'() {
         expect:
-            getInstance1().hashCode() != getInstance2().hashCode()
-            getInstance1().hashCode() != getEqualToInstance2().hashCode()
-            getEqualToInstance1().hashCode() != getInstance2().hashCode()
-            getEqualToInstance1().hashCode() != getEqualToInstance2().hashCode()
+            instance1A.hashCode() != instance2A.hashCode()
+            instance1A.hashCode() != instance2B.hashCode()
+            instance1A.hashCode() != instance2C.hashCode()
+        
+            instance1B.hashCode() != instance2A.hashCode()
+            instance1B.hashCode() != instance2B.hashCode()
+            instance1B.hashCode() != instance2C.hashCode()
+
+            instance1C.hashCode() != instance2A.hashCode()
+            instance1C.hashCode() != instance2B.hashCode()
+            instance1C.hashCode() != instance2C.hashCode()
     }
 
     def 'equals is reflexive'() {
         expect:
-            getInstance1() == getInstance1()
-            getEqualToInstance1() == getEqualToInstance1()
-            getInstance2() == getInstance2()
-            getEqualToInstance2() == getEqualToInstance2()
+            instance1A == instance1A
+            instance1B == instance1B
+            instance1C == instance1C
+            instance2A == instance2A
+            instance2B == instance2B
+            instance2C == instance2C
     }
 
-    def 'equals is symmetric'() {
+    def 'equals is symmetric and transitive when equal'() {
         expect:
-            getInstance1() == getEqualToInstance1()
-            getEqualToInstance1() == getInstance1()
-            getInstance2() == getEqualToInstance2()
-            getEqualToInstance2() == getInstance2()
+            instance1A == instance1B
+            instance1B == instance1C
+            instance1C == instance1A
+
+            instance1B == instance1A
+            instance1A == instance1C
+            instance1C == instance1B
+
+            instance2A == instance2B
+            instance2B == instance2C
+            instance2C == instance2A
+
+            instance2B == instance2A
+            instance2A == instance2C
+            instance2C == instance2B
     }
 
-    def 'different instances are not equal'() {
+    def 'equals is symmetric when false'() {
         expect:
-            getInstance1() != getInstance2()
-            getInstance1() != getEqualToInstance2()
-            getInstance2() != getInstance1()
-            getInstance2() != getEqualToInstance1()
-            getEqualToInstance1() != getInstance2()
-            getEqualToInstance1() != getEqualToInstance2()
-            getEqualToInstance2() != getInstance1()
-            getEqualToInstance2() != getEqualToInstance1()
+            instance1A != instance2A
+            instance1A != instance2B
+            instance1A != instance2C
+
+            instance1B != instance2A
+            instance1B != instance2B
+            instance1B != instance2C
+
+            instance1C != instance2A
+            instance1C != instance2B
+            instance1C != instance2C
+
+            instance2A != instance1A
+            instance2A != instance1B
+            instance2A != instance1C
+
+            instance2B != instance1A
+            instance2B != instance1B
+            instance2B != instance1C
+
+            instance2C != instance1A
+            instance2C != instance1B
+            instance2C != instance1C
     }
 }
