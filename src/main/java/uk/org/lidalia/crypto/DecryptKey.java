@@ -25,7 +25,7 @@ public interface DecryptKey<
     }
 
     default Bytes decrypt(byte[] encrypted, CipherAlgorithm<E, D> cipherAlgorithm) throws DecryptionFailedException {
-        return decrypt(Bytes.of(encrypted), cipherAlgorithm);
+        return decrypt(EncryptedBytes.of(encrypted), cipherAlgorithm);
     }
 
     default Bytes decrypt(byte[] encrypted) throws DecryptionFailedException {

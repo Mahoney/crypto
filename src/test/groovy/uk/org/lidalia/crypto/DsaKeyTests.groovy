@@ -8,7 +8,7 @@ import static uk.org.lidalia.crypto.HashAlgorithm.SHA224
 import static uk.org.lidalia.crypto.HashAlgorithm.SHA256
 import static uk.org.lidalia.crypto.dsa.Dsa.DSA
 
-class DsaKeyTest extends AsymmetricKeyTests {
+class DsaKeyTests extends SigningKeyTests {
 
     @Override
     KeyPair generateKeyPair() {

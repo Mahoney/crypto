@@ -12,7 +12,7 @@ import java.nio.charset.Charset
 import static java.nio.charset.StandardCharsets.UTF_8
 import static uk.org.lidalia.crypto.HashAlgorithm.SHA256
 
-abstract class AsymmetricKeyTests extends Specification {
+abstract class SigningKeyTests extends Specification {
 
     @Shared keyPair = generateKeyPair()
     @Shared publicKey = keyPair.publicKey()
