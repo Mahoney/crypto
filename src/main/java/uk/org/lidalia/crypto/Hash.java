@@ -3,11 +3,10 @@ package uk.org.lidalia.crypto;
 import uk.org.lidalia.encoding.Bytes;
 import uk.org.lidalia.encoding.Encoded;
 
-import java.nio.charset.Charset;
 import java.util.Objects;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
+import static uk.org.lidalia.encoding.hex.HexEncoder.hex;
 
 public class Hash {
 
@@ -23,12 +22,8 @@ public class Hash {
         return new Hash(hash.decode(), hashAlgorithm);
     }
 
-    public static Hash of(String hash, Charset charset, HashAlgorithm hashAlgorithm) {
-        return of(Bytes.of(hash, charset), hashAlgorithm);
-    }
-
     public static Hash of(String hash, HashAlgorithm hashAlgorithm) {
-        return of(hash, UTF_8, hashAlgorithm);
+        return of(hex.of(hash), hashAlgorithm);
     }
 
     private final Bytes hash;
@@ -51,12 +46,8 @@ public class Hash {
         return matches(input.decode());
     }
 
-    public boolean matches(String input, Charset charset) {
-        return matches(Bytes.of(input, charset));
-    }
-
     public boolean matches(String input) {
-        return matches(input, UTF_8);
+        return matches(hex.of(input));
     }
 
     public Bytes bytes() {
@@ -83,6 +74,6 @@ public class Hash {
 
     @Override
     public String toString() {
-        return bytes().encode().toString();
+        return hex.encode(bytes()).toString();
     }
 }

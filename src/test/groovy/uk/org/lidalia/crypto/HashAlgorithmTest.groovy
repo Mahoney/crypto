@@ -11,6 +11,7 @@ import java.nio.charset.Charset
 
 import static java.nio.charset.StandardCharsets.UTF_8
 import static uk.org.lidalia.crypto.HashAlgorithm.SHA256
+import static uk.org.lidalia.encoding.hex.HexEncoder.hex
 
 class HashAlgorithmTest extends Specification {
 
@@ -20,12 +21,13 @@ class HashAlgorithmTest extends Specification {
     @Unroll
     def 'can hash and verify using algorithm #hashAlgorithm'() {
 
-        when:
+        given:
             def hash = hashAlgorithm.hash(toHash)
 
-        then:
+        expect:
             hash.matches(toHash)
             !hash.matches(anotherValue)
+            hash.algorithm() == hashAlgorithm
 
             if (hash != HashAlgorithm.NONE) {
                 hash.bytes().string() != toHash
@@ -36,15 +38,38 @@ class HashAlgorithmTest extends Specification {
     }
 
     @Unroll
+    def 'base64 encoded hash of #message hashed with #hashAlgorithm is #hexHash'() {
+
+        given:
+            def hash = hashAlgorithm.hash(message)
+
+        expect:
+            hash.toString() == hexHash
+
+        where:
+            message = 'Hello World'
+            hashAlgorithm << HashAlgorithm.values().toList()
+            hexHash << [
+                    '48656c6c6f20576f726c64',
+                    '27454d000b8f9aaa97da6de8b394d986',
+                    'b10a8db164e0754105b7a99be72e3fe5',
+                    '0a4d55a8d778e5022fab701977c5d840bbc486d0',
+                    'c4890faffdb0105d991a461e668e276685401b02eab1ef4372795047',
+                    'a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e',
+                    '99514329186b2f6ae4a1329e7ee6c610a729636335174ac6b740f9028396fcc803d0e93863a7c3d90f86beee782f4f3f',
+                    '2c74fd17edafd80e8447b0d46741ee243b7eb74dd2149a0ab1b9246fb30382f27e853d8585719e0e67cbda0daa8f51671064615d645ae27acb15bfb1447f459b',
+            ]
+    }
+
+    @Unroll
     def 'hashing works using overloaded method #method'() {
 
-        when:
+        given:
             def hash = doHash()
 
-        then:
+        expect:
             hash.matches(toHash)
             !hash.matches(anotherValue)
-            hash.bytes().string() != toHash
 
         where:
             method                                           | doHash
@@ -58,10 +83,10 @@ class HashAlgorithmTest extends Specification {
     @Unroll
     def 'hash matching works using overloaded method #method'() {
 
-        when:
+        given:
             def hash = SHA256.hash(toHash)
 
-        then:
+        expect:
             matches(hash, toHash)
             !matches(hash, anotherValue)
 
@@ -70,7 +95,6 @@ class HashAlgorithmTest extends Specification {
             Hash.getMethod('matches', Bytes)           | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch) }
             Hash.getMethod('matches', byte[])          | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch.array()) }
             Hash.getMethod('matches', Encoded)         | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch.encode()) }
-            Hash.getMethod('matches', String, Charset) | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch.string(UTF_8)) }
-            Hash.getMethod('matches', String)          | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch.string()) }
+            Hash.getMethod('matches', String)          | { Hash theHash, Bytes toMatch -> theHash.matches(hex.encode(toMatch).toString()) }
     }
 }
