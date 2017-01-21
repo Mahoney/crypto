@@ -1,11 +1,9 @@
 package uk.org.lidalia.crypto.dsa;
 
-import uk.org.lidalia.crypto.HashAlgorithm;
 import uk.org.lidalia.crypto.PublicKey;
 import uk.org.lidalia.encoding.Bytes;
 
 import java.math.BigInteger;
-import java.security.Signature;
 import java.security.interfaces.DSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;

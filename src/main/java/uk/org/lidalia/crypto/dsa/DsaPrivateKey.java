@@ -1,15 +1,10 @@
 package uk.org.lidalia.crypto.dsa;
 
-import uk.org.lidalia.crypto.CipherAlgorithm;
-import uk.org.lidalia.crypto.DecryptionFailedException;
-import uk.org.lidalia.crypto.HashAlgorithm;
 import uk.org.lidalia.crypto.PrivateKey;
 import uk.org.lidalia.encoding.Bytes;
 
-import javax.crypto.Cipher;
 import java.math.BigInteger;
 import java.security.KeyPair;
-import java.security.Signature;
 import java.security.interfaces.DSAPrivateKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;

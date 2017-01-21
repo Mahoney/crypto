@@ -26,15 +26,6 @@ public abstract class DsaKey<T extends Key & DSAKey> implements DSAKey, Asymmetr
         return DSA;
     }
 
-    protected Signature signatureFor(HashAlgorithm hashAlgorithm) {
-        final String algorithm = hashAlgorithm + "with" + algorithm();
-        try {
-            return Signature.getInstance(algorithm);
-        } catch (final NoSuchAlgorithmException e) {
-            throw new RequiredAlgorithmNotPresent(algorithm, e);
-        }
-    }
-
     /**** REMAINING METHODS DELEGATE ****/
 
     @Override

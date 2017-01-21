@@ -1,5 +1,7 @@
 package uk.org.lidalia.crypto;
 
+import java.security.NoSuchAlgorithmException;
+
 public interface AsymmetricKey<
         Public extends PublicKey<Public, Private, Pair>,
         Private extends PrivateKey<Public, Private, Pair>,
@@ -8,4 +10,13 @@ public interface AsymmetricKey<
 
     @Override
     AsymmetricKeyAlgorithm<Public, Private, Pair> algorithm();
+
+    default java.security.Signature signatureFor(HashAlgorithm hashAlgorithm) {
+        final String algorithm = hashAlgorithm.toStringInAlgorithm() + "with" + algorithm();
+        try {
+            return java.security.Signature.getInstance(algorithm);
+        } catch (final NoSuchAlgorithmException e) {
+            throw new RequiredAlgorithmNotPresent(algorithm, e);
+        }
+    }
 }

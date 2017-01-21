@@ -17,7 +17,7 @@ public interface PublicKey<
 
     default boolean verify(Signature signature, Bytes signedContents) {
         try {
-            final java.security.Signature verifier = Signature.signatureFor(signature.algorithm(), this);
+            final java.security.Signature verifier = signatureFor(signature.algorithm());
             verifier.initVerify(this);
             verifier.update(signedContents.array());
             return verifier.verify(signature.bytes().array());

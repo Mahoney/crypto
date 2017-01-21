@@ -18,9 +18,8 @@ public interface PrivateKey<
 
     default Signature sign(Bytes contents, HashAlgorithm hashAlgorithm) {
 
-        final java.security.Signature signer = Signature.signatureFor(hashAlgorithm, this);
-
         try {
+            final java.security.Signature signer = signatureFor(hashAlgorithm);
             signer.initSign(this);
             signer.update(contents.array());
             return Signature.of(Bytes.of(signer.sign()), hashAlgorithm);

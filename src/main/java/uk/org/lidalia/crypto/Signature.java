@@ -48,15 +48,6 @@ public class Signature {
         return hashAlgorithm;
     }
 
-    static java.security.Signature signatureFor(HashAlgorithm hashAlgorithm, Key key) {
-        final String algorithm = hashAlgorithm.toStringInAlgorithm() + "with" + key.algorithm();
-        try {
-            return java.security.Signature.getInstance(algorithm);
-        } catch (final NoSuchAlgorithmException e) {
-            throw new RequiredAlgorithmNotPresent(algorithm, e);
-        }
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
