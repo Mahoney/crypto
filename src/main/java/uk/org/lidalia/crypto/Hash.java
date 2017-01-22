@@ -3,8 +3,10 @@ package uk.org.lidalia.crypto;
 import uk.org.lidalia.encoding.Bytes;
 import uk.org.lidalia.encoding.Encoded;
 
+import java.nio.charset.Charset;
 import java.util.Objects;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static uk.org.lidalia.encoding.hex.HexEncoder.hex;
 
@@ -34,20 +36,24 @@ public class Hash {
         this.algorithm = requireNonNull(algorithm);
     }
 
-    public boolean matches(Bytes input) {
-        return algorithm.hash(input).equals(this);
+    public boolean matches(Bytes unhashed) {
+        return algorithm.hash(unhashed).equals(this);
     }
 
-    public boolean matches(byte[] input) {
-        return matches(Bytes.of(input));
+    public boolean matches(byte[] unhashed) {
+        return matches(Bytes.of(unhashed));
     }
 
-    public boolean matches(Encoded<?> input) {
-        return matches(input.decode());
+    public boolean matches(Encoded<?> unhashed) {
+        return matches(unhashed.decode());
     }
 
-    public boolean matches(String input) {
-        return matches(hex.of(input));
+    public boolean matches(String unhashed, Charset charset) {
+        return matches(Bytes.of(unhashed, charset));
+    }
+
+    public boolean matches(String unhashed) {
+        return matches(unhashed, UTF_8);
     }
 
     public Bytes bytes() {

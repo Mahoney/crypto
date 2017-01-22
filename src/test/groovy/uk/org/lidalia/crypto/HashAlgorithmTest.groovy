@@ -11,7 +11,6 @@ import java.nio.charset.Charset
 
 import static java.nio.charset.StandardCharsets.UTF_8
 import static uk.org.lidalia.crypto.HashAlgorithm.SHA256
-import static uk.org.lidalia.encoding.hex.HexEncoder.hex
 
 class HashAlgorithmTest extends Specification {
 
@@ -95,6 +94,7 @@ class HashAlgorithmTest extends Specification {
             Hash.getMethod('matches', Bytes)           | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch) }
             Hash.getMethod('matches', byte[])          | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch.array()) }
             Hash.getMethod('matches', Encoded)         | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch.encode()) }
-            Hash.getMethod('matches', String)          | { Hash theHash, Bytes toMatch -> theHash.matches(hex.encode(toMatch).toString()) }
+            Hash.getMethod('matches', String, Charset) | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch.string(UTF_8), UTF_8) }
+            Hash.getMethod('matches', String)          | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch.string()) }
     }
 }
