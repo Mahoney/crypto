@@ -3,11 +3,8 @@ package uk.org.lidalia.crypto;
 import uk.org.lidalia.encoding.Bytes;
 import uk.org.lidalia.encoding.Encoded;
 
-import java.nio.charset.Charset;
-import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
 public class Signature {
@@ -24,20 +21,12 @@ public class Signature {
         return new Signature(hash.decode(), hashAlgorithm);
     }
 
-    public static Signature of(String hash, Charset charset, HashAlgorithm hashAlgorithm) {
-        return of(Bytes.of(hash, charset), hashAlgorithm);
-    }
-
-    public static Signature of(String hash, HashAlgorithm hashAlgorithm) {
-        return of(hash, UTF_8, hashAlgorithm);
-    }
-
     private final Bytes hash;
-    private final HashAlgorithm hashAlgorithm;
+    private final HashAlgorithm algorithm;
 
-    private Signature(Bytes hash, HashAlgorithm hashAlgorithm) {
+    private Signature(Bytes hash, HashAlgorithm algorithm) {
         this.hash = requireNonNull(hash);
-        this.hashAlgorithm = requireNonNull(hashAlgorithm);
+        this.algorithm = requireNonNull(algorithm);
     }
 
     public Bytes bytes() {
@@ -45,7 +34,7 @@ public class Signature {
     }
 
     public HashAlgorithm algorithm() {
-        return hashAlgorithm;
+        return algorithm;
     }
 
     @Override
@@ -54,16 +43,16 @@ public class Signature {
         if (o == null || getClass() != o.getClass()) return false;
         Signature hash1 = (Signature) o;
         return Objects.equals(hash, hash1.hash) &&
-                hashAlgorithm == hash1.hashAlgorithm;
+                algorithm == hash1.algorithm;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(hash, hashAlgorithm);
+        return Objects.hash(hash, algorithm);
     }
 
     @Override
     public String toString() {
-        return bytes().encode().toString();
+        return hash.encode().toString();
     }
 }

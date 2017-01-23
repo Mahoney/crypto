@@ -80,6 +80,6 @@ public class Hash {
 
     @Override
     public String toString() {
-        return hex.encode(bytes()).toString();
+        return hex.encode(hash).toString();
     }
 }
