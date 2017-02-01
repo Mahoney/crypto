@@ -3,7 +3,10 @@ package uk.org.lidalia.encoding;
 import uk.org.lidalia.encoding.base64.Base64;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -15,6 +18,26 @@ public class Bytes extends AbstractList<Byte> {
 
     public static Bytes of(byte[] bytes) {
         return new Bytes(bytes);
+    }
+
+    public static Bytes of(InputStream in) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        copy(in, out);
+        return of(out.toByteArray());
+    }
+
+    private static final int BUF_SIZE = 0x1000; // 4K
+
+    private static void copy(InputStream from, OutputStream to)
+            throws IOException {
+        byte[] buf = new byte[BUF_SIZE];
+        while (true) {
+            int r = from.read(buf);
+            if (r == -1) {
+                break;
+            }
+            to.write(buf, 0, r);
+        }
     }
 
     public static Bytes of(String text, Charset charset) {
