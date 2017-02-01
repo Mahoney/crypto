@@ -10,7 +10,7 @@ public class HexEncoder implements Encoder<Hex> {
     private HexEncoder() {}
 
     @Override
-    public Hex of(String encoded) {
+    public Hex of(String encoded) throws NotAHexEncodedString {
         return new Hex(encoded, this);
     }
 
@@ -28,6 +28,10 @@ public class HexEncoder implements Encoder<Hex> {
             chars[i*2+1] = Character.forDigit(nibble2, 16);
         }
 
-        return new Hex(new String(chars), this);
+        try {
+            return new Hex(new String(chars), this);
+        } catch (NotAHexEncodedString notAHexEncodedString) {
+            throw new AssertionError("It should be impossible to generate a non hex string here", notAHexEncodedString);
+        }
     }
 }

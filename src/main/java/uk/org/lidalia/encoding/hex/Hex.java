@@ -8,12 +8,12 @@ import java.util.regex.Pattern;
 
 public class Hex extends EncodedBase<Hex> {
 
-    private static final Pattern legalHexEncoding = Pattern.compile("([0-9a-fA-F]{2})*");
+    static final Pattern legalHexEncoding = Pattern.compile("([0-9a-fA-F]{2})*");
 
-    Hex(String encoded, Encoder<Hex> encoder) {
+    Hex(String encoded, Encoder<Hex> encoder) throws NotAHexEncodedString {
         super(encoded, encoder);
         if (!legalHexEncoding.matcher(encoded).matches()) {
-            throw new IllegalArgumentException(toString()+" is not a valid hex string");
+            throw NotAHexEncodedString.of(encoded);
         }
     }
 

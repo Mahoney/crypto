@@ -3,7 +3,6 @@ package uk.org.lidalia.crypto
 import org.apache.commons.lang3.RandomStringUtils
 
 import static uk.org.lidalia.crypto.HashAlgorithm.SHA256
-import static uk.org.lidalia.encoding.hex.HexEncoder.hex
 
 class HashEqualsAndHashcodeTests extends EqualsAndHashcodeTests<Hash> {
 
@@ -15,6 +14,6 @@ class HashEqualsAndHashcodeTests extends EqualsAndHashcodeTests<Hash> {
     Hash instance1C = Hash.of(instance1A.bytes().encode(), SHA256)
 
     Hash instance2A = SHA256.hash(message2)
-    Hash instance2B = Hash.of(instance2A.bytes().encode(hex).toString(), SHA256)
+    Hash instance2B = Hash.of(instance2A.toString(), SHA256)
     Hash instance2C = Hash.of(instance2A.bytes(), SHA256)
 }

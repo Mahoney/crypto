@@ -3,6 +3,7 @@ package uk.org.lidalia.encoding;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import uk.org.lidalia.encoding.base64.Base64;
+import uk.org.lidalia.encoding.base64.NotABase64EncodedString;
 
 import java.util.Random;
 
@@ -49,10 +50,10 @@ public class Base64Tests {
         assertThat(encoded.decode().string(), is(toEncode));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void doesNotAcceptNonBase64() {
+    @Test(expected = NotABase64EncodedString.class)
+    public void doesNotAcceptNonBase64() throws NotABase64EncodedString {
 
         // when:
-        Base64 encoded = base64.of("===");
+        base64.of("===");
     }
 }

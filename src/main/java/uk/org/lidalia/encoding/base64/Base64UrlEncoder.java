@@ -12,12 +12,16 @@ public class Base64UrlEncoder implements Encoder<Base64Url> {
     private Base64UrlEncoder() {}
 
     @Override
-    public Base64Url of(String encoded) {
+    public Base64Url of(String encoded) throws NotABase64UrlEncodedString {
         return new Base64Url(encoded, this);
     }
 
     @Override
     public Base64Url encode(Bytes decoded) {
-        return of(getEncoder().encodeToString(decoded.array()));
+        try {
+            return of(getEncoder().encodeToString(decoded.array()));
+        } catch (NotABase64UrlEncodedString notABase64UrlEncodedString) {
+            throw new AssertionError("It should be impossible to generate a non-base 64 string here", notABase64UrlEncodedString);
+        }
     }
 }

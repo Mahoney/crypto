@@ -2,6 +2,7 @@ package uk.org.lidalia.encoding;
 
 import org.junit.Test;
 import uk.org.lidalia.encoding.hex.Hex;
+import uk.org.lidalia.encoding.hex.NotAHexEncodedString;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -22,7 +23,7 @@ public class HexTests {
     }
 
     @Test
-    public void decodedHex() {
+    public void decodedHex() throws NotAHexEncodedString {
 
         // given:
         Hex encoded = hex.of("416e79206f6c6420737472696e67");
@@ -34,7 +35,7 @@ public class HexTests {
     }
 
     @Test
-    public void decodedHexCaseInsensitive() {
+    public void decodedHexCaseInsensitive() throws NotAHexEncodedString {
 
         // given:
         Hex encoded = hex.of("416E79206F6C6420737472696E67");
@@ -45,8 +46,8 @@ public class HexTests {
         assertThat(encoded.decode().string(), is("Any old string"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void rejectsNonHexString() {
+    @Test(expected = NotAHexEncodedString.class)
+    public void rejectsNonHexString() throws NotAHexEncodedString {
         hex.of("416E79206F6C6420737472696E67Z");
     }
 }

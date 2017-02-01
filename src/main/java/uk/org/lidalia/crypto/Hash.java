@@ -2,6 +2,7 @@ package uk.org.lidalia.crypto;
 
 import uk.org.lidalia.encoding.Bytes;
 import uk.org.lidalia.encoding.Encoded;
+import uk.org.lidalia.encoding.hex.NotAHexEncodedString;
 
 import java.nio.charset.Charset;
 import java.util.Objects;
@@ -24,7 +25,7 @@ public class Hash {
         return new Hash(hash.decode(), hashAlgorithm);
     }
 
-    public static Hash of(String hash, HashAlgorithm hashAlgorithm) {
+    public static Hash of(String hash, HashAlgorithm hashAlgorithm) throws NotAHexEncodedString {
         return of(hex.of(hash), hashAlgorithm);
     }
 

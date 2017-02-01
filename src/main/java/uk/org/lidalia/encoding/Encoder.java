@@ -6,7 +6,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public interface Encoder<T extends Encoded<T>> {
 
-    T of(String encoded);
+    T of(String encoded) throws NotAnEncodedString;
 
     T encode(Bytes decoded);
 
