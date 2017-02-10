@@ -3,16 +3,26 @@ package uk.org.lidalia.crypto.rsa;
 import uk.org.lidalia.crypto.DecryptKey;
 import uk.org.lidalia.crypto.PrivateKey;
 import uk.org.lidalia.encoding.Bytes;
+import uk.org.lidalia.encoding.base64.NotABase64EncodedString;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
+import java.nio.file.Path;
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateCrtKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPublicKeySpec;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import static java.nio.file.Files.newInputStream;
+import static uk.org.lidalia.crypto.rsa.PrivateKeyReader.getRSAKeySpec;
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
+import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
 
 public final class RsaPrivateCrtKey
         extends RsaKey<RSAPrivateCrtKey>
@@ -31,6 +41,34 @@ public final class RsaPrivateCrtKey
 
     public static RsaPrivateCrtKey from(KeyPair keyPair) {
         return from((RSAPrivateCrtKey) keyPair.getPrivate());
+    }
+
+    public static RsaPrivateCrtKey fromFile(Path path) throws IOException, InvalidKeySpecException, NotABase64EncodedString {
+        try (InputStream in = newInputStream(path)) {
+            return fromString(Bytes.of(in).string());
+        }
+    }
+
+    private static Pattern keyRegex = Pattern.compile(".*-----BEGIN (?<pkcs1start>RSA )?PRIVATE KEY-----(?<base64Key>.*)-----END (?<pkcs1end>RSA )?PRIVATE KEY-----.*", Pattern.DOTALL);
+
+    public static RsaPrivateCrtKey fromString(String keyStr) throws InvalidKeySpecException, NotABase64EncodedString, IOException {
+
+        Matcher keyMatcher = keyRegex.matcher(keyStr);
+
+        if (keyMatcher.matches()) {
+
+            String base64KeyStr = keyMatcher.group("base64Key").replaceAll("\\s+", "");
+            Bytes keyBytes = base64.of(base64KeyStr).decode();
+
+            if (Objects.equals(keyMatcher.group("pkcs1start"), "RSA ")) {
+                return fromKeySpec(getRSAKeySpec(keyBytes.array()));
+            } else {
+                return fromEncoded(keyBytes);
+            }
+
+        } else {
+            throw new InvalidKeySpecException("Unknown key format");
+        }
     }
 
     public static RsaPrivateCrtKey fromEncoded(final Bytes privateKeyEncoded)
