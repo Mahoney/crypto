@@ -1,19 +1,18 @@
 package uk.org.lidalia.crypto
 
 import spock.lang.Shared
-import uk.org.lidalia.crypto.rsa.RsaPrivateCrtKey
+import uk.org.lidalia.crypto.rsa.RsaPrivateKey
 import uk.org.lidalia.crypto.rsa.RsaPublicKey
 
 import java.security.KeyFactory
-import java.security.interfaces.RSAPublicKey
 import java.security.spec.X509EncodedKeySpec
 
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA
 
 class RsaPublicKeyEqualsAndHashcodeTests extends EqualsAndHashcodeTests<java.security.PublicKey> {
 
-    @Shared RsaPrivateCrtKey keyPair1 = RSA.generateKeyPair()
-    @Shared RsaPrivateCrtKey keyPair2 = RSA.generateKeyPair()
+    @Shared RsaPrivateKey keyPair1 = RSA.generateKeyPair()
+    @Shared RsaPrivateKey keyPair2 = RSA.generateKeyPair()
 
     RsaPublicKey instance1A = keyPair1.publicKey()
     java.security.PublicKey instance1B = javaPublicKey(instance1A.bytes().array())

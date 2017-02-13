@@ -28,8 +28,8 @@ import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
 
 public final class RsaPublicKey
         extends RsaKey<RSAPublicKey>
-        implements RSAPublicKey, PublicKey<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey>,
-        EncryptKey<RsaPublicKey, RsaPrivateCrtKey> {
+        implements RSAPublicKey, PublicKey<RsaPublicKey, RsaPrivateKey, RsaPrivateKey>,
+        EncryptKey<RsaPublicKey, RsaPrivateKey> {
 
     public static RsaPublicKey fromEncoded(final Bytes publicKeyEncoded)
             throws InvalidKeySpecException {

@@ -9,7 +9,7 @@ import java.security.interfaces.RSAKey;
 import static java.util.Objects.requireNonNull;
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
 
-public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, AsymmetricKey<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey> {
+public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, AsymmetricKey<RsaPublicKey, RsaPrivateKey, RsaPrivateKey> {
 
     final T decorated;
 

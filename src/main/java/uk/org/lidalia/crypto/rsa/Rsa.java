@@ -12,11 +12,11 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
-public class Rsa extends BaseAsymmetricKeyAlgorithm<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey> implements CryptoKeyAlgorithm<RsaPublicKey, RsaPrivateCrtKey> {
+public class Rsa extends BaseAsymmetricKeyAlgorithm<RsaPublicKey, RsaPrivateKey, RsaPrivateKey> implements CryptoKeyAlgorithm<RsaPublicKey, RsaPrivateKey> {
 
-    public static final CipherAlgorithm<RsaPublicKey, RsaPrivateCrtKey> RsaEcbPkcs1Padding;
-    public static final CipherAlgorithm<RsaPublicKey, RsaPrivateCrtKey> RsaEcbOaepWithSha1AndMgf1Padding;
-    public static final CipherAlgorithm<RsaPublicKey, RsaPrivateCrtKey> RsaEcbOaepWithSha256AndMgf1Padding;
+    public static final CipherAlgorithm<RsaPublicKey, RsaPrivateKey> RsaEcbPkcs1Padding;
+    public static final CipherAlgorithm<RsaPublicKey, RsaPrivateKey> RsaEcbOaepWithSha1AndMgf1Padding;
+    public static final CipherAlgorithm<RsaPublicKey, RsaPrivateKey> RsaEcbOaepWithSha256AndMgf1Padding;
 
     static {
         try {
@@ -35,8 +35,8 @@ public class Rsa extends BaseAsymmetricKeyAlgorithm<RsaPublicKey, RsaPrivateCrtK
     }
 
     @Override
-    public RsaPrivateCrtKey generateKeyPair(int keySize) {
-        return RsaPrivateCrtKey.from(generateDecoratedKeyPair(keySize));
+    public RsaPrivateKey generateKeyPair(int keySize) {
+        return RsaPrivateKey.from(generateDecoratedKeyPair(keySize));
     }
 
     @Override
@@ -45,12 +45,12 @@ public class Rsa extends BaseAsymmetricKeyAlgorithm<RsaPublicKey, RsaPrivateCrtK
     }
 
     @Override
-    public RsaPrivateCrtKey privateKey(KeySpec keySpec) throws InvalidKeySpecException {
-        return RsaPrivateCrtKey.from((RSAPrivateCrtKey) keyFactory().generatePrivate(keySpec));
+    public RsaPrivateKey privateKey(KeySpec keySpec) throws InvalidKeySpecException {
+        return RsaPrivateKey.from((RSAPrivateCrtKey) keyFactory().generatePrivate(keySpec));
     }
 
     @Override
-    public CipherAlgorithm<RsaPublicKey, RsaPrivateCrtKey> defaultCipherAlgorithm() {
+    public CipherAlgorithm<RsaPublicKey, RsaPrivateKey> defaultCipherAlgorithm() {
         return RsaEcbPkcs1Padding;
     }
 }

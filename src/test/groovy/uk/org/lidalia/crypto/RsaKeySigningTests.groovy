@@ -1,6 +1,6 @@
 package uk.org.lidalia.crypto
 
-import uk.org.lidalia.crypto.rsa.RsaPrivateCrtKey
+import uk.org.lidalia.crypto.rsa.RsaPrivateKey
 import uk.org.lidalia.crypto.rsa.RsaPublicKey
 
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA
@@ -23,7 +23,7 @@ class RsaKeySigningTests extends SigningKeyTests {
             def privateKeyEncoded = privateKey.bytes()
 
         expect:
-            RsaPrivateCrtKey.fromEncoded(privateKeyEncoded) == privateKey
+            RsaPrivateKey.fromEncoded(privateKeyEncoded) == privateKey
     }
 
     def 'create serialise and restore public key'() {

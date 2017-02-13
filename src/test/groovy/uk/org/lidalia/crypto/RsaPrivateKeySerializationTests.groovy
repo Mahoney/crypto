@@ -4,7 +4,7 @@ import org.apache.commons.lang3.RandomStringUtils
 import spock.lang.Ignore
 import spock.lang.IgnoreIf
 import spock.lang.Specification
-import uk.org.lidalia.crypto.rsa.RsaPrivateCrtKey
+import uk.org.lidalia.crypto.rsa.RsaPrivateKey
 import uk.org.lidalia.crypto.rsa.RsaPublicKey
 import uk.org.lidalia.encoding.Bytes
 
@@ -21,7 +21,7 @@ class RsaPrivateKeySerializationTests extends Specification {
     static def keyFilePair = sshKeygen(tmpDir)
     static def privateKeyFile = keyFilePair.first
     static def publicKeyFile = keyFilePair.second
-    static def privateKey = RsaPrivateCrtKey.generate()
+    static def privateKey = RsaPrivateKey.generate()
     static def publicKey = privateKey.publicKey()
 
     def 'exported public key is same as openssh converted one'() {
@@ -39,7 +39,7 @@ class RsaPrivateKeySerializationTests extends Specification {
     def 'exported private key is same as ssh-keygen generated one'() {
 
         given:
-            def importedPrivateKey = RsaPrivateCrtKey.fromFile(privateKeyFile)
+            def importedPrivateKey = RsaPrivateKey.fromFile(privateKeyFile)
 
         expect:
             importedPrivateKey.export() == privateKeyFile.text
@@ -50,7 +50,7 @@ class RsaPrivateKeySerializationTests extends Specification {
 
         given:
             def publicKeyPemFile = publicKeyPemFile(privateKeyFile)
-            def privateKey = RsaPrivateCrtKey.fromFile(privateKeyFile)
+            def privateKey = RsaPrivateKey.fromFile(privateKeyFile)
 
         when:
             def encryptedBytes = openSslEncrypt(message, publicKeyPemFile)

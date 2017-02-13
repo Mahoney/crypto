@@ -24,26 +24,26 @@ import static uk.org.lidalia.crypto.rsa.PrivateKeyReader.getRsaPrivateKeySpec;
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
 
-public final class RsaPrivateCrtKey
+public final class RsaPrivateKey
         extends RsaKey<RSAPrivateCrtKey>
         implements RSAPrivateCrtKey,
-                   PrivateKey<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey>,
-                   uk.org.lidalia.crypto.KeyPair<RsaPublicKey, RsaPrivateCrtKey, RsaPrivateCrtKey>,
-                   DecryptKey<RsaPublicKey, RsaPrivateCrtKey>{
+                   PrivateKey<RsaPublicKey, RsaPrivateKey, RsaPrivateKey>,
+                   uk.org.lidalia.crypto.KeyPair<RsaPublicKey, RsaPrivateKey, RsaPrivateKey>,
+                   DecryptKey<RsaPublicKey, RsaPrivateKey>{
 
-    public static RsaPrivateCrtKey generate() throws IllegalStateException {
+    public static RsaPrivateKey generate() throws IllegalStateException {
         return generate(2048);
     }
 
-    public static RsaPrivateCrtKey generate(int keysize) throws IllegalStateException {
+    public static RsaPrivateKey generate(int keysize) throws IllegalStateException {
         return RSA.generateKeyPair(keysize);
     }
 
-    public static RsaPrivateCrtKey from(KeyPair keyPair) {
+    public static RsaPrivateKey from(KeyPair keyPair) {
         return from((RSAPrivateCrtKey) keyPair.getPrivate());
     }
 
-    public static RsaPrivateCrtKey fromFile(Path path) throws IOException, InvalidKeySpecException, NotABase64EncodedString {
+    public static RsaPrivateKey fromFile(Path path) throws IOException, InvalidKeySpecException, NotABase64EncodedString {
         try (InputStream in = newInputStream(path)) {
             return fromString(Bytes.of(in).string());
         }
@@ -51,7 +51,7 @@ public final class RsaPrivateCrtKey
 
     private static Pattern keyRegex = Pattern.compile(".*-----BEGIN (?<pkcs1start>RSA )?PRIVATE KEY-----(?<base64Key>.*)-----END (?<pkcs1end>RSA )?PRIVATE KEY-----.*", Pattern.DOTALL);
 
-    public static RsaPrivateCrtKey fromString(String keyStr) throws InvalidKeySpecException, NotABase64EncodedString, IOException {
+    public static RsaPrivateKey fromString(String keyStr) throws InvalidKeySpecException, NotABase64EncodedString, IOException {
 
         Matcher keyMatcher = keyRegex.matcher(keyStr);
 
@@ -71,26 +71,26 @@ public final class RsaPrivateCrtKey
         }
     }
 
-    public static RsaPrivateCrtKey fromEncoded(final Bytes privateKeyEncoded)
+    public static RsaPrivateKey fromEncoded(final Bytes privateKeyEncoded)
             throws InvalidKeySpecException {
         final KeySpec privateKeySpec
                 = new PKCS8EncodedKeySpec(privateKeyEncoded.array());
         return fromKeySpec(privateKeySpec);
     }
 
-    public static RsaPrivateCrtKey fromKeySpec(final KeySpec privateKeySpec)
+    public static RsaPrivateKey fromKeySpec(final KeySpec privateKeySpec)
             throws InvalidKeySpecException {
         return RSA.privateKey(privateKeySpec);
     }
 
-    public static RsaPrivateCrtKey from(final RSAPrivateCrtKey decorated) {
-        return new RsaPrivateCrtKey(decorated);
+    public static RsaPrivateKey from(final RSAPrivateCrtKey decorated) {
+        return new RsaPrivateKey(decorated);
     }
 
     private final KeyPair keyPair;
     private final RsaPublicKey publicKey;
 
-    private RsaPrivateCrtKey(final RSAPrivateCrtKey decorated) {
+    private RsaPrivateKey(final RSAPrivateCrtKey decorated) {
         super(decorated);
         this.publicKey = buildPublicKey();
         this.keyPair = new KeyPair(publicKey, this);
@@ -137,7 +137,7 @@ public final class RsaPrivateCrtKey
     }
 
     @Override
-    public RsaPrivateCrtKey privateKey() {
+    public RsaPrivateKey privateKey() {
         return this;
     }
 
