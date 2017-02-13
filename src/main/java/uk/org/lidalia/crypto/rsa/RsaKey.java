@@ -58,4 +58,6 @@ public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, Asymmetr
     public final int hashCode() {
         return decorated.hashCode();
     }
+
+    public abstract String export();
 }

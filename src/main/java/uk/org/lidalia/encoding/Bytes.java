@@ -1,15 +1,20 @@
 package uk.org.lidalia.encoding;
 
 import uk.org.lidalia.encoding.base64.Base64;
+import uk.org.lidalia.lang.Pair;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.math.BigInteger;
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.AbstractList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
@@ -23,7 +28,7 @@ public class Bytes extends AbstractList<Byte> {
     public static Bytes of(InputStream in) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         copy(in, out);
-        return of(out.toByteArray());
+        return uncopied(out.toByteArray());
     }
 
     private static final int BUF_SIZE = 0x1000; // 4K
@@ -41,25 +46,65 @@ public class Bytes extends AbstractList<Byte> {
     }
 
     public static Bytes of(String text, Charset charset) {
-        return of(text.getBytes(charset));
+        return uncopied(text.getBytes(charset));
     }
 
     public static Bytes of(String text) {
         return of(text, UTF_8);
     }
 
+    public static Bytes of(BigInteger bigInteger) {
+        return uncopied(bigInteger.toByteArray());
+    }
+
+    public static Bytes of(int integer) {
+        return uncopied(ByteBuffer.allocate(4).putInt(integer).array());
+    }
+
+    private static Bytes empty = Bytes.of(new byte[0]);
+
+    public static Bytes empty() {
+        return empty;
+    }
+
+    // TODO this could be more efficient with no copying by storing the List<Bytes> as the
+    // state of the Bytes object and doing the maths to haul data out of them as needed
+    public static Bytes of(List<Bytes> elements) {
+        int length = elements.stream().mapToInt(Bytes::size).sum();
+        byte[] bytes = new byte[length];
+        int offset = 0;
+        for (Bytes element : elements) {
+            System.arraycopy(element.array(), 0, bytes, offset, element.size());
+            offset += element.size();
+        }
+        return uncopied(bytes);
+    }
+
+    private static Bytes uncopied(byte[] bytes) {
+        return new Bytes(bytes, 0, bytes.length);
+    }
+
     private final byte[] bytes;
+    private final int fromIndex;
+    private final int toIndex;
 
     protected Bytes(byte[] bytes) {
-        this.bytes = Arrays.copyOf(bytes, bytes.length);
+        this(Arrays.copyOf(bytes, bytes.length), 0, bytes.length);
+    }
+
+
+    private Bytes(byte[] bytes, int fromIndex, int toIndex) {
+        this.bytes = Objects.requireNonNull(bytes);
+        this.fromIndex = fromIndex;
+        this.toIndex = toIndex;
     }
 
     public byte[] array() {
-        return Arrays.copyOf(bytes, bytes.length);
+        return Arrays.copyOfRange(bytes, fromIndex, toIndex);
     }
 
     public String string(Charset charset) {
-        return new String(bytes, charset);
+        return new String(bytes, fromIndex, size(), charset);
     }
 
     public String string() {
@@ -67,11 +112,20 @@ public class Bytes extends AbstractList<Byte> {
     }
 
     public InputStream inputStream() {
-        return new ByteArrayInputStream(bytes);
+        return new ByteArrayInputStream(bytes, fromIndex, size());
+    }
+
+    // TODO should this throw if length is != 4?
+    public int integer() {
+        return ByteBuffer.wrap(bytes).getInt(fromIndex);
+    }
+
+    public BigInteger bigInteger() {
+        return new BigInteger(array());
     }
 
     public <T extends Encoded<T>> T encode(Encoder<T> encoder) {
-        return encoder.encode(bytes);
+        return encoder.encode(this);
     }
 
     public Base64 encode() {
@@ -80,24 +134,28 @@ public class Bytes extends AbstractList<Byte> {
 
     @Override
     public int size() {
-        return bytes.length;
+        return toIndex - fromIndex;
     }
 
     @Override
     public Byte get(int index) {
-        return bytes[index];
+        return bytes[fromIndex + index];
+    }
+
+    public Bytes take(int number) {
+        return subList(0, number);
+    }
+
+    public Bytes drop(int number) {
+        return subList(number, size());
+    }
+
+    public Pair<Bytes, Bytes> split(int index) {
+        return new Pair<>(take(index), drop(index));
     }
 
     @Override
-    public final boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Bytes)) return false;
-        Bytes bytes1 = (Bytes) o;
-        return Arrays.equals(bytes, bytes1.bytes);
-    }
-
-    @Override
-    public final int hashCode() {
-        return Arrays.hashCode(bytes);
+    public Bytes subList(int fromIndex, int toIndex) {
+        return new Bytes(bytes, this.fromIndex + fromIndex, this.fromIndex + toIndex);
     }
 }

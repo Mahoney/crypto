@@ -20,7 +20,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.nio.file.Files.newInputStream;
-import static uk.org.lidalia.crypto.rsa.PrivateKeyReader.getRSAKeySpec;
+import static uk.org.lidalia.crypto.rsa.PrivateKeyReader.getRsaPrivateKeySpec;
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
 
@@ -61,7 +61,7 @@ public final class RsaPrivateCrtKey
             Bytes keyBytes = base64.of(base64KeyStr).decode();
 
             if (Objects.equals(keyMatcher.group("pkcs1start"), "RSA ")) {
-                return fromKeySpec(getRSAKeySpec(keyBytes.array()));
+                return fromKeySpec(getRsaPrivateKeySpec(keyBytes.array()));
             } else {
                 return fromEncoded(keyBytes);
             }
@@ -94,6 +94,23 @@ public final class RsaPrivateCrtKey
         super(decorated);
         this.publicKey = buildPublicKey();
         this.keyPair = new KeyPair(publicKey, this);
+    }
+
+    @Override
+    public String export() {
+        return exportPkcs8();
+    }
+
+    public String exportPkcs1() {
+        return "-----BEGIN RSA PRIVATE KEY-----\n"+
+                Bytes.of(getEncoded()).encode().toString().replaceAll("(.{64})", "$1\n")+
+                "\n-----END RSA PRIVATE KEY-----\n";
+    }
+
+    public String exportPkcs8() {
+        return "-----BEGIN PRIVATE KEY-----\n"+
+                Bytes.of(getEncoded()).encode().toString().replaceAll("(.{64})", "$1\n")+
+                "\n-----END PRIVATE KEY-----\n";
     }
 
     private RsaPublicKey buildPublicKey() {

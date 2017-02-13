@@ -1,8 +1,15 @@
 package uk.org.lidalia.crypto.rsa;
 
+import uk.org.lidalia.encoding.Bytes;
+import uk.org.lidalia.lang.Pair;
+
 import java.io.*;
 import java.math.BigInteger;
 import java.security.spec.RSAPrivateCrtKeySpec;
+import java.security.spec.RSAPublicKeySpec;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Class for reading RSA private key from PEM file. It uses
@@ -47,7 +54,7 @@ class PrivateKeyReader {
      * @return KeySpec
      * @throws IOException
      */
-    static RSAPrivateCrtKeySpec getRSAKeySpec(byte[] keyBytes) throws IOException  {
+    static RSAPrivateCrtKeySpec getRsaPrivateKeySpec(byte[] keyBytes) throws IOException  {
 
         DerParser parser = new DerParser(keyBytes);
 
@@ -71,5 +78,25 @@ class PrivateKeyReader {
         return new RSAPrivateCrtKeySpec(
                 modulus, publicExp, privateExp, prime1, prime2,
                 exp1, exp2, crtCoef);
+    }
+
+    static RSAPublicKeySpec getRsaPublicKeySpec(Bytes keyBytes) throws IOException  {
+        List<Bytes> dataElements = parse(keyBytes);
+        return new RSAPublicKeySpec(dataElements.get(2).bigInteger(), dataElements.get(1).bigInteger());
+    }
+
+    static List<Bytes> parse(Bytes keyBytes) {
+        return parse(new ArrayList<>(), keyBytes);
+    }
+
+    private static List<Bytes> parse(List<Bytes> accumulator, Bytes bytes) {
+        if (bytes.isEmpty()) {
+            return accumulator;
+        } else {
+            Pair<Bytes, Bytes> lengthAndRemainder = bytes.split(4);
+            Pair<Bytes, Bytes> dataAndRemainder = lengthAndRemainder.second.split(lengthAndRemainder.first.integer());
+            accumulator.add(dataAndRemainder.first);
+            return parse(accumulator, dataAndRemainder.second);
+        }
     }
 }
