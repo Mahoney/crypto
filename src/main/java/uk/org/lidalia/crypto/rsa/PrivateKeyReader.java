@@ -79,24 +79,4 @@ class PrivateKeyReader {
                 modulus, publicExp, privateExp, prime1, prime2,
                 exp1, exp2, crtCoef);
     }
-
-    static RSAPublicKeySpec getRsaPublicKeySpec(Bytes keyBytes) throws IOException  {
-        List<Bytes> dataElements = parse(keyBytes);
-        return new RSAPublicKeySpec(dataElements.get(2).bigInteger(), dataElements.get(1).bigInteger());
-    }
-
-    private static List<Bytes> parse(Bytes keyBytes) {
-        return parse(new ArrayList<>(), keyBytes);
-    }
-
-    private static List<Bytes> parse(List<Bytes> accumulator, Bytes bytes) {
-        if (bytes.isEmpty()) {
-            return accumulator;
-        } else {
-            Pair<Bytes, Bytes> lengthAndRemainder = bytes.split(4);
-            Pair<Bytes, Bytes> dataAndRemainder = lengthAndRemainder.second.split(lengthAndRemainder.first.integer());
-            accumulator.add(dataAndRemainder.first);
-            return parse(accumulator, dataAndRemainder.second);
-        }
-    }
 }
