@@ -6,19 +6,21 @@ import uk.org.lidalia.encoding.CachedEncodedBase;
 import uk.org.lidalia.encoding.InvalidEncoding;
 
 import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static uk.org.lidalia.crypto.rsa.Pkcs8Encoder.pkcs8;
+import static uk.org.lidalia.crypto.rsa.Pkcs8StringEncoder.pkcs8String;
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
 
-public class Pkcs8 extends CachedEncodedBase<RsaPrivateKey, String, Pkcs8> implements Encoded<RsaPrivateKey, String, Pkcs8> {
+public class Pkcs8String extends CachedEncodedBase<RsaPrivateKey, String, Pkcs8String> implements Encoded<RsaPrivateKey, String, Pkcs8String> {
 
-    Pkcs8(String raw) throws InvalidEncoding {
+    Pkcs8String(String raw) throws InvalidEncoding {
         super(raw, doDecode(raw));
     }
 
-    Pkcs8(RsaPrivateKey key) {
+    Pkcs8String(RsaPrivateKey key) {
         super(doEncode(key), key);
     }
 
@@ -40,7 +42,9 @@ public class Pkcs8 extends CachedEncodedBase<RsaPrivateKey, String, Pkcs8> imple
             Bytes keyBytes = base64.of(base64KeyStr).decode();
 
             try {
-                return RsaPrivateKey.fromEncoded(keyBytes);
+                final KeySpec privateKeySpec
+                        = new PKCS8EncodedKeySpec(keyBytes.array());
+                return RsaPrivateKey.from(privateKeySpec);
             } catch (InvalidKeySpecException e) {
                 throw new InvalidEncoding(raw, "Unknown key format", e) {};
             }
@@ -51,8 +55,8 @@ public class Pkcs8 extends CachedEncodedBase<RsaPrivateKey, String, Pkcs8> imple
     }
 
     @Override
-    public Pkcs8Encoder encoder() {
-        return pkcs8;
+    public Pkcs8StringEncoder encoder() {
+        return pkcs8String;
     }
 
 }

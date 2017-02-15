@@ -2,11 +2,11 @@ package uk.org.lidalia.crypto.rsa
 
 import spock.lang.Shared
 import uk.org.lidalia.EqualsAndHashcodeTests
-import uk.org.lidalia.crypto.rsa.RsaPrivateKey
 
 import java.security.KeyFactory
 import java.security.spec.PKCS8EncodedKeySpec
 
+import static Pkcs8StringEncoder.pkcs8String
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA
 
 class RsaPrivateCrtKeyEqualsAndHashcodeTests extends EqualsAndHashcodeTests<java.security.PrivateKey> {
@@ -16,11 +16,11 @@ class RsaPrivateCrtKeyEqualsAndHashcodeTests extends EqualsAndHashcodeTests<java
 
     RsaPrivateKey instance1A = keyPair1.privateKey()
     java.security.PrivateKey instance1B = javaPrivateKey(instance1A.bytes().array())
-    RsaPrivateKey instance1C = RsaPrivateKey.fromEncoded(instance1A.bytes())
+    RsaPrivateKey instance1C = instance1A.encode(pkcs8String).decode()
 
     RsaPrivateKey instance2A = keyPair2.privateKey()
     java.security.PrivateKey instance2B = javaPrivateKey(instance2A.bytes().array())
-    RsaPrivateKey instance2C = RsaPrivateKey.fromEncoded(instance2A.bytes())
+    RsaPrivateKey instance2C = instance2A.encode(pkcs8String).decode()
 
     private static java.security.PrivateKey javaPrivateKey(byte[] bytes) {
         KeyFactory.getInstance('RSA').generatePrivate(new PKCS8EncodedKeySpec(bytes))
