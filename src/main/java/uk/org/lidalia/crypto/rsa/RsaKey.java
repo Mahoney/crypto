@@ -1,7 +1,6 @@
 package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.AsymmetricKey;
-import uk.org.lidalia.encoding.Encodable;
 
 import java.math.BigInteger;
 import java.security.Key;
