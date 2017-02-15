@@ -2,6 +2,7 @@ package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.encoding.Bytes;
 import uk.org.lidalia.encoding.Encoded;
+import uk.org.lidalia.encoding.EncodedBase;
 import uk.org.lidalia.encoding.InvalidEncoding;
 
 import java.io.IOException;
@@ -13,14 +14,10 @@ import static uk.org.lidalia.crypto.rsa.Pkcs1Encoder.pkcs1;
 import static uk.org.lidalia.crypto.rsa.PrivateKeyReader.getRsaPrivateKeySpec;
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
 
-public class Pkcs1 implements Encoded<RsaPrivateKey, String, Pkcs1> {
-
-    private final String raw;
-    private final RsaPrivateKey key;
+public class Pkcs1 extends EncodedBase<RsaPrivateKey, String, Pkcs1> implements Encoded<RsaPrivateKey, String, Pkcs1> {
 
     Pkcs1(String raw) throws InvalidEncoding {
-        this.raw = raw;
-        this.key = doDecode(raw);
+        super(raw, doDecode(raw));
     }
 
     private static Pattern keyRegex = Pattern.compile(".*-----BEGIN RSA PRIVATE KEY-----(?<base64Key>.*)-----END RSA PRIVATE KEY-----.*", Pattern.DOTALL);
@@ -50,13 +47,4 @@ public class Pkcs1 implements Encoded<RsaPrivateKey, String, Pkcs1> {
         return pkcs1;
     }
 
-    @Override
-    public RsaPrivateKey decode() {
-        return key;
-    }
-
-    @Override
-    public String raw() {
-        return raw;
-    }
 }

@@ -12,7 +12,7 @@ public abstract class EncodedBase<Decoded, Raw, Self extends Encoded<Decoded, Ra
         this.decoded = decoded;
     }
 
-    public final String toString() {
+    public String toString() {
         return raw.toString();
     }
 
