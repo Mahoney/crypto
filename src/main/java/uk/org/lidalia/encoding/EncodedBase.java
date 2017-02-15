@@ -5,20 +5,13 @@ import java.util.Objects;
 public abstract class EncodedBase<Decoded, Raw, Self extends Encoded<Decoded, Raw, Self>> implements Encoded<Decoded, Raw, Self> {
 
     private final Raw raw;
-    private final Decoded decoded;
 
-    protected EncodedBase(Raw raw, Decoded decoded) {
+    protected EncodedBase(Raw raw) {
         this.raw = raw;
-        this.decoded = decoded;
     }
 
     public String toString() {
         return raw.toString();
-    }
-
-    @Override
-    public final Decoded decode() {
-        return decoded;
     }
 
     @Override

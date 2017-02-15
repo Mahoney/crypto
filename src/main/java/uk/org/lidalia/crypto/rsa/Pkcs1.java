@@ -2,7 +2,7 @@ package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.encoding.Bytes;
 import uk.org.lidalia.encoding.Encoded;
-import uk.org.lidalia.encoding.EncodedBase;
+import uk.org.lidalia.encoding.CachedEncodedBase;
 import uk.org.lidalia.encoding.InvalidEncoding;
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ import static uk.org.lidalia.crypto.rsa.Pkcs1Encoder.pkcs1;
 import static uk.org.lidalia.crypto.rsa.PrivateKeyReader.getRsaPrivateKeySpec;
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
 
-public class Pkcs1 extends EncodedBase<RsaPrivateKey, String, Pkcs1> implements Encoded<RsaPrivateKey, String, Pkcs1> {
+public class Pkcs1 extends CachedEncodedBase<RsaPrivateKey, String, Pkcs1> implements Encoded<RsaPrivateKey, String, Pkcs1> {
 
     Pkcs1(String raw) throws InvalidEncoding {
         super(raw, doDecode(raw));

@@ -1,14 +1,14 @@
 package uk.org.lidalia.encoding.base64;
 
 import uk.org.lidalia.encoding.Bytes;
-import uk.org.lidalia.encoding.EncodedBase;
+import uk.org.lidalia.encoding.CachedEncodedBase;
 import uk.org.lidalia.encoding.EncodedBytes;
 
 import java.util.regex.Pattern;
 
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
 
-public class Base64 extends EncodedBase<Bytes, String, Base64> implements EncodedBytes<Base64> {
+public class Base64 extends CachedEncodedBase<Bytes, String, Base64> implements EncodedBytes<Base64> {
 
     private static final String validBase64Chars = "[a-zA-Z0-9/+]";
     private static final String lastFour = validBase64Chars+"{3}=|"+validBase64Chars+"{2}={2}|"+validBase64Chars+"={3}";
