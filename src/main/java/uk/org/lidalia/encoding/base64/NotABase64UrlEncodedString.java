@@ -5,7 +5,11 @@ import uk.org.lidalia.encoding.NotAnEncodedString;
 public class NotABase64UrlEncodedString extends NotAnEncodedString {
 
     public static NotABase64UrlEncodedString of(String illegalString) {
-        return new NotABase64UrlEncodedString(illegalString, illegalString+" is not base64 URL encoded; should match "+Base64Url.legalBase64Encoding, null);
+        return of(illegalString, null);
+    }
+
+    public static NotABase64UrlEncodedString of(String illegalString, Throwable t) {
+        return new NotABase64UrlEncodedString(illegalString, illegalString+" is not base64 URL encoded", t);
     }
 
     private NotABase64UrlEncodedString(String illegalString, String message, Throwable cause) {

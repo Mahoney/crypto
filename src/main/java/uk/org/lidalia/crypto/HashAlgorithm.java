@@ -1,7 +1,7 @@
 package uk.org.lidalia.crypto;
 
 import uk.org.lidalia.encoding.Bytes;
-import uk.org.lidalia.encoding.Encoded;
+import uk.org.lidalia.encoding.EncodedBytes;
 
 import java.nio.charset.Charset;
 import java.util.Set;
@@ -25,7 +25,7 @@ public interface HashAlgorithm {
         return hash(input, UTF_8);
     }
 
-    default Hash hash(Encoded<?> input) {
+    default Hash hash(EncodedBytes<?> input) {
         return hash(input.decode());
     }
 

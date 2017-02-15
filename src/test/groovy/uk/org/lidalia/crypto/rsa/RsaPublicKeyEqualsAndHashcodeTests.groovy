@@ -1,6 +1,7 @@
-package uk.org.lidalia.crypto
+package uk.org.lidalia.crypto.rsa
 
 import spock.lang.Shared
+import uk.org.lidalia.EqualsAndHashcodeTests
 import uk.org.lidalia.crypto.rsa.RsaPrivateKey
 import uk.org.lidalia.crypto.rsa.RsaPublicKey
 

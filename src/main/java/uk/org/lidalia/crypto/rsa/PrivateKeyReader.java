@@ -85,7 +85,7 @@ class PrivateKeyReader {
         return new RSAPublicKeySpec(dataElements.get(2).bigInteger(), dataElements.get(1).bigInteger());
     }
 
-    static List<Bytes> parse(Bytes keyBytes) {
+    private static List<Bytes> parse(Bytes keyBytes) {
         return parse(new ArrayList<>(), keyBytes);
     }
 

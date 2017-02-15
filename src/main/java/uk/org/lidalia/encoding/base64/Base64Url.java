@@ -1,25 +1,30 @@
 package uk.org.lidalia.encoding.base64;
 
 import uk.org.lidalia.encoding.Bytes;
-import uk.org.lidalia.encoding.EncodedBase;
+import uk.org.lidalia.encoding.EncodedBytesBase;
 
-import java.util.regex.Pattern;
+import static java.util.Base64.getEncoder;
+import static uk.org.lidalia.encoding.base64.Base64UrlEncoder.base64Url;
 
-public class Base64Url extends EncodedBase<Base64Url> {
+public class Base64Url extends EncodedBytesBase<Base64Url> {
 
-    private static final String validBase64Chars = "[a-zA-Z0-9/+]";
-    private static final String lastFour = validBase64Chars+"{3}=|"+validBase64Chars+"{2}={2}|"+validBase64Chars+"={3}";
-    static final Pattern legalBase64Encoding = Pattern.compile("("+validBase64Chars+"{4})*("+lastFour+")?");
+    Base64Url(String encoded) throws NotABase64UrlEncodedString {
+        super(encoded, doDecode(encoded), base64Url);
+    }
 
-    Base64Url(String encoded, Base64UrlEncoder encoder) throws NotABase64UrlEncodedString {
-        super(encoded, encoder);
-        if (!legalBase64Encoding.matcher(encoded).matches()) {
-            throw NotABase64UrlEncodedString.of(encoded);
+    Base64Url(Bytes decoded) {
+        super(doEncode(decoded), decoded, base64Url);
+    }
+
+    private static Bytes doDecode(String encoded) throws NotABase64UrlEncodedString {
+        try {
+            return Bytes.of(java.util.Base64.getDecoder().decode(encoded));
+        } catch (IllegalArgumentException e) {
+            throw NotABase64UrlEncodedString.of(encoded, e);
         }
     }
 
-    @Override
-    public Bytes decode() {
-        return Bytes.of(java.util.Base64.getUrlDecoder().decode(toString()));
+    private static String doEncode(Bytes decoded) {
+        return getEncoder().encodeToString(decoded.array());
     }
 }

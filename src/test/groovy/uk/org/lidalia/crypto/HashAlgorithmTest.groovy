@@ -5,7 +5,7 @@ import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 import uk.org.lidalia.encoding.Bytes
-import uk.org.lidalia.encoding.Encoded
+import uk.org.lidalia.encoding.EncodedBytes
 
 import java.nio.charset.Charset
 
@@ -74,7 +74,7 @@ class HashAlgorithmTest extends Specification {
             method                                           | doHash
             HashAlgorithm.getMethod('hash', Bytes)           | { SHA256.hash(toHash) }
             HashAlgorithm.getMethod('hash', byte[])          | { SHA256.hash(toHash.array()) }
-            HashAlgorithm.getMethod('hash', Encoded)         | { SHA256.hash(toHash.encode()) }
+            HashAlgorithm.getMethod('hash', EncodedBytes)    | { SHA256.hash(toHash.encode()) }
             HashAlgorithm.getMethod('hash', String, Charset) | { SHA256.hash(toHash.string(), UTF_8) }
             HashAlgorithm.getMethod('hash', String)          | { SHA256.hash(toHash.string()) }
     }
@@ -93,7 +93,7 @@ class HashAlgorithmTest extends Specification {
             method                                     | matches
             Hash.getMethod('matches', Bytes)           | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch) }
             Hash.getMethod('matches', byte[])          | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch.array()) }
-            Hash.getMethod('matches', Encoded)         | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch.encode()) }
+            Hash.getMethod('matches', EncodedBytes)    | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch.encode()) }
             Hash.getMethod('matches', String, Charset) | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch.string(UTF_8), UTF_8) }
             Hash.getMethod('matches', String)          | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch.string()) }
     }

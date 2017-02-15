@@ -1,24 +1,9 @@
 package uk.org.lidalia.encoding;
 
-import java.nio.charset.Charset;
+public interface Encoder<Decoded, RawEncoded, E extends Encoded<Decoded, RawEncoded, E>> {
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+    E of(RawEncoded encoded) throws InvalidEncoding;
 
-public interface Encoder<T extends Encoded<T>> {
+    E encode(Decoded decoded);
 
-    T of(String encoded) throws NotAnEncodedString;
-
-    T encode(Bytes decoded);
-
-    default T encode(byte[] decoded) {
-        return encode(Bytes.of(decoded));
-    }
-
-    default T encode(String decoded) {
-        return encode(decoded, UTF_8);
-    }
-
-    default T encode(String decoded, Charset charset) {
-        return encode(Bytes.of(decoded, charset));
-    }
 }

@@ -3,6 +3,8 @@ package uk.org.lidalia.crypto.rsa;
 import uk.org.lidalia.crypto.DecryptKey;
 import uk.org.lidalia.crypto.PrivateKey;
 import uk.org.lidalia.encoding.Bytes;
+import uk.org.lidalia.encoding.Encodable;
+import uk.org.lidalia.encoding.InvalidEncoding;
 import uk.org.lidalia.encoding.base64.NotABase64EncodedString;
 
 import java.io.IOException;
@@ -20,6 +22,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.nio.file.Files.newInputStream;
+import static uk.org.lidalia.crypto.rsa.Pkcs1Encoder.pkcs1;
+import static uk.org.lidalia.crypto.rsa.Pkcs8Encoder.pkcs8;
 import static uk.org.lidalia.crypto.rsa.PrivateKeyReader.getRsaPrivateKeySpec;
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
@@ -29,7 +33,8 @@ public final class RsaPrivateKey
         implements RSAPrivateCrtKey,
                    PrivateKey<RsaPublicKey, RsaPrivateKey, RsaPrivateKey>,
                    uk.org.lidalia.crypto.KeyPair<RsaPublicKey, RsaPrivateKey, RsaPrivateKey>,
-                   DecryptKey<RsaPublicKey, RsaPrivateKey>{
+                   DecryptKey<RsaPublicKey, RsaPrivateKey>,
+                   Encodable<RsaPrivateKey> {
 
     public static RsaPrivateKey generate() throws IllegalStateException {
         return generate(2048);
@@ -43,32 +48,14 @@ public final class RsaPrivateKey
         return from((RSAPrivateCrtKey) keyPair.getPrivate());
     }
 
-    public static RsaPrivateKey fromFile(Path path) throws IOException, InvalidKeySpecException, NotABase64EncodedString {
+    public static RsaPrivateKey fromFile(Path path) throws IOException, InvalidEncoding {
         try (InputStream in = newInputStream(path)) {
             return fromString(Bytes.of(in).string());
         }
     }
 
-    private static Pattern keyRegex = Pattern.compile(".*-----BEGIN (?<pkcs1start>RSA )?PRIVATE KEY-----(?<base64Key>.*)-----END (?<pkcs1end>RSA )?PRIVATE KEY-----.*", Pattern.DOTALL);
-
-    public static RsaPrivateKey fromString(String keyStr) throws InvalidKeySpecException, NotABase64EncodedString, IOException {
-
-        Matcher keyMatcher = keyRegex.matcher(keyStr);
-
-        if (keyMatcher.matches()) {
-
-            String base64KeyStr = keyMatcher.group("base64Key").replaceAll("\\s+", "");
-            Bytes keyBytes = base64.of(base64KeyStr).decode();
-
-            if (Objects.equals(keyMatcher.group("pkcs1start"), "RSA ")) {
-                return fromKeySpec(getRsaPrivateKeySpec(keyBytes.array()));
-            } else {
-                return fromEncoded(keyBytes);
-            }
-
-        } else {
-            throw new InvalidKeySpecException("Unknown key format");
-        }
+    public static RsaPrivateKey fromString(String keyStr) throws InvalidEncoding {
+        return pkcs1.of(keyStr).decode();
     }
 
     public static RsaPrivateKey fromEncoded(final Bytes privateKeyEncoded)
@@ -98,19 +85,7 @@ public final class RsaPrivateKey
 
     @Override
     public String export() {
-        return exportPkcs8();
-    }
-
-    public String exportPkcs1() {
-        return "-----BEGIN RSA PRIVATE KEY-----\n"+
-                Bytes.of(getEncoded()).encode().toString().replaceAll("(.{64})", "$1\n")+
-                "\n-----END RSA PRIVATE KEY-----\n";
-    }
-
-    public String exportPkcs8() {
-        return "-----BEGIN PRIVATE KEY-----\n"+
-                Bytes.of(getEncoded()).encode().toString().replaceAll("(.{64})", "$1\n")+
-                "\n-----END PRIVATE KEY-----\n";
+        return encode(pkcs8).toString();
     }
 
     private RsaPublicKey buildPublicKey() {

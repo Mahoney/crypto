@@ -2,6 +2,7 @@ package uk.org.lidalia.crypto
 
 import org.apache.commons.lang3.RandomStringUtils
 import spock.lang.Shared
+import uk.org.lidalia.EqualsAndHashcodeTests
 import uk.org.lidalia.crypto.rsa.RsaPrivateKey
 
 import static uk.org.lidalia.crypto.HashAlgorithm.SHA256

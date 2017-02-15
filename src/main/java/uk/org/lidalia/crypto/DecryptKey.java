@@ -1,7 +1,7 @@
 package uk.org.lidalia.crypto;
 
 import uk.org.lidalia.encoding.Bytes;
-import uk.org.lidalia.encoding.Encoded;
+import uk.org.lidalia.encoding.EncodedBytes;
 
 public interface DecryptKey<
         E extends EncryptKey<E, D>,
@@ -32,11 +32,11 @@ public interface DecryptKey<
         return decrypt(encrypted, algorithm().defaultCipherAlgorithm());
     }
 
-    default Bytes decrypt(Encoded<?> encrypted, CipherAlgorithm<E, D> cipherAlgorithm) throws DecryptionFailedException {
+    default Bytes decrypt(EncodedBytes<?> encrypted, CipherAlgorithm<E, D> cipherAlgorithm) throws DecryptionFailedException {
         return decrypt(encrypted.decode(), cipherAlgorithm);
     }
 
-    default Bytes decrypt(Encoded<?> encrypted) throws DecryptionFailedException {
+    default Bytes decrypt(EncodedBytes<?> encrypted) throws DecryptionFailedException {
         return decrypt(encrypted, algorithm().defaultCipherAlgorithm());
     }
 }

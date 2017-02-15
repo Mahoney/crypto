@@ -1,7 +1,7 @@
 package uk.org.lidalia.crypto;
 
 import uk.org.lidalia.encoding.Bytes;
-import uk.org.lidalia.encoding.Encoded;
+import uk.org.lidalia.encoding.EncodedBytes;
 
 import java.util.Objects;
 
@@ -17,7 +17,7 @@ public class Signature {
         return new Signature(Bytes.of(hash), hashAlgorithm);
     }
 
-    public static Signature of(Encoded<?> hash, HashAlgorithm hashAlgorithm) {
+    public static Signature of(EncodedBytes<?> hash, HashAlgorithm hashAlgorithm) {
         return new Signature(hash.decode(), hashAlgorithm);
     }
 

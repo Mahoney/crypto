@@ -19,7 +19,7 @@ import java.util.Objects;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
 
-public class Bytes extends AbstractList<Byte> {
+public class Bytes extends AbstractList<Byte> implements Encodable<Bytes> {
 
     public static Bytes of(byte[] bytes) {
         return new Bytes(bytes);
@@ -122,10 +122,6 @@ public class Bytes extends AbstractList<Byte> {
 
     public BigInteger bigInteger() {
         return new BigInteger(array());
-    }
-
-    public <T extends Encoded<T>> T encode(Encoder<T> encoder) {
-        return encoder.encode(this);
     }
 
     public Base64 encode() {

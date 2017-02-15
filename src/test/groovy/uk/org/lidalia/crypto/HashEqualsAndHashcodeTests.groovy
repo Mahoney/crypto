@@ -1,6 +1,7 @@
 package uk.org.lidalia.crypto
 
 import org.apache.commons.lang3.RandomStringUtils
+import uk.org.lidalia.EqualsAndHashcodeTests
 
 import static uk.org.lidalia.crypto.HashAlgorithm.SHA256
 

@@ -1,9 +1,11 @@
 package uk.org.lidalia.encoding;
 
-public interface Encoded<T extends Encoded<T>> {
+public interface Encoded<Decoded, Raw, Self extends Encoded<Decoded, Raw, Self>> {
 
-    Encoder<T> encoder();
+    Encoder<Decoded, Raw, Self> encoder();
 
-    Bytes decode();
+    Decoded decode();
+
+    Raw raw();
 
 }

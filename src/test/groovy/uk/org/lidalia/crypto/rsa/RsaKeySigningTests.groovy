@@ -1,5 +1,8 @@
-package uk.org.lidalia.crypto
+package uk.org.lidalia.crypto.rsa
 
+import uk.org.lidalia.crypto.HashAlgorithm
+import uk.org.lidalia.crypto.KeyPair
+import uk.org.lidalia.crypto.SigningKeyTests
 import uk.org.lidalia.crypto.rsa.RsaPrivateKey
 import uk.org.lidalia.crypto.rsa.RsaPublicKey
 

@@ -5,7 +5,7 @@ import uk.org.lidalia.encoding.NotAnEncodedString;
 public class NotAHexEncodedString extends NotAnEncodedString {
 
     public static NotAHexEncodedString of(String illegalString) {
-        return new NotAHexEncodedString(illegalString, illegalString+" is not hex encoded; should match "+Hex.legalHexEncoding);
+        return new NotAHexEncodedString(illegalString, "Not a hex encoded string: ["+illegalString+"]");
     }
 
     private NotAHexEncodedString(String illegalString, String message) {
