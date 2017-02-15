@@ -4,11 +4,7 @@ import java.nio.charset.Charset;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public interface ByteEncoder<T extends EncodedBytes<T>> extends Encoder<Bytes, String, T> {
-
-    T of(String encoded) throws NotAnEncodedString;
-
-    T encode(Bytes decoded);
+public interface ByteEncoder<T extends Encoded<Bytes, String, T>> extends Encoder<Bytes, String, T> {
 
     default T encode(byte[] decoded) {
         return encode(Bytes.of(decoded));
