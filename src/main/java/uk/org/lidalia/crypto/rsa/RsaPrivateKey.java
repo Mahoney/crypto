@@ -19,7 +19,6 @@ import java.security.spec.RSAPublicKeySpec;
 
 import static java.nio.file.Files.newInputStream;
 import static uk.org.lidalia.crypto.rsa.Pkcs1StringEncoder.pkcs1String;
-import static uk.org.lidalia.crypto.rsa.Pkcs8StringEncoder.pkcs8String;
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
 
 public final class RsaPrivateKey
@@ -71,11 +70,6 @@ public final class RsaPrivateKey
         super(decorated);
         this.publicKey = buildPublicKey();
         this.keyPair = new KeyPair(publicKey, this);
-    }
-
-    @Override
-    public String export() {
-        return encode(pkcs8String).toString();
     }
 
     private RsaPublicKey buildPublicKey() {

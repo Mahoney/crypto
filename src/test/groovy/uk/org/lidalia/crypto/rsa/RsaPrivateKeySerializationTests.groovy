@@ -9,6 +9,9 @@ import uk.org.lidalia.encoding.Bytes
 import java.nio.file.Path
 
 import static java.nio.file.Files.createTempDirectory
+import static uk.org.lidalia.crypto.rsa.Pkcs1StringEncoder.pkcs1String
+import static uk.org.lidalia.crypto.rsa.Pkcs8StringEncoder.pkcs8String
+import static uk.org.lidalia.crypto.rsa.X509PublicKeyStringEncoder.x509PublicKeyString
 import static uk.org.lidalia.encoding.hex.HexEncoder.hex
 
 @IgnoreIf({ 'which ssh-keygen'.execute().waitFor() > 0 })
@@ -29,7 +32,7 @@ class RsaPrivateKeySerializationTests extends Specification {
             def importedPublicKey = RsaPublicKey.of(publicKeyFile)
 
         expect:
-            importedPublicKey.exportX509() == publicKeyPemFile.text
+            importedPublicKey.encode(x509PublicKeyString).raw() == publicKeyPemFile.text
 
     }
 
@@ -40,7 +43,7 @@ class RsaPrivateKeySerializationTests extends Specification {
             def importedPrivateKey = RsaPrivateKey.of(privateKeyFile)
 
         expect:
-            importedPrivateKey.encode() == privateKeyFile.text
+            importedPrivateKey.encode(pkcs1String).raw() == privateKeyFile.text
 
     }
 
@@ -80,7 +83,7 @@ class RsaPrivateKeySerializationTests extends Specification {
 
         given:
             def exportedPrivateKeyFile = tmpDir.resolve('id_rsa_exported')
-            exportedPrivateKeyFile << privateKey.export()
+            exportedPrivateKeyFile << privateKey.encode(pkcs8String).raw()
 
         when:
             def encryptedBytes = publicKey.encrypt(message)
@@ -97,7 +100,7 @@ class RsaPrivateKeySerializationTests extends Specification {
 
         given:
             def exportedPublicKeyFile = tmpDir.resolve('id_rsa_exported.pub')
-            exportedPublicKeyFile << publicKey.export()
+            exportedPublicKeyFile << publicKey.encode(x509PublicKeyString).raw()
 
         when:
             def encryptedBytes = openSslEncrypt(message, exportedPublicKeyFile)

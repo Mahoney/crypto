@@ -2,9 +2,7 @@ package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.EncryptKey;
 import uk.org.lidalia.crypto.PublicKey;
-import uk.org.lidalia.encoding.Bytes;
-import uk.org.lidalia.encoding.Encoded;
-import uk.org.lidalia.encoding.InvalidEncoding;
+import uk.org.lidalia.encoding.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,19 +11,20 @@ import java.nio.file.Path;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
-import java.security.spec.X509EncodedKeySpec;
 
 import static java.nio.file.Files.newInputStream;
 import static uk.org.lidalia.crypto.rsa.Rfc2453PublicKeyEncoder.rfc2453PublicKey;
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
+import static uk.org.lidalia.crypto.rsa.X509PublicKeyEncoder.x509PublicKey;
 
 public final class RsaPublicKey
         extends RsaKey<RSAPublicKey>
         implements RSAPublicKey, PublicKey<RsaPublicKey, RsaPrivateKey, RsaPrivateKey>,
-        EncryptKey<RsaPublicKey, RsaPrivateKey> {
+        EncryptKey<RsaPublicKey, RsaPrivateKey>,
+        Encodable<RsaPublicKey> {
 
-    public static RsaPublicKey of(final Bytes publicKeyEncoded) throws InvalidKeySpecException {
-        return of(new X509EncodedKeySpec(publicKeyEncoded.array()));
+    public static RsaPublicKey of(final Bytes publicKeyEncoded) throws InvalidEncoding {
+        return of(x509PublicKey.of(publicKeyEncoded));
     }
 
     public static RsaPublicKey of(final KeySpec publicKeySpec) throws InvalidKeySpecException {
@@ -54,15 +53,13 @@ public final class RsaPublicKey
         super(decorated);
     }
 
-    @Override
-    public String export() {
-        return exportX509();
+    public Rfc2453PublicKey encode() {
+        return encode(rfc2453PublicKey);
     }
 
-    public String exportX509() {
-        return "-----BEGIN PUBLIC KEY-----\n"+
-                Bytes.of(getEncoded()).encode().toString().replaceAll("(.{64})", "$1\n")+
-                "\n-----END PUBLIC KEY-----\n";
+    @Override
+    public String toString() {
+        return encode().raw();
     }
 
     /**** REMAINING METHODS DELEGATE ****/

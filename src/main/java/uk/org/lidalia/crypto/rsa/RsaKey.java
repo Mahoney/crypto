@@ -45,7 +45,7 @@ public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, Asymmetr
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
         return decorated.toString();
     }
 
@@ -59,5 +59,4 @@ public abstract class RsaKey<T extends Key & RSAKey> implements RSAKey, Asymmetr
         return decorated.hashCode();
     }
 
-    public abstract String export();
 }

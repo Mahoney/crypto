@@ -27,8 +27,7 @@ public class Pkcs8 extends CachedEncodedBase<RsaPrivateKey, Bytes, Pkcs8> implem
 
     private static RsaPrivateKey doDecode(Bytes raw) throws InvalidEncoding {
         try {
-            final KeySpec privateKeySpec
-                    = new PKCS8EncodedKeySpec(raw.array());
+            final KeySpec privateKeySpec = new PKCS8EncodedKeySpec(raw.array());
             return RsaPrivateKey.of(privateKeySpec);
         } catch (InvalidKeySpecException e) {
             throw new InvalidEncoding(raw, "Unknown key format", e) {};
