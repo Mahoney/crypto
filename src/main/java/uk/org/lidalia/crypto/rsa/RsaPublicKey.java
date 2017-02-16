@@ -13,7 +13,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
 import static java.nio.file.Files.newInputStream;
-import static uk.org.lidalia.crypto.rsa.Rfc2453PublicKeyEncoder.rfc2453PublicKey;
+import static uk.org.lidalia.crypto.rsa.Rfc2453PublicKeyStringEncoder.rfc2453PublicKeyString;
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
 import static uk.org.lidalia.crypto.rsa.X509PublicKeyStringEncoder.x509PublicKeyString;
 
@@ -43,7 +43,7 @@ public final class RsaPublicKey
 
     private static Encoder<RsaPublicKey, String, ?> encoderFor(String keyStr) {
         if (keyStr.startsWith("ssh-rsa ")) {
-            return rfc2453PublicKey;
+            return rfc2453PublicKeyString;
         } else {
             return x509PublicKeyString;
         }
@@ -57,8 +57,8 @@ public final class RsaPublicKey
         super(decorated);
     }
 
-    public Rfc2453PublicKey encode() {
-        return encode(rfc2453PublicKey);
+    public Rfc2453PublicKeyString encode() {
+        return encode(rfc2453PublicKeyString);
     }
 
     @Override

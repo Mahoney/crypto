@@ -18,13 +18,13 @@ import static java.util.stream.Collectors.toList;
 import static uk.org.lidalia.encoding.base64.Base64.legalBase64Encoding;
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
 
-public class Rfc2453PublicKey extends CachedEncodedBase<RsaPublicKey, String, Rfc2453PublicKey> implements Encoded<RsaPublicKey, String, Rfc2453PublicKey> {
+public class Rfc2453PublicKeyString extends CachedEncodedBase<RsaPublicKey, String, Rfc2453PublicKeyString> implements Encoded<RsaPublicKey, String, Rfc2453PublicKeyString> {
 
-    Rfc2453PublicKey(String bytes) throws InvalidEncoding {
+    Rfc2453PublicKeyString(String bytes) throws InvalidEncoding {
         super(bytes, doDecode(bytes));
     }
 
-    Rfc2453PublicKey(RsaPublicKey rsaPublicKey) {
+    Rfc2453PublicKeyString(RsaPublicKey rsaPublicKey) {
         super(doEncode(rsaPublicKey), rsaPublicKey);
     }
 
@@ -81,7 +81,7 @@ public class Rfc2453PublicKey extends CachedEncodedBase<RsaPublicKey, String, Rf
     }
 
     @Override
-    public Rfc2453PublicKeyEncoder encoder() {
-        return Rfc2453PublicKeyEncoder.rfc2453PublicKey;
+    public Rfc2453PublicKeyStringEncoder encoder() {
+        return Rfc2453PublicKeyStringEncoder.rfc2453PublicKeyString;
     }
 }
