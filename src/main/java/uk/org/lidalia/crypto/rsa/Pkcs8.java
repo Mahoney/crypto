@@ -29,7 +29,7 @@ public class Pkcs8 extends CachedEncodedBase<RsaPrivateKey, Bytes, Pkcs8> implem
         try {
             final KeySpec privateKeySpec
                     = new PKCS8EncodedKeySpec(raw.array());
-            return RsaPrivateKey.from(privateKeySpec);
+            return RsaPrivateKey.of(privateKeySpec);
         } catch (InvalidKeySpecException e) {
             throw new InvalidEncoding(raw, "Unknown key format", e) {};
         }

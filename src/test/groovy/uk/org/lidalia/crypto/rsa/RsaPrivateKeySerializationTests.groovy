@@ -26,7 +26,7 @@ class RsaPrivateKeySerializationTests extends Specification {
 
         given:
             def publicKeyPemFile = publicKeyPemFile(privateKeyFile)
-            def importedPublicKey = RsaPublicKey.fromFile(publicKeyFile)
+            def importedPublicKey = RsaPublicKey.of(publicKeyFile)
 
         expect:
             importedPublicKey.exportX509() == publicKeyPemFile.text
@@ -37,7 +37,7 @@ class RsaPrivateKeySerializationTests extends Specification {
     def 'exported private key is same as ssh-keygen generated one'() {
 
         given:
-            def importedPrivateKey = RsaPrivateKey.fromFile(privateKeyFile)
+            def importedPrivateKey = RsaPrivateKey.of(privateKeyFile)
 
         expect:
             importedPrivateKey.encode() == privateKeyFile.text
@@ -48,7 +48,7 @@ class RsaPrivateKeySerializationTests extends Specification {
 
         given:
             def publicKeyPemFile = publicKeyPemFile(privateKeyFile)
-            def privateKey = RsaPrivateKey.fromFile(privateKeyFile)
+            def privateKey = RsaPrivateKey.of(privateKeyFile)
 
         when:
             def encryptedBytes = openSslEncrypt(message, publicKeyPemFile)
@@ -64,7 +64,7 @@ class RsaPrivateKeySerializationTests extends Specification {
     def 'can import ssh-keygen public key, encrypt message with it and decrypt result with openssl'() {
 
         given:
-            def publicKey = RsaPublicKey.fromFile(publicKeyFile)
+            def publicKey = RsaPublicKey.of(publicKeyFile)
 
         when:
             def encryptedBytes = publicKey.encrypt(message)

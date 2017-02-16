@@ -38,29 +38,29 @@ public final class RsaPrivateKey
         return RSA.generateKeyPair(keysize);
     }
 
-    public static RsaPrivateKey from(KeyPair keyPair) {
-        return from((RSAPrivateCrtKey) keyPair.getPrivate());
+    public static RsaPrivateKey of(KeyPair keyPair) {
+        return of((RSAPrivateCrtKey) keyPair.getPrivate());
     }
 
-    public static RsaPrivateKey fromFile(Path path) throws IOException, InvalidEncoding {
+    public static RsaPrivateKey of(Path path) throws IOException, InvalidEncoding {
         try (InputStream in = newInputStream(path)) {
-            return from(Bytes.of(in).string());
+            return of(Bytes.of(in).string());
         }
     }
 
-    public static RsaPrivateKey from(String keyStr) throws InvalidEncoding {
-        return from(pkcs1String.of(keyStr));
+    public static RsaPrivateKey of(String keyStr) throws InvalidEncoding {
+        return of(pkcs1String.of(keyStr));
     }
 
-    public static RsaPrivateKey from(final KeySpec privateKeySpec) throws InvalidKeySpecException {
+    public static RsaPrivateKey of(final KeySpec privateKeySpec) throws InvalidKeySpecException {
         return RSA.privateKey(privateKeySpec);
     }
 
-    public static RsaPrivateKey from(final RSAPrivateCrtKey decorated) {
+    public static RsaPrivateKey of(final RSAPrivateCrtKey decorated) {
         return new RsaPrivateKey(decorated);
     }
 
-    public static RsaPrivateKey from(Encoded<RsaPrivateKey, ?, ?> encoded) throws InvalidEncoding {
+    public static RsaPrivateKey of(Encoded<RsaPrivateKey, ?, ?> encoded) throws InvalidEncoding {
         return encoded.decode();
     }
 
@@ -84,7 +84,7 @@ public final class RsaPrivateKey
                     getModulus(),
                     getPublicExponent()
             );
-            return RsaPublicKey.fromKeySpec(publicKeySpec);
+            return RsaPublicKey.of(publicKeySpec);
         } catch (final InvalidKeySpecException e) {
             throw new IllegalStateException(
                     "Creating an RSA public key from an RSA private key should always work. " +

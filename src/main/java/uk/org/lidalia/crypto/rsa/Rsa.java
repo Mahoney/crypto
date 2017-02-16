@@ -36,17 +36,17 @@ public class Rsa extends BaseAsymmetricKeyAlgorithm<RsaPublicKey, RsaPrivateKey,
 
     @Override
     public RsaPrivateKey generateKeyPair(int keySize) {
-        return RsaPrivateKey.from(generateDecoratedKeyPair(keySize));
+        return RsaPrivateKey.of(generateDecoratedKeyPair(keySize));
     }
 
     @Override
     public RsaPublicKey publicKey(KeySpec keySpec) throws InvalidKeySpecException {
-        return RsaPublicKey.from((RSAPublicKey) keyFactory().generatePublic(keySpec));
+        return RsaPublicKey.of((RSAPublicKey) keyFactory().generatePublic(keySpec));
     }
 
     @Override
     public RsaPrivateKey privateKey(KeySpec keySpec) throws InvalidKeySpecException {
-        return RsaPrivateKey.from((RSAPrivateCrtKey) keyFactory().generatePrivate(keySpec));
+        return RsaPrivateKey.of((RSAPrivateCrtKey) keyFactory().generatePrivate(keySpec));
     }
 
     @Override

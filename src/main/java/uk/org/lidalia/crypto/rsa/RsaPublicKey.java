@@ -3,6 +3,7 @@ package uk.org.lidalia.crypto.rsa;
 import uk.org.lidalia.crypto.EncryptKey;
 import uk.org.lidalia.crypto.PublicKey;
 import uk.org.lidalia.encoding.Bytes;
+import uk.org.lidalia.encoding.Encoded;
 import uk.org.lidalia.encoding.InvalidEncoding;
 
 import java.io.IOException;
@@ -23,20 +24,30 @@ public final class RsaPublicKey
         implements RSAPublicKey, PublicKey<RsaPublicKey, RsaPrivateKey, RsaPrivateKey>,
         EncryptKey<RsaPublicKey, RsaPrivateKey> {
 
-    public static RsaPublicKey fromEncoded(final Bytes publicKeyEncoded)
-            throws InvalidKeySpecException {
-        final X509EncodedKeySpec publicKeySpec
-                = new X509EncodedKeySpec(publicKeyEncoded.array());
-        return fromKeySpec(publicKeySpec);
+    public static RsaPublicKey of(final Bytes publicKeyEncoded) throws InvalidKeySpecException {
+        return of(new X509EncodedKeySpec(publicKeyEncoded.array()));
     }
 
-    public static RsaPublicKey fromKeySpec(final KeySpec publicKeySpec)
-            throws InvalidKeySpecException {
+    public static RsaPublicKey of(final KeySpec publicKeySpec) throws InvalidKeySpecException {
         return RSA.publicKey(publicKeySpec);
     }
 
-    public static RsaPublicKey from(final RSAPublicKey decorated) {
+    public static RsaPublicKey of(final RSAPublicKey decorated) {
         return new RsaPublicKey(decorated);
+    }
+
+    public static RsaPublicKey of(Path path) throws IOException, InvalidEncoding {
+        try (InputStream in = newInputStream(path)) {
+            return of(Bytes.of(in).string());
+        }
+    }
+
+    public static RsaPublicKey of(String keyStr) throws InvalidEncoding {
+        return of(rfc2453PublicKey.of(keyStr));
+    }
+
+    public static RsaPublicKey of(Encoded<RsaPublicKey, ?, ?> encoded) throws InvalidEncoding {
+        return encoded.decode();
     }
 
     private RsaPublicKey(final RSAPublicKey decorated) {
@@ -52,16 +63,6 @@ public final class RsaPublicKey
         return "-----BEGIN PUBLIC KEY-----\n"+
                 Bytes.of(getEncoded()).encode().toString().replaceAll("(.{64})", "$1\n")+
                 "\n-----END PUBLIC KEY-----\n";
-    }
-
-    public static RsaPublicKey fromFile(Path path) throws IOException, InvalidEncoding {
-        try (InputStream in = newInputStream(path)) {
-            return fromString(Bytes.of(in).string());
-        }
-    }
-
-    public static RsaPublicKey fromString(String keyStr) throws InvalidEncoding {
-        return rfc2453PublicKey.of(keyStr).decode();
     }
 
     /**** REMAINING METHODS DELEGATE ****/

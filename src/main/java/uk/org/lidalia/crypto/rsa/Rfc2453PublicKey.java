@@ -55,7 +55,7 @@ public class Rfc2453PublicKey extends CachedEncodedBase<RsaPublicKey, String, Rf
                 Bytes keyBytes = base64.of(base64KeyStr).decode();
                 List<Bytes> dataElements = parse(keyBytes);
                 RSAPublicKeySpec keySpec = new RSAPublicKeySpec(dataElements.get(2).bigInteger(), dataElements.get(1).bigInteger());
-                return RsaPublicKey.fromKeySpec(keySpec);
+                return RsaPublicKey.of(keySpec);
             } catch (Exception e) {
                 throw new InvalidEncoding("Unknown key format", encoded, e) {};
             }

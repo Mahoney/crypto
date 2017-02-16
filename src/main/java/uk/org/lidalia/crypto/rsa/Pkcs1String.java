@@ -32,7 +32,7 @@ public class Pkcs1String extends CachedEncodedBase<RsaPrivateKey, String, Pkcs1S
             Bytes keyBytes = base64.of(base64KeyStr).decode();
 
             try {
-                return RsaPrivateKey.from(getRsaPrivateKeySpec(keyBytes.array()));
+                return RsaPrivateKey.of(getRsaPrivateKeySpec(keyBytes.array()));
             } catch (IOException | InvalidKeySpecException e) {
                 throw new InvalidEncoding(raw, "Unknown key format", e) {};
             }
