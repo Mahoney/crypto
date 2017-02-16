@@ -15,17 +15,13 @@ import java.security.spec.KeySpec;
 import static java.nio.file.Files.newInputStream;
 import static uk.org.lidalia.crypto.rsa.Rfc2453PublicKeyEncoder.rfc2453PublicKey;
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
-import static uk.org.lidalia.crypto.rsa.X509PublicKeyEncoder.x509PublicKey;
+import static uk.org.lidalia.crypto.rsa.X509PublicKeyStringEncoder.x509PublicKeyString;
 
 public final class RsaPublicKey
         extends RsaKey<RSAPublicKey>
         implements RSAPublicKey, PublicKey<RsaPublicKey, RsaPrivateKey, RsaPrivateKey>,
         EncryptKey<RsaPublicKey, RsaPrivateKey>,
         Encodable<RsaPublicKey> {
-
-    public static RsaPublicKey of(final Bytes publicKeyEncoded) throws InvalidEncoding {
-        return of(x509PublicKey.of(publicKeyEncoded));
-    }
 
     public static RsaPublicKey of(final KeySpec publicKeySpec) throws InvalidKeySpecException {
         return RSA.publicKey(publicKeySpec);
@@ -42,7 +38,15 @@ public final class RsaPublicKey
     }
 
     public static RsaPublicKey of(String keyStr) throws InvalidEncoding {
-        return of(rfc2453PublicKey.of(keyStr));
+        return of(encoderFor(keyStr).of(keyStr));
+    }
+
+    private static Encoder<RsaPublicKey, String, ?> encoderFor(String keyStr) {
+        if (keyStr.startsWith("ssh-rsa ")) {
+            return rfc2453PublicKey;
+        } else {
+            return x509PublicKeyString;
+        }
     }
 
     public static RsaPublicKey of(Encoded<RsaPublicKey, ?, ?> encoded) throws InvalidEncoding {

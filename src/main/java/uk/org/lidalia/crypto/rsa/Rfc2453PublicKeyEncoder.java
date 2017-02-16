@@ -5,7 +5,7 @@ import uk.org.lidalia.encoding.InvalidEncoding;
 
 public class Rfc2453PublicKeyEncoder implements Encoder<RsaPublicKey, String, Rfc2453PublicKey> {
 
-    static Rfc2453PublicKeyEncoder rfc2453PublicKey = new Rfc2453PublicKeyEncoder();
+    public static final Rfc2453PublicKeyEncoder rfc2453PublicKey = new Rfc2453PublicKeyEncoder();
 
     @Override
     public Rfc2453PublicKey of(String encoded) throws InvalidEncoding {
