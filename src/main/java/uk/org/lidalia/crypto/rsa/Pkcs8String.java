@@ -1,18 +1,28 @@
 package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.Base64StringFormatEncoder;
-import uk.org.lidalia.encoding.*;
+import uk.org.lidalia.encoding.Bytes;
+import uk.org.lidalia.encoding.CachedEncodedBase;
+import uk.org.lidalia.encoding.ComposedEncoder;
+import uk.org.lidalia.encoding.Encoded;
+import uk.org.lidalia.encoding.InvalidEncoding;
 
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.compile;
 import static uk.org.lidalia.crypto.rsa.Pkcs8Encoder.pkcs8;
 import static uk.org.lidalia.crypto.rsa.Pkcs8StringEncoder.pkcs8String;
 
 public class Pkcs8String extends CachedEncodedBase<RsaPrivateKey, String, Pkcs8String> implements Encoded<RsaPrivateKey, String, Pkcs8String> {
 
-    private static final Base64StringFormatEncoder<RsaPrivateKey> base64StringFormatEncoder = new Base64StringFormatEncoder<>(
+    private static final ComposedEncoder<RsaPrivateKey, Bytes, String> base64StringFormatEncoder = new ComposedEncoder<>(
             pkcs8,
-            Pattern.compile(".*-----BEGIN PRIVATE KEY-----(?<base64Block>.*)-----END PRIVATE KEY-----.*", Pattern.DOTALL)
+            new Base64StringFormatEncoder(
+                    compile(
+                            ".*-----BEGIN PRIVATE KEY-----(?<base64Block>.*)-----END PRIVATE KEY-----.*",
+                            Pattern.DOTALL
+                    )
+            )
     );
 
     Pkcs8String(String raw) throws InvalidEncoding {

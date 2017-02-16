@@ -6,13 +6,11 @@ import uk.org.lidalia.encoding.InvalidEncoding;
 
 import java.util.regex.Pattern;
 
-public class Base64StringFormatEncoder<T> implements Encoder<T, String, Base64StringFormat<T>> {
+public class Base64StringFormatEncoder implements Encoder<Bytes, String, Base64StringFormat> {
 
-    private final Encoder<T, Bytes, ?> encoder;
     private final Pattern regex;
 
-    public Base64StringFormatEncoder(Encoder<T, Bytes, ?> encoder, Pattern regex) {
-        this.encoder = encoder;
+    public Base64StringFormatEncoder(Pattern regex) {
         this.regex = regex;
         if (!regex.pattern().contains("(?<base64Block>.*)")) {
             throw new IllegalStateException("Can only be constructed with a pattern containing (?<base64Block>.*)");
@@ -20,12 +18,12 @@ public class Base64StringFormatEncoder<T> implements Encoder<T, String, Base64St
     }
 
     @Override
-    public Base64StringFormat<T> of(String raw) throws InvalidEncoding {
-        return new Base64StringFormat<>(raw, encoder, regex, this);
+    public Base64StringFormat of(String raw) throws InvalidEncoding {
+        return new Base64StringFormat(raw, regex, this);
     }
 
     @Override
-    public Base64StringFormat<T> encode(T decoded) {
-        return new Base64StringFormat<>(decoded, encoder, regex, this);
+    public Base64StringFormat encode(Bytes decoded) {
+        return new Base64StringFormat(decoded, regex, this);
     }
 }
