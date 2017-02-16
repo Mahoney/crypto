@@ -1,9 +1,6 @@
 package uk.org.lidalia.crypto.rsa;
 
-import uk.org.lidalia.encoding.Bytes;
-import uk.org.lidalia.encoding.Encoded;
-import uk.org.lidalia.encoding.CachedEncodedBase;
-import uk.org.lidalia.encoding.InvalidEncoding;
+import uk.org.lidalia.encoding.*;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,15 +19,23 @@ public class Pkcs8String extends CachedEncodedBase<RsaPrivateKey, String, Pkcs8S
         super(doEncode(key), key);
     }
 
+    private static String keyRegexStr = ".*-----BEGIN PRIVATE KEY-----(?<base64Key>.*)-----END PRIVATE KEY-----.*";
+    private static Pattern keyRegex = Pattern.compile(keyRegexStr, Pattern.DOTALL);
+
     private static String doEncode(RsaPrivateKey decoded) {
-        return "-----BEGIN PRIVATE KEY-----\n"+
-                pkcs8.encode(decoded).raw().encode().toString().replaceAll("(.{64})", "$1\n")+
-                "\n-----END PRIVATE KEY-----\n";
+        return doEncode(decoded, keyRegexStr, pkcs8);
     }
 
-    private static Pattern keyRegex = Pattern.compile(".*-----BEGIN PRIVATE KEY-----(?<base64Key>.*)-----END PRIVATE KEY-----.*", Pattern.DOTALL);
+    private static <T, E extends Encoded<T, Bytes, E>> String doEncode(T decoded, String regexStr, Encoder<T, Bytes, E> encoder) {
+        String base64EncodedBlock = encoder.encode(decoded).raw().encode().toString().replaceAll("(.{64})", "$1\n");
+        return regexStr.replace("(?<base64Key>.*)", "\n"+base64EncodedBlock+"\n");
+    }
 
     private static RsaPrivateKey doDecode(String raw) throws InvalidEncoding {
+        return doDecode(raw, keyRegex, pkcs8);
+    }
+
+    private static <T, E extends Encoded<T, Bytes, E>> T doDecode(final String raw, Pattern keyRegex, Encoder<T, Bytes, E> encoder) throws InvalidEncoding {
 
         Matcher keyMatcher = keyRegex.matcher(raw);
 
@@ -38,7 +43,9 @@ public class Pkcs8String extends CachedEncodedBase<RsaPrivateKey, String, Pkcs8S
 
             String base64KeyStr = keyMatcher.group("base64Key").replaceAll("\\s+", "");
             Bytes keyBytes = base64.of(base64KeyStr).decode();
-            return pkcs8.of(keyBytes).decode();
+
+            return encoder.of(keyBytes).decode();
+
         } else {
             throw new InvalidEncoding(raw, "Unknown key format", null) {};
         }
