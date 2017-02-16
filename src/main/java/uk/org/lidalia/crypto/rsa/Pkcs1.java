@@ -1,11 +1,12 @@
 package uk.org.lidalia.crypto.rsa;
 
-import uk.org.lidalia.encoding.Bytes;
+import uk.org.lidalia.encoding.*;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPrivateCrtKeySpec;
+
+import static uk.org.lidalia.crypto.rsa.Pkcs1Encoder.pkcs1;
 
 /**
  * Class for reading RSA private key from PEM file. It uses
@@ -21,7 +22,11 @@ import java.security.spec.RSAPrivateCrtKeySpec;
  * It doesn't support encrypted PEM files.
  *
  */
-class Pkcs1 {
+class Pkcs1 extends CachedEncodedBase<RsaPrivateKey, Bytes, Pkcs1> implements Encoded<RsaPrivateKey, Bytes, Pkcs1> {
+
+    Pkcs1(Bytes raw) throws InvalidEncoding {
+        super(raw, doDecode(raw));
+    }
 
     /**
      * Convert PKCS#1 encoded private key into RSAPrivateCrtKeySpec.
@@ -50,32 +55,42 @@ class Pkcs1 {
      * @return KeySpec
      * @throws IOException
      */
-    static RsaPrivateKey of(Bytes keyBytes) throws IOException, InvalidKeySpecException {
+    private static RsaPrivateKey doDecode(Bytes keyBytes) throws InvalidEncoding {
 
-        DerParser parser = new DerParser(keyBytes.array());
+        try {
 
-        Asn1Object sequence = parser.read();
-        if (sequence.getType() != DerParser.SEQUENCE)
-            throw new IOException("Invalid DER: not a sequence"); //$NON-NLS-1$
+            DerParser parser = new DerParser(keyBytes.array());
 
-        // Parse inside the sequence
-        parser = sequence.getParser();
+            Asn1Object sequence = parser.read();
+            if (sequence.getType() != DerParser.SEQUENCE)
+                throw new IOException("Invalid DER: not a sequence"); //$NON-NLS-1$
 
-        parser.read(); // Skip version
-        BigInteger modulus = parser.read().getInteger();
-        BigInteger publicExp = parser.read().getInteger();
-        BigInteger privateExp = parser.read().getInteger();
-        BigInteger prime1 = parser.read().getInteger();
-        BigInteger prime2 = parser.read().getInteger();
-        BigInteger exp1 = parser.read().getInteger();
-        BigInteger exp2 = parser.read().getInteger();
-        BigInteger crtCoef = parser.read().getInteger();
+            // Parse inside the sequence
+            parser = sequence.getParser();
 
-        return RsaPrivateKey.of(
-                new RSAPrivateCrtKeySpec(
-                    modulus, publicExp, privateExp, prime1, prime2,
-                    exp1, exp2, crtCoef
-                )
-        );
+            parser.read(); // Skip version
+            BigInteger modulus = parser.read().getInteger();
+            BigInteger publicExp = parser.read().getInteger();
+            BigInteger privateExp = parser.read().getInteger();
+            BigInteger prime1 = parser.read().getInteger();
+            BigInteger prime2 = parser.read().getInteger();
+            BigInteger exp1 = parser.read().getInteger();
+            BigInteger exp2 = parser.read().getInteger();
+            BigInteger crtCoef = parser.read().getInteger();
+
+            return RsaPrivateKey.of(
+                    new RSAPrivateCrtKeySpec(
+                            modulus, publicExp, privateExp, prime1, prime2,
+                            exp1, exp2, crtCoef
+                    )
+            );
+        } catch (Exception e) {
+            throw new InvalidEncoding(keyBytes, "Unknown key format", e){};
+        }
+    }
+
+    @Override
+    public Encoder<RsaPrivateKey, Bytes, Pkcs1> encoder() {
+        return pkcs1;
     }
 }

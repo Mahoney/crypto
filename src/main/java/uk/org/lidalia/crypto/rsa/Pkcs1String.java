@@ -5,11 +5,10 @@ import uk.org.lidalia.encoding.Encoded;
 import uk.org.lidalia.encoding.CachedEncodedBase;
 import uk.org.lidalia.encoding.InvalidEncoding;
 
-import java.io.IOException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static uk.org.lidalia.crypto.rsa.Pkcs1Encoder.pkcs1;
 import static uk.org.lidalia.crypto.rsa.Pkcs1StringEncoder.pkcs1String;
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
 
@@ -30,11 +29,7 @@ public class Pkcs1String extends CachedEncodedBase<RsaPrivateKey, String, Pkcs1S
             String base64KeyStr = keyMatcher.group("base64Key").replaceAll("\\s+", "");
             Bytes keyBytes = base64.of(base64KeyStr).decode();
 
-            try {
-                return RsaPrivateKey.of(Pkcs1.of(keyBytes));
-            } catch (IOException | InvalidKeySpecException e) {
-                throw new InvalidEncoding(raw, "Unknown key format", e) {};
-            }
+            return pkcs1.of(keyBytes).decode();
 
         } else {
             throw new InvalidEncoding(raw, "Unknown key format", null) {};
