@@ -12,8 +12,7 @@ public class Pkcs8String extends CachedEncodedBase<RsaPrivateKey, String, Pkcs8S
 
     private static final Base64StringFormatEncoder<RsaPrivateKey> base64StringFormatEncoder = new Base64StringFormatEncoder<>(
             pkcs8,
-            Pattern.compile(".*-----BEGIN PRIVATE KEY-----(?<base64Block>.*)-----END PRIVATE KEY-----.*", Pattern.DOTALL),
-            true
+            Pattern.compile(".*-----BEGIN PRIVATE KEY-----(?<base64Block>.*)-----END PRIVATE KEY-----.*", Pattern.DOTALL)
     );
 
     Pkcs8String(String raw) throws InvalidEncoding {

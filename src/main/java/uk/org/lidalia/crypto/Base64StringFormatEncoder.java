@@ -10,12 +10,10 @@ public class Base64StringFormatEncoder<T> implements Encoder<T, String, Base64St
 
     private final Encoder<T, Bytes, ?> encoder;
     private final Pattern regex;
-    private final boolean multiline;
 
-    public Base64StringFormatEncoder(Encoder<T, Bytes, ?> encoder, Pattern regex, boolean multiline) {
+    public Base64StringFormatEncoder(Encoder<T, Bytes, ?> encoder, Pattern regex) {
         this.encoder = encoder;
         this.regex = regex;
-        this.multiline = multiline;
         if (!regex.pattern().contains("(?<base64Block>.*)")) {
             throw new IllegalStateException("Can only be constructed with a pattern containing (?<base64Block>.*)");
         }
@@ -28,6 +26,6 @@ public class Base64StringFormatEncoder<T> implements Encoder<T, String, Base64St
 
     @Override
     public Base64StringFormat<T> encode(T decoded) {
-        return new Base64StringFormat<>(decoded, encoder, regex, multiline, this);
+        return new Base64StringFormat<>(decoded, encoder, regex, this);
     }
 }

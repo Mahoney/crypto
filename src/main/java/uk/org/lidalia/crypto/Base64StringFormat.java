@@ -16,8 +16,8 @@ public class Base64StringFormat<T> extends CachedEncodedBase<T, String, Base64St
         this.encoder = encoder;
     }
 
-    Base64StringFormat(T decoded, Encoder<T, Bytes, ?> composedEncoder, Pattern regex, boolean multiline, Encoder<T, String, Base64StringFormat<T>> encoder) {
-        super(doEncode(decoded, regex.pattern(), composedEncoder, multiline), decoded);
+    Base64StringFormat(T decoded, Encoder<T, Bytes, ?> composedEncoder, Pattern regex, Encoder<T, String, Base64StringFormat<T>> encoder) {
+        super(doEncode(decoded, regex.pattern(), composedEncoder), decoded);
         this.encoder = encoder;
     }
 
@@ -26,11 +26,9 @@ public class Base64StringFormat<T> extends CachedEncodedBase<T, String, Base64St
         return encoder;
     }
 
-    private static <T, E extends Encoded<T, Bytes, E>> String doEncode(T decoded, String regexStr, Encoder<T, Bytes, E> composedEncoder, boolean multiline) {
-        String base64EncodedBlock = composedEncoder.encode(decoded).raw().encode().toString();
-        if (multiline) {
-            base64EncodedBlock = "\n"+base64EncodedBlock.replaceAll("(.{64})", "$1\n")+"\n";
-        }
+    private static <T, E extends Encoded<T, Bytes, E>> String doEncode(T decoded, String regexStr, Encoder<T, Bytes, E> composedEncoder) {
+        String base64 = composedEncoder.encode(decoded).raw().encode().toString();
+        String base64EncodedBlock = "\n" + base64.replaceAll("(.{64})", "$1\n") + "\n";
         return regexStr.replace("(?<base64Block>.*)", base64EncodedBlock).replaceAll("\\.\\*", "");
     }
 
