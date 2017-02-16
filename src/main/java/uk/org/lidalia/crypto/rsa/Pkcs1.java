@@ -25,7 +25,7 @@ import java.util.List;
  * It doesn't support encrypted PEM files.
  *
  */
-class PrivateKeyReader {
+class Pkcs1 {
 
     /**
      * Convert PKCS#1 encoded private key into RSAPrivateCrtKeySpec.
