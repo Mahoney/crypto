@@ -12,7 +12,7 @@ public class Base64StringFormatEncoder implements Encoder<Bytes, String, Base64S
 
     public Base64StringFormatEncoder(Pattern regex) {
         this.regex = regex;
-        if (!regex.pattern().contains("(?<base64Block>.*)")) {
+        if (!regex.pattern().contains("(?<base64Block>")) {
             throw new IllegalStateException("Can only be constructed with a pattern containing (?<base64Block>.*)");
         }
     }
