@@ -11,7 +11,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static uk.org.lidalia.crypto.rsa.Pkcs1StringEncoder.pkcs1String;
-import static uk.org.lidalia.crypto.rsa.PrivateKeyReader.getRsaPrivateKeySpec;
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
 
 public class Pkcs1String extends CachedEncodedBase<RsaPrivateKey, String, Pkcs1String> implements Encoded<RsaPrivateKey, String, Pkcs1String> {
@@ -32,7 +31,7 @@ public class Pkcs1String extends CachedEncodedBase<RsaPrivateKey, String, Pkcs1S
             Bytes keyBytes = base64.of(base64KeyStr).decode();
 
             try {
-                return RsaPrivateKey.of(getRsaPrivateKeySpec(keyBytes.array()));
+                return RsaPrivateKey.of(Pkcs1.of(keyBytes));
             } catch (IOException | InvalidKeySpecException e) {
                 throw new InvalidEncoding(raw, "Unknown key format", e) {};
             }

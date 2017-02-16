@@ -1,15 +1,11 @@
 package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.encoding.Bytes;
-import uk.org.lidalia.lang.Pair;
 
-import java.io.*;
+import java.io.IOException;
 import java.math.BigInteger;
+import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPrivateCrtKeySpec;
-import java.security.spec.RSAPublicKeySpec;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Class for reading RSA private key from PEM file. It uses
@@ -54,9 +50,9 @@ class Pkcs1 {
      * @return KeySpec
      * @throws IOException
      */
-    static RSAPrivateCrtKeySpec getRsaPrivateKeySpec(byte[] keyBytes) throws IOException  {
+    static RsaPrivateKey of(Bytes keyBytes) throws IOException, InvalidKeySpecException {
 
-        DerParser parser = new DerParser(keyBytes);
+        DerParser parser = new DerParser(keyBytes.array());
 
         Asn1Object sequence = parser.read();
         if (sequence.getType() != DerParser.SEQUENCE)
@@ -75,8 +71,11 @@ class Pkcs1 {
         BigInteger exp2 = parser.read().getInteger();
         BigInteger crtCoef = parser.read().getInteger();
 
-        return new RSAPrivateCrtKeySpec(
-                modulus, publicExp, privateExp, prime1, prime2,
-                exp1, exp2, crtCoef);
+        return RsaPrivateKey.of(
+                new RSAPrivateCrtKeySpec(
+                    modulus, publicExp, privateExp, prime1, prime2,
+                    exp1, exp2, crtCoef
+                )
+        );
     }
 }
