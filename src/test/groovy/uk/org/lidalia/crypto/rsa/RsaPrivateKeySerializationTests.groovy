@@ -32,7 +32,7 @@ class RsaPrivateKeySerializationTests extends Specification {
             def importedPublicKey = RsaPublicKey.of(publicKeyFile)
 
         expect:
-            importedPublicKey.encode(x509PublicKeyString).raw() == publicKeyPemFile.text
+            importedPublicKey.encode(x509PublicKeyString).raw()+"\n" == publicKeyPemFile.text
 
     }
 
