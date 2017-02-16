@@ -152,6 +152,20 @@ public class Bytes extends AbstractList<Byte> implements Encodable<Bytes> {
 
     @Override
     public Bytes subList(int fromIndex, int toIndex) {
+        validate(fromIndex, toIndex);
         return new Bytes(bytes, this.fromIndex + fromIndex, this.fromIndex + toIndex);
+    }
+
+    private void validate(int fromIndex, int toIndex) {
+        if (fromIndex < 0) {
+            throw new IndexOutOfBoundsException("fromIndex ["+fromIndex+"] must be >= 0");
+        }
+        if (fromIndex > toIndex) {
+            throw new IllegalArgumentException("fromIndex ["+fromIndex+"] must be <= to toIndex ["+toIndex+"]");
+        }
+        int size = size();
+        if (toIndex > size) {
+            throw new IndexOutOfBoundsException("toIndex ["+toIndex+"] must be <= to size() ["+ size +"]");
+        }
     }
 }
