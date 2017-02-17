@@ -2,12 +2,14 @@ package uk.org.lidalia.encoding;
 
 import java.util.Objects;
 
+import static java.util.Objects.requireNonNull;
+
 public abstract class EncodedBase<Decoded, Raw> implements Encoded<Decoded, Raw> {
 
     private final Raw raw;
 
     protected EncodedBase(Raw raw) {
-        this.raw = raw;
+        this.raw = requireNonNull(raw);
     }
 
     public String toString() {
