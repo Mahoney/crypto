@@ -49,7 +49,7 @@ public final class RsaPublicKey
         }
     }
 
-    public static RsaPublicKey of(Encoded<RsaPublicKey, ?, ?> encoded) throws InvalidEncoding {
+    public static RsaPublicKey of(Encoded<RsaPublicKey, ?> encoded) throws InvalidEncoding {
         return encoded.decode();
     }
 

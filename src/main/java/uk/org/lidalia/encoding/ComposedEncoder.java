@@ -6,12 +6,12 @@ public class ComposedEncoder<
         RawEncoded
         > implements Encoder<Decoded, RawEncoded, ComposedEncoded<Decoded, RawEncoded>> {
 
-    private final Encoder<Decoded, MidFormat, ? extends Encoded<Decoded, MidFormat, ?>> encoder1;
-    private final Encoder<MidFormat, RawEncoded, ? extends Encoded<MidFormat, RawEncoded, ?>> encoder2;
+    private final Encoder<Decoded, MidFormat, ? extends Encoded<Decoded, MidFormat>> encoder1;
+    private final Encoder<MidFormat, RawEncoded, ? extends Encoded<MidFormat, RawEncoded>> encoder2;
 
     public ComposedEncoder(
-        Encoder<Decoded, MidFormat, ? extends Encoded<Decoded, MidFormat, ?>> encoder1,
-        Encoder<MidFormat, RawEncoded, ? extends Encoded<MidFormat, RawEncoded, ?>> encoder2
+        Encoder<Decoded, MidFormat, ? extends Encoded<Decoded, MidFormat>> encoder1,
+        Encoder<MidFormat, RawEncoded, ? extends Encoded<MidFormat, RawEncoded>> encoder2
     ) {
         this.encoder1 = encoder1;
         this.encoder2 = encoder2;

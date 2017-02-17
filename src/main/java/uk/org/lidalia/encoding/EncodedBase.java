@@ -2,7 +2,7 @@ package uk.org.lidalia.encoding;
 
 import java.util.Objects;
 
-public abstract class EncodedBase<Decoded, Raw, Self extends Encoded<Decoded, Raw, Self>> implements Encoded<Decoded, Raw, Self> {
+public abstract class EncodedBase<Decoded, Raw> implements Encoded<Decoded, Raw> {
 
     private final Raw raw;
 

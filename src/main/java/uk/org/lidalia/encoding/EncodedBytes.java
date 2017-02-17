@@ -1,8 +1,6 @@
 package uk.org.lidalia.encoding;
 
-public interface EncodedBytes<T extends EncodedBytes<T>> extends Encoded<Bytes, String, T> {
-
-    ByteEncoder<T> encoder();
+public interface EncodedBytes extends Encoded<Bytes, String> {
 
     Bytes decode();
 

@@ -2,7 +2,7 @@ package uk.org.lidalia.encoding
 
 import uk.org.lidalia.EqualsAndHashcodeTests
 
-abstract class EncoderTests<Decoded, RawEncoded, E extends Encoded<Decoded, RawEncoded, E>> extends EqualsAndHashcodeTests<E> {
+abstract class EncoderTests<Decoded, RawEncoded, E extends Encoded<Decoded, RawEncoded>> extends EqualsAndHashcodeTests<E> {
 
     abstract Encoder<Decoded, RawEncoded, E> getEncoder()
 
@@ -61,16 +61,5 @@ abstract class EncoderTests<Decoded, RawEncoded, E extends Encoded<Decoded, RawE
             encoder.encode(encoder.of(instance1A.raw()).decode()).decode() == instance1
             encoder.encode(encoder.of(instance1B.raw()).decode()).decode() == instance1
             encoder.encode(encoder.of(instance1C.raw()).decode()).decode() == instance1
-    }
-
-    def 'an encodeds encoder is the one that encoded it'() {
-
-        expect:
-            instance1A.encoder() == encoder
-            instance1B.encoder() == encoder
-            instance1C.encoder() == encoder
-            instance2A.encoder() == encoder
-            instance2B.encoder() == encoder
-            instance2C.encoder() == encoder
     }
 }

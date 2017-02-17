@@ -2,19 +2,12 @@ package uk.org.lidalia.asn1;
 
 import uk.org.lidalia.encoding.Bytes;
 
-import static uk.org.lidalia.asn1.DerEncoder.der;
-
-public class Der implements EncodedAsn1<Bytes, Der> {
+public class Der implements EncodedAsn1<Bytes> {
 
     private final Bytes rawBytes;
 
     Der(Bytes rawBytes) {
         this.rawBytes = rawBytes;
-    }
-
-    @Override
-    public DerEncoder encoder() {
-        return der;
     }
 
     @Override

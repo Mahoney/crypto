@@ -1,6 +1,6 @@
 package uk.org.lidalia.encoding;
 
-public abstract class CachedEncodedBase<Decoded, Raw, Self extends Encoded<Decoded, Raw, Self>> extends EncodedBase<Decoded, Raw, Self> {
+public abstract class CachedEncodedBase<Decoded, Raw> extends EncodedBase<Decoded, Raw> {
 
     private final Decoded decoded;
 

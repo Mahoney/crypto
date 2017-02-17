@@ -32,11 +32,11 @@ public interface DecryptKey<
         return decrypt(encrypted, algorithm().defaultCipherAlgorithm());
     }
 
-    default Bytes decrypt(EncodedBytes<?> encrypted, CipherAlgorithm<E, D> cipherAlgorithm) throws DecryptionFailedException {
+    default Bytes decrypt(EncodedBytes encrypted, CipherAlgorithm<E, D> cipherAlgorithm) throws DecryptionFailedException {
         return decrypt(encrypted.decode(), cipherAlgorithm);
     }
 
-    default Bytes decrypt(EncodedBytes<?> encrypted) throws DecryptionFailedException {
+    default Bytes decrypt(EncodedBytes encrypted) throws DecryptionFailedException {
         return decrypt(encrypted, algorithm().defaultCipherAlgorithm());
     }
 }

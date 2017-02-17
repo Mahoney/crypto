@@ -21,7 +21,7 @@ public class Hash {
         return new Hash(Bytes.of(hash), hashAlgorithm);
     }
 
-    public static Hash of(EncodedBytes<?> hash, HashAlgorithm hashAlgorithm) {
+    public static Hash of(EncodedBytes hash, HashAlgorithm hashAlgorithm) {
         return new Hash(hash.decode(), hashAlgorithm);
     }
 
@@ -45,7 +45,7 @@ public class Hash {
         return matches(Bytes.of(unhashed));
     }
 
-    public boolean matches(EncodedBytes<?> unhashed) {
+    public boolean matches(EncodedBytes unhashed) {
         return matches(unhashed.decode());
     }
 

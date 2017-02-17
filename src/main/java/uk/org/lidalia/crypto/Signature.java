@@ -17,7 +17,7 @@ public class Signature {
         return new Signature(Bytes.of(hash), hashAlgorithm);
     }
 
-    public static Signature of(EncodedBytes<?> hash, HashAlgorithm hashAlgorithm) {
+    public static Signature of(EncodedBytes hash, HashAlgorithm hashAlgorithm) {
         return new Signature(hash.decode(), hashAlgorithm);
     }
 

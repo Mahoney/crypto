@@ -25,7 +25,7 @@ public interface HashAlgorithm {
         return hash(input, UTF_8);
     }
 
-    default Hash hash(EncodedBytes<?> input) {
+    default Hash hash(EncodedBytes input) {
         return hash(input.decode());
     }
 

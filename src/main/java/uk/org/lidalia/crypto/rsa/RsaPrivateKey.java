@@ -59,7 +59,7 @@ public final class RsaPrivateKey
         return new RsaPrivateKey(decorated);
     }
 
-    public static RsaPrivateKey of(Encoded<RsaPrivateKey, ?, ?> encoded) throws InvalidEncoding {
+    public static RsaPrivateKey of(Encoded<RsaPrivateKey, ?> encoded) throws InvalidEncoding {
         return encoded.decode();
     }
 

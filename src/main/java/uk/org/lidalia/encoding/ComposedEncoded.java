@@ -1,6 +1,6 @@
 package uk.org.lidalia.encoding;
 
-public class ComposedEncoded<Decoded, RawEncoded> extends CachedEncodedBase<Decoded, RawEncoded, ComposedEncoded<Decoded, RawEncoded>> {
+public class ComposedEncoded<Decoded, RawEncoded> extends CachedEncodedBase<Decoded, RawEncoded> {
 
     private final Encoder<Decoded, RawEncoded, ComposedEncoded<Decoded, RawEncoded>> encoder;
 
@@ -9,8 +9,4 @@ public class ComposedEncoded<Decoded, RawEncoded> extends CachedEncodedBase<Deco
         this.encoder = encoder;
     }
 
-    @Override
-    public Encoder<Decoded, RawEncoded, ComposedEncoded<Decoded, RawEncoded>> encoder() {
-        return encoder;
-    }
 }

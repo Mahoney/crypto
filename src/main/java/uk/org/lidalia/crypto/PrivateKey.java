@@ -32,7 +32,7 @@ public interface PrivateKey<
         return sign(Bytes.of(contents), hashAlgorithm);
     }
 
-    default Signature sign(EncodedBytes<?> contents, HashAlgorithm hashAlgorithm) {
+    default Signature sign(EncodedBytes contents, HashAlgorithm hashAlgorithm) {
         return sign(contents.decode(), hashAlgorithm);
     }
 
@@ -51,7 +51,7 @@ public interface PrivateKey<
         return sign(contents, SHA256);
     }
 
-    default Signature sign(EncodedBytes<?> contents) {
+    default Signature sign(EncodedBytes contents) {
         return sign(contents, SHA256);
     }
 

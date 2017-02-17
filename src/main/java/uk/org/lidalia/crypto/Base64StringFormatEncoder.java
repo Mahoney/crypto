@@ -22,12 +22,12 @@ public class Base64StringFormatEncoder implements Encoder<Bytes, String, Base64S
 
     @Override
     public Base64StringFormat of(String raw) throws InvalidEncoding {
-        return new Base64StringFormat(raw, doDecode(raw), this);
+        return new Base64StringFormat(raw, doDecode(raw));
     }
 
     @Override
     public Base64StringFormat encode(Bytes decoded) {
-        return new Base64StringFormat(doEncode(decoded), decoded, this);
+        return new Base64StringFormat(doEncode(decoded), decoded);
     }
 
     private String doEncode(Bytes decoded) {
