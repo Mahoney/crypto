@@ -19,17 +19,16 @@ public class Rfc2453PublicKeyStringEncoder implements Encoder<RsaPublicKey, Stri
         return new Rfc2453PublicKeyString(encoded, delegate.of(encoded).decode());
     }
 
-    @Override
-    public Rfc2453PublicKeyString encode(RsaPublicKey rsaPublicKey) {
-        return new Rfc2453PublicKeyString(doEncode(rsaPublicKey), rsaPublicKey);
-    }
-
     private static final ComposedEncoder<RsaPublicKey, Bytes, String> delegate = new ComposedEncoder<>(
             rfc2453PublicKey,
             new Base64StringFormatEncoder(compile("^ssh-rsa (?<base64Block>[^ ]*)( .*)?\\n?$", DOTALL))
     );
 
-    private static String doEncode(RsaPublicKey rsaPublicKey) {
-        return "ssh-rsa " + rfc2453PublicKey.encode(rsaPublicKey).raw().encode();
+    @Override
+    public Rfc2453PublicKeyString encode(RsaPublicKey rsaPublicKey) {
+        return new Rfc2453PublicKeyString(
+                "ssh-rsa " + rfc2453PublicKey.encode(rsaPublicKey).raw().encode(),
+                rsaPublicKey
+        );
     }
 }

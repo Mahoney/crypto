@@ -100,7 +100,7 @@ class RsaPrivateKeySerializationTests extends Specification {
 
         given:
             def exportedPublicKeyFile = tmpDir.resolve('id_rsa_exported.pub')
-            exportedPublicKeyFile << publicKey.encode(x509PublicKeyString).raw()
+            exportedPublicKeyFile << publicKey.encode(x509PublicKeyString)
 
         when:
             def encryptedBytes = openSslEncrypt(message, exportedPublicKeyFile)
