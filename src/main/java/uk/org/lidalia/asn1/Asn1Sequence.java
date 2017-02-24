@@ -26,7 +26,7 @@ public class Asn1Sequence implements Asn1 {
         return elements.get(i);
     }
 
-    List<Asn1> elements() {
+    public List<Asn1> elements() {
         return elements;
     }
 

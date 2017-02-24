@@ -9,7 +9,7 @@ import uk.org.lidalia.encoding.InvalidEncoding;
 import java.math.BigInteger;
 import java.security.spec.RSAPrivateCrtKeySpec;
 
-import static uk.org.lidalia.asn1.DerEncoder.der;
+import static uk.org.lidalia.asn1.der.DerEncoder.der;
 
 public class Pkcs1Encoder implements Encoder<RsaPrivateKey, Bytes, Pkcs1> {
 
@@ -27,19 +27,16 @@ public class Pkcs1Encoder implements Encoder<RsaPrivateKey, Bytes, Pkcs1> {
         Asn1Sequence sequence = der.of(keyBytes).decode().sequence();
 
         try {
-            BigInteger modulus = sequence.get(1).integer().value();
-            BigInteger publicExp = sequence.get(2).integer().value();
-            BigInteger privateExp = sequence.get(3).integer().value();
-            BigInteger prime1 = sequence.get(4).integer().value();
-            BigInteger prime2 = sequence.get(5).integer().value();
-            BigInteger exp1 = sequence.get(6).integer().value();
-            BigInteger exp2 = sequence.get(7).integer().value();
-            BigInteger crtCoef = sequence.get(8).integer().value();
-
             return RsaPrivateKey.of(
                     new RSAPrivateCrtKeySpec(
-                            modulus, publicExp, privateExp, prime1, prime2,
-                            exp1, exp2, crtCoef
+                            sequence.get(1).integer().value(),
+                            sequence.get(2).integer().value(),
+                            sequence.get(3).integer().value(),
+                            sequence.get(4).integer().value(),
+                            sequence.get(5).integer().value(),
+                            sequence.get(6).integer().value(),
+                            sequence.get(7).integer().value(),
+                            sequence.get(8).integer().value()
                     )
             );
         } catch (Exception e) {

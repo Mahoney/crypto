@@ -1,5 +1,7 @@
-package uk.org.lidalia.asn1;
+package uk.org.lidalia.asn1.der;
 
+import uk.org.lidalia.asn1.Asn1;
+import uk.org.lidalia.asn1.Asn1Sequence;
 import uk.org.lidalia.encoding.Bytes;
 import uk.org.lidalia.encoding.InvalidEncoding;
 import uk.org.lidalia.lang.Pair;
@@ -9,7 +11,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
-import static uk.org.lidalia.asn1.DerEncoder.der;
 
 class DerSequenceEncoder implements SpecificDerEncoder {
 
@@ -27,7 +28,7 @@ class DerSequenceEncoder implements SpecificDerEncoder {
         List<Bytes> parse = parse(bytes);
         List<Asn1> entries = new ArrayList<>(parse.size());
         for (Bytes b: parse) {
-            entries.add(der.of(b).decode());
+            entries.add(DerEncoder.der.of(b).decode());
         }
         return Asn1Sequence.of(entries);
     }
@@ -72,7 +73,7 @@ class DerSequenceEncoder implements SpecificDerEncoder {
         Asn1Sequence asn1Sequence = asn1.sequence();
         return Bytes.of(
                 asn1Sequence.elements().stream()
-                .map(element -> der.encode(element).raw())
+                .map(element -> DerEncoder.der.encode(element).raw())
                 .collect(toList())
         );
     }
