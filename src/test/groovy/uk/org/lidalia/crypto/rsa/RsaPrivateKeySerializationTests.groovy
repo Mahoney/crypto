@@ -1,7 +1,6 @@
 package uk.org.lidalia.crypto.rsa
 
 import org.apache.commons.lang3.RandomStringUtils
-import spock.lang.Ignore
 import spock.lang.IgnoreIf
 import spock.lang.Specification
 import uk.org.lidalia.encoding.Bytes
@@ -36,14 +35,13 @@ class RsaPrivateKeySerializationTests extends Specification {
 
     }
 
-    @Ignore('Not yet worked out how to export to PKCS1 format')
     def 'exported private key is same as ssh-keygen generated one'() {
 
         given:
             def importedPrivateKey = RsaPrivateKey.of(privateKeyFile)
 
         expect:
-            importedPrivateKey.encode(pkcs1String).raw() == privateKeyFile.text
+            importedPrivateKey.encode(pkcs1String).raw()+"\n" == privateKeyFile.text
 
     }
 

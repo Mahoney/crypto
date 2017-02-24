@@ -6,6 +6,14 @@ import static uk.org.lidalia.asn1.DerEncoder.der;
 
 public interface Asn1 extends Encodable<Asn1> {
 
+    default Asn1Integer integer() {
+        return (Asn1Integer) this;
+    }
+
+    default Asn1Sequence sequence() {
+        return (Asn1Sequence) this;
+    }
+
     enum Asn1Class {
         Universal,
         Application,

@@ -3,11 +3,7 @@ package uk.org.lidalia.encoding;
 import uk.org.lidalia.encoding.base64.Base64;
 import uk.org.lidalia.lang.Pair;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
@@ -17,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Arrays.asList;
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
 
 public class Bytes extends AbstractList<Byte> implements Encodable<Bytes> {
@@ -57,6 +54,10 @@ public class Bytes extends AbstractList<Byte> implements Encodable<Bytes> {
         return uncopied(bigInteger.toByteArray());
     }
 
+    public static Bytes of(byte b) {
+        return uncopied(new byte[] { b });
+    }
+
     public static Bytes of(int integer) {
         return uncopied(ByteBuffer.allocate(4).putInt(integer).array());
     }
@@ -65,6 +66,10 @@ public class Bytes extends AbstractList<Byte> implements Encodable<Bytes> {
 
     public static Bytes empty() {
         return empty;
+    }
+
+    public static Bytes of(Bytes... elements) {
+        return of(asList(elements));
     }
 
     // TODO this could be more efficient with no copying by storing the List<Bytes> as the

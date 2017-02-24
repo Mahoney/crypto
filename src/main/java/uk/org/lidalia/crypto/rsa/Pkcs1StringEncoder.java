@@ -33,6 +33,6 @@ public class Pkcs1StringEncoder implements Encoder<RsaPrivateKey, String, Pkcs1S
 
     @Override
     public Pkcs1String encode(RsaPrivateKey decoded) {
-        throw new UnsupportedOperationException("Not implemented");
+        return new Pkcs1String(delegate.encode(decoded).raw(), decoded);
     }
 }
