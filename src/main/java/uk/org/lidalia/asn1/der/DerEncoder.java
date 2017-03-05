@@ -70,18 +70,21 @@ public class DerEncoder implements Asn1Encoder<Bytes, Der> {
 
     private Asn1 doDecode(Bytes encoded) throws InvalidEncoding {
         byte tag = encoded.get(0);
+
         Bytes lengthBytes = getLengthBytes(encoded.drop(1));
-        int length = getLength(lengthBytes);
-        Bytes value = encoded.subList(lengthBytes.size()+1, lengthBytes.size()+1+length);
+        int valueStart = 1 + lengthBytes.size();
+        int valueEnd = valueStart + getLength(lengthBytes);
+
+        Bytes value = encoded.subList(valueStart, valueEnd);
         return encodersByDerType.get((int) tag).decode(value);
     }
 
 
-    private static int getLength(Bytes lengthBytes) {
+    static int getLength(Bytes lengthBytes) {
         return lengthBytes.size() == 1 ? lengthBytes.get(0) : lengthBytes.drop(1).bigInteger().intValue();
     }
 
-    private static Bytes getLengthBytes(Bytes bytes) {
+    static Bytes getLengthBytes(Bytes bytes) {
 
         byte i = bytes.get(0);
 

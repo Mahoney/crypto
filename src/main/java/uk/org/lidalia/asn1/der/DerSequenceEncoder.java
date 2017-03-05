@@ -11,6 +11,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
+import static uk.org.lidalia.asn1.der.DerEncoder.getLength;
+import static uk.org.lidalia.asn1.der.DerEncoder.getLengthBytes;
 
 class DerSequenceEncoder implements SpecificDerEncoder {
 
@@ -42,30 +44,13 @@ class DerSequenceEncoder implements SpecificDerEncoder {
             return accumulator;
         } else {
             Bytes lengthBytes = getLengthBytes(bytes.drop(1));
-            int length = getLength(lengthBytes);
-            int valueEnd = 1 + lengthBytes.size() + length;
+            int valueStart = 1 + lengthBytes.size();
+            int valueEnd = valueStart + getLength(lengthBytes);
 
             Pair<Bytes, Bytes> entryAndRemainder = bytes.split(valueEnd);
             accumulator.add(entryAndRemainder.first);
             return parse(accumulator, entryAndRemainder.second);
         }
-    }
-
-    private static int getLength(Bytes lengthBytes) {
-        return lengthBytes.size() == 1 ? lengthBytes.get(0) : lengthBytes.drop(1).bigInteger().intValue();
-    }
-
-    private static Bytes getLengthBytes(Bytes bytes) {
-
-        byte i = bytes.get(0);
-
-        // A single byte short length
-        if ((i & ~0x7F) == 0)
-            return bytes.take(1);
-
-        int num = i & 0x7F;
-
-        return bytes.subList(0, num + 1);
     }
 
     @Override
