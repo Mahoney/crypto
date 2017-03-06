@@ -3,7 +3,11 @@ package uk.org.lidalia.encoding;
 import uk.org.lidalia.encoding.base64.Base64;
 import uk.org.lidalia.lang.Pair;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
@@ -62,7 +66,7 @@ public class Bytes extends AbstractList<Byte> implements Encodable<Bytes> {
         return uncopied(ByteBuffer.allocate(4).putInt(integer).array());
     }
 
-    private static Bytes empty = Bytes.of(new byte[0]);
+    private static final Bytes empty = Bytes.of(new byte[0]);
 
     public static Bytes empty() {
         return empty;

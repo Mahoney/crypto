@@ -2,11 +2,7 @@ package uk.org.lidalia.encoding;
 
 public class ComposedEncoded<Decoded, RawEncoded> extends CachedEncodedBase<Decoded, RawEncoded> {
 
-    private final Encoder<Decoded, RawEncoded, ComposedEncoded<Decoded, RawEncoded>> encoder;
-
-    ComposedEncoded(Decoded decoded, RawEncoded rawEncoded, Encoder<Decoded, RawEncoded, ComposedEncoded<Decoded, RawEncoded>> encoder) {
+    ComposedEncoded(Decoded decoded, RawEncoded rawEncoded) {
         super(rawEncoded, decoded);
-        this.encoder = encoder;
     }
-
 }

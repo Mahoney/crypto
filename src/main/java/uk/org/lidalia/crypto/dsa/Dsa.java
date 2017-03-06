@@ -1,11 +1,7 @@
 package uk.org.lidalia.crypto.dsa;
 
 import uk.org.lidalia.crypto.BaseAsymmetricKeyAlgorithm;
-import uk.org.lidalia.crypto.CipherAlgorithm;
-import uk.org.lidalia.crypto.RequiredAlgorithmNotPresent;
 
-import javax.crypto.NoSuchPaddingException;
-import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.DSAPrivateKey;
 import java.security.interfaces.DSAPublicKey;
 import java.security.spec.InvalidKeySpecException;

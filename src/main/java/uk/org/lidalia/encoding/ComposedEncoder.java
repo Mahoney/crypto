@@ -23,14 +23,13 @@ public class ComposedEncoder<
                 encoder1.of(
                         encoder2.of(rawEncoded).decode()
                 ).decode(),
-                rawEncoded,
-                this
+                rawEncoded
         );
     }
 
     @Override
     public ComposedEncoded<Decoded, RawEncoded> encode(Decoded decoded) {
-        return new ComposedEncoded<>(decoded, encoder2.encode(encoder1.encode(decoded).raw()).raw(), this);
+        return new ComposedEncoded<>(decoded, encoder2.encode(encoder1.encode(decoded).raw()).raw());
     }
 }
 

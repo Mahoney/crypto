@@ -15,17 +15,6 @@ public interface Asn1 extends Encodable<Asn1> {
         return (Asn1Sequence) this;
     }
 
-    enum Asn1Class {
-        Universal,
-        Application,
-        Context,
-        Private
-    }
-
-    enum Tag {
-
-    }
-
     default Der encode() {
         return encode(der);
     }

@@ -1,12 +1,8 @@
 package uk.org.lidalia.crypto.dsa;
 
 import uk.org.lidalia.crypto.AsymmetricKey;
-import uk.org.lidalia.crypto.HashAlgorithm;
-import uk.org.lidalia.crypto.RequiredAlgorithmNotPresent;
 
 import java.security.Key;
-import java.security.NoSuchAlgorithmException;
-import java.security.Signature;
 import java.security.interfaces.DSAKey;
 import java.security.interfaces.DSAParams;
 

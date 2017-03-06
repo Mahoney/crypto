@@ -2,7 +2,11 @@ package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.EncryptKey;
 import uk.org.lidalia.crypto.PublicKey;
-import uk.org.lidalia.encoding.*;
+import uk.org.lidalia.encoding.Bytes;
+import uk.org.lidalia.encoding.Encodable;
+import uk.org.lidalia.encoding.Encoded;
+import uk.org.lidalia.encoding.Encoder;
+import uk.org.lidalia.encoding.InvalidEncoding;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,7 +53,7 @@ public final class RsaPublicKey
         }
     }
 
-    public static RsaPublicKey of(Encoded<RsaPublicKey, ?> encoded) throws InvalidEncoding {
+    public static RsaPublicKey of(Encoded<RsaPublicKey, ?> encoded) {
         return encoded.decode();
     }
 

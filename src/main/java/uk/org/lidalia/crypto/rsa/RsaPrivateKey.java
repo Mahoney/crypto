@@ -30,11 +30,11 @@ public final class RsaPrivateKey
                    Encodable<RsaPrivateKey> {
 
     public static RsaPrivateKey generate() throws IllegalStateException {
-        return generate(2048);
+        return generate(4096);
     }
 
-    public static RsaPrivateKey generate(int keysize) throws IllegalStateException {
-        return RSA.generateKeyPair(keysize);
+    public static RsaPrivateKey generate(int keySize) throws IllegalStateException {
+        return RSA.generateKeyPair(keySize);
     }
 
     public static RsaPrivateKey of(KeyPair keyPair) {
@@ -59,7 +59,7 @@ public final class RsaPrivateKey
         return new RsaPrivateKey(decorated);
     }
 
-    public static RsaPrivateKey of(Encoded<RsaPrivateKey, ?> encoded) throws InvalidEncoding {
+    public static RsaPrivateKey of(Encoded<RsaPrivateKey, ?> encoded) {
         return encoded.decode();
     }
 
