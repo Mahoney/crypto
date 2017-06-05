@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateCrtKey;
 import java.security.spec.InvalidKeySpecException;
@@ -41,10 +42,15 @@ public final class RsaPrivateKey
         return of((RSAPrivateCrtKey) keyPair.getPrivate());
     }
 
-    public static RsaPrivateKey of(Path path) throws IOException, InvalidEncoding {
+    public static RsaPrivateKey loadFrom(Path path) throws IOException, InvalidEncoding {
         try (InputStream in = newInputStream(path)) {
             return of(Bytes.of(in).string());
         }
+    }
+
+    public static RsaPrivateKey loadDefault() throws IOException, InvalidEncoding {
+        Path defaultRsaPrivateKey = Paths.get(System.getProperty("user.home"), ".ssh/id_rsa");
+        return loadFrom(defaultRsaPrivateKey);
     }
 
     public static RsaPrivateKey of(String keyStr) throws InvalidEncoding {

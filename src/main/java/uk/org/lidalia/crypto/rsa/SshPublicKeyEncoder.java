@@ -13,13 +13,13 @@ import java.util.stream.Stream;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 
-public class Rfc2453PublicKeyEncoder implements Encoder<RsaPublicKey, Bytes, Rfc2453PublicKey> {
+public class SshPublicKeyEncoder implements Encoder<RsaPublicKey, Bytes, SshPublicKey> {
 
-    public static final Rfc2453PublicKeyEncoder rfc2453PublicKey = new Rfc2453PublicKeyEncoder();
+    public static final SshPublicKeyEncoder sshPublicKey = new SshPublicKeyEncoder();
 
     @Override
-    public Rfc2453PublicKey of(Bytes encoded) throws InvalidEncoding {
-        return new Rfc2453PublicKey(encoded, doDecode(encoded));
+    public SshPublicKey of(Bytes encoded) throws InvalidEncoding {
+        return new SshPublicKey(encoded, doDecode(encoded));
     }
 
     private static RsaPublicKey doDecode(Bytes encoded) throws InvalidEncoding {
@@ -51,8 +51,8 @@ public class Rfc2453PublicKeyEncoder implements Encoder<RsaPublicKey, Bytes, Rfc
     }
 
     @Override
-    public Rfc2453PublicKey encode(RsaPublicKey rsaPublicKey) {
-        return new Rfc2453PublicKey(doEncode(rsaPublicKey), rsaPublicKey);
+    public SshPublicKey encode(RsaPublicKey rsaPublicKey) {
+        return new SshPublicKey(doEncode(rsaPublicKey), rsaPublicKey);
     }
 
     private static Bytes doEncode(RsaPublicKey rsaPublicKey) {
