@@ -30,14 +30,6 @@ public final class RsaPrivateKey
                    DecryptKey<RsaPublicKey, RsaPrivateKey>,
                    Encodable<RsaPrivateKey> {
 
-    public static RsaPrivateKey generate() throws IllegalStateException {
-        return generate(4096);
-    }
-
-    public static RsaPrivateKey generate(int keySize) throws IllegalStateException {
-        return RSA.generateKeyPair(keySize);
-    }
-
     public static RsaPrivateKey of(KeyPair keyPair) {
         return of((RSAPrivateCrtKey) keyPair.getPrivate());
     }

@@ -10,6 +10,7 @@ import java.nio.file.Path
 import static java.nio.file.Files.createTempDirectory
 import static uk.org.lidalia.crypto.rsa.Pkcs1StringEncoder.pkcs1String
 import static uk.org.lidalia.crypto.rsa.Pkcs8StringEncoder.pkcs8String
+import static uk.org.lidalia.crypto.rsa.Rsa.RSA
 import static uk.org.lidalia.crypto.rsa.X509PublicKeyStringEncoder.x509PublicKeyString
 import static uk.org.lidalia.encoding.hex.HexEncoder.hex
 
@@ -21,7 +22,7 @@ class RsaPrivateKeySerializationTests extends Specification {
     static def keyFilePair = sshKeygen(tmpDir)
     static def privateKeyFile = keyFilePair.first
     static def publicKeyFile = keyFilePair.second
-    static def privateKey = RsaPrivateKey.generate()
+    static def privateKey = RSA.generateKeyPair()
     static def publicKey = privateKey.publicKey()
 
     def 'exported public key is same as openssh converted one'() {
