@@ -11,8 +11,10 @@ public interface AsymmetricKeyAlgorithm<
 
     String name();
 
+    int defaultKeySize();
+
     default Pair generateKeyPair() {
-        return generateKeyPair(2048);
+        return generateKeyPair(defaultKeySize());
     }
 
     Pair generateKeyPair(int keySize);

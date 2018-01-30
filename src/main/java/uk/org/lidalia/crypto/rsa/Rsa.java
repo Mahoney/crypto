@@ -35,6 +35,11 @@ public class Rsa extends BaseAsymmetricKeyAlgorithm<RsaPublicKey, RsaPrivateKey,
     }
 
     @Override
+    public int defaultKeySize() {
+        return 4096;
+    }
+
+    @Override
     public RsaPrivateKey generateKeyPair(int keySize) {
         return RsaPrivateKey.of(generateDecoratedKeyPair(keySize));
     }

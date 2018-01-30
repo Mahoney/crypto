@@ -16,6 +16,11 @@ public class Dsa extends BaseAsymmetricKeyAlgorithm<DsaPublicKey, DsaPrivateKey,
     }
 
     @Override
+    public int defaultKeySize() {
+        return 2048;
+    }
+
+    @Override
     public DsaKeyPair generateKeyPair(int keySize) {
         return DsaKeyPair.from(generateDecoratedKeyPair(keySize));
     }
