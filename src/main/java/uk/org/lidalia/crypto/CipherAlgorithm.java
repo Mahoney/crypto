@@ -13,10 +13,23 @@ import java.security.NoSuchAlgorithmException;
 public final class CipherAlgorithm<E extends EncryptKey<E, D>, D extends DecryptKey<E, D>> {
 
     private final String cipherPaddingName;
+    private final ThreadLocal<Cipher> threadLocalCipher;
 
     public CipherAlgorithm(String cipherPaddingName) throws NoSuchPaddingException, NoSuchAlgorithmException {
-        Cipher.getInstance(cipherPaddingName);
         this.cipherPaddingName = cipherPaddingName;
+        Thread constructionThread = Thread.currentThread();
+        Cipher initial = Cipher.getInstance(cipherPaddingName);
+        this.threadLocalCipher = ThreadLocal.withInitial(() -> {
+            if (Thread.currentThread() == constructionThread) {
+                return initial;
+            } else {
+                try {
+                    return Cipher.getInstance(toString());
+                } catch (final NoSuchAlgorithmException | NoSuchPaddingException e) {
+                    throw new AssertionError("Should be impossible - checked construction of " + toString() + " on construction", e);
+                }
+            }
+        });
     }
 
     EncryptedBytes encrypt(final Bytes decrypted, EncryptKey key) {
@@ -43,17 +56,9 @@ public final class CipherAlgorithm<E extends EncryptKey<E, D>, D extends Decrypt
         final int encryptMode
     ) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
 
-        final Cipher cipher = cipher();
+        final Cipher cipher = threadLocalCipher.get();
         cipher.init(encryptMode, key);
         return cipher.doFinal(input.array());
-    }
-
-    private Cipher cipher() {
-        try {
-            return Cipher.getInstance(toString());
-        } catch (final NoSuchAlgorithmException | NoSuchPaddingException e) {
-            throw new AssertionError("Should be impossible - checked construction of "+toString()+" on construction", e);
-        }
     }
 
     @Override
