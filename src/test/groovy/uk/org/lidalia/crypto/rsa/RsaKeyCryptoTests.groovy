@@ -18,11 +18,11 @@ class RsaKeyCryptoTests extends CryptoKeyTests {
 
     @Override
     List<CipherAlgorithm> supportedAlgorithms() {
-        [Rsa.RsaEcbPkcs1Padding, Rsa.RsaEcbOaepWithSha1AndMgf1Padding, Rsa.RsaEcbOaepWithSha256AndMgf1Padding]
+        [Rsa.RsaEcbOaepWithSha1AndMgf1Padding, Rsa.RsaEcbOaepWithSha256AndMgf1Padding]
     }
 
     @Override
     CipherAlgorithm defaultAlgorithm() {
-        Rsa.RsaEcbPkcs1Padding
+        RSA.defaultCipherAlgorithm()
     }
 }

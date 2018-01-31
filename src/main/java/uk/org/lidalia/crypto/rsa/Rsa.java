@@ -17,12 +17,16 @@ public class Rsa extends BaseAsymmetricKeyAlgorithm<RsaPublicKey, RsaPrivateKey,
     public static final CipherAlgorithm<RsaPublicKey, RsaPrivateKey> RsaEcbPkcs1Padding;
     public static final CipherAlgorithm<RsaPublicKey, RsaPrivateKey> RsaEcbOaepWithSha1AndMgf1Padding;
     public static final CipherAlgorithm<RsaPublicKey, RsaPrivateKey> RsaEcbOaepWithSha256AndMgf1Padding;
+    public static final CipherAlgorithm<RsaPublicKey, RsaPrivateKey> RsaEcbOaepWithSha384AndMgf1Padding;
+    public static final CipherAlgorithm<RsaPublicKey, RsaPrivateKey> RsaEcbOaepWithSha512AndMgf1Padding;
 
     static {
         try {
-            RsaEcbPkcs1Padding = new CipherAlgorithm<>("RSA/ECB/PKCS1Padding");
-            RsaEcbOaepWithSha1AndMgf1Padding = new CipherAlgorithm<>("RSA/ECB/OAEPWithSHA-1AndMGF1Padding");
+            RsaEcbPkcs1Padding                 = new CipherAlgorithm<>("RSA/ECB/PKCS1Padding");
+            RsaEcbOaepWithSha1AndMgf1Padding   = new CipherAlgorithm<>("RSA/ECB/OAEPWithSHA-1AndMGF1Padding");
             RsaEcbOaepWithSha256AndMgf1Padding = new CipherAlgorithm<>("RSA/ECB/OAEPWithSHA-256AndMGF1Padding");
+            RsaEcbOaepWithSha384AndMgf1Padding = new CipherAlgorithm<>("RSA/ECB/OAEPWithSHA-384AndMGF1Padding");
+            RsaEcbOaepWithSha512AndMgf1Padding = new CipherAlgorithm<>("RSA/ECB/OAEPWithSHA-512AndMGF1Padding");
         } catch (NoSuchPaddingException | NoSuchAlgorithmException e) {
             throw new RequiredAlgorithmNotPresent("", e);
         }
@@ -56,6 +60,6 @@ public class Rsa extends BaseAsymmetricKeyAlgorithm<RsaPublicKey, RsaPrivateKey,
 
     @Override
     public CipherAlgorithm<RsaPublicKey, RsaPrivateKey> defaultCipherAlgorithm() {
-        return RsaEcbPkcs1Padding;
+        return RsaEcbOaepWithSha256AndMgf1Padding;
     }
 }

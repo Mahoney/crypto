@@ -56,7 +56,7 @@ class RsaPrivateKeySerializationTests extends Specification {
             def encryptedBytes = openSslEncrypt(message, publicKeyPemFile)
 
         then:
-            privateKey.decrypt(encryptedBytes).string() == message
+            privateKey.decrypt(encryptedBytes, Rsa.RsaEcbPkcs1Padding).string() == message
 
         where:
             message = RandomStringUtils.random(20).replaceAll("'", '')
@@ -69,7 +69,7 @@ class RsaPrivateKeySerializationTests extends Specification {
             def publicKey = RsaPublicKey.loadFrom(publicKeyFile)
 
         when:
-            def encryptedBytes = publicKey.encrypt(message)
+            def encryptedBytes = publicKey.encrypt(message, Rsa.RsaEcbPkcs1Padding)
 
         then:
             openSslDecrypt(encryptedBytes, privateKeyFile) == message
@@ -78,6 +78,7 @@ class RsaPrivateKeySerializationTests extends Specification {
             message = RandomStringUtils.random(20).replaceAll("'", '')
 
     }
+
     def 'can export private key and decrypt message with it'() {
 
         given:
@@ -85,7 +86,7 @@ class RsaPrivateKeySerializationTests extends Specification {
             exportedPrivateKeyFile << privateKey.encode(pkcs8String).raw()
 
         when:
-            def encryptedBytes = publicKey.encrypt(message)
+            def encryptedBytes = publicKey.encrypt(message, Rsa.RsaEcbPkcs1Padding)
 
         then:
             openSslDecrypt(encryptedBytes, exportedPrivateKeyFile) == message
@@ -105,7 +106,7 @@ class RsaPrivateKeySerializationTests extends Specification {
             def encryptedBytes = openSslEncrypt(message, exportedPublicKeyFile)
 
         then:
-            privateKey.decrypt(encryptedBytes).string() == message
+            privateKey.decrypt(encryptedBytes, Rsa.RsaEcbPkcs1Padding).string() == message
 
         where:
             message = RandomStringUtils.random(25).replaceAll("'", '')
