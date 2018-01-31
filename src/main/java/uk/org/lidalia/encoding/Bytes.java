@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.security.SecureRandom;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,10 +21,10 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
 
-public class Bytes extends AbstractList<Byte> implements Encodable<Bytes> {
+public final class Bytes extends AbstractList<Byte> implements Encodable<Bytes> {
 
     public static Bytes of(byte[] bytes) {
-        return new Bytes(bytes);
+        return new Bytes(Arrays.copyOf(bytes, bytes.length), 0, bytes.length);
     }
 
     public static Bytes of(InputStream in) throws IOException {
@@ -93,14 +94,21 @@ public class Bytes extends AbstractList<Byte> implements Encodable<Bytes> {
         return new Bytes(bytes, 0, bytes.length);
     }
 
+    private static final SecureRandom secureRandom = new SecureRandom();
+
+    public static Bytes random() {
+        return random(secureRandom.nextInt(1024));
+    }
+
+    public static Bytes random(int length) {
+        byte[] bytes = new byte[length];
+        secureRandom.nextBytes(bytes);
+        return uncopied(bytes);
+    }
+
     private final byte[] bytes;
     private final int fromIndex;
     private final int toIndex;
-
-    protected Bytes(byte[] bytes) {
-        this(Arrays.copyOf(bytes, bytes.length), 0, bytes.length);
-    }
-
 
     private Bytes(byte[] bytes, int fromIndex, int toIndex) {
         this.bytes = Objects.requireNonNull(bytes);

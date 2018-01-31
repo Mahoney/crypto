@@ -9,6 +9,7 @@ import uk.org.lidalia.encoding.EncodedBytes
 
 import javax.crypto.BadPaddingException
 import java.nio.charset.Charset
+import java.security.GeneralSecurityException
 
 import static java.nio.charset.StandardCharsets.UTF_8
 
@@ -48,16 +49,16 @@ abstract class CryptoKeyTests extends Specification {
             doDecrypt(encrypted) == message
 
         where:
-            method                                                           | doDecrypt
-            DecryptKey.getMethod('decrypt', EncryptedBytes)                  | { EncryptedBytes enc -> decryptKey.decrypt(enc) }
-            DecryptKey.getMethod('decrypt', Bytes)                           | { EncryptedBytes enc -> decryptKey.decrypt(Bytes.of(enc.array())) }
-            DecryptKey.getMethod('decrypt', byte[])                          | { EncryptedBytes enc -> decryptKey.decrypt(enc.array()) }
-            DecryptKey.getMethod('decrypt', EncodedBytes)                    | { EncryptedBytes enc -> decryptKey.decrypt(enc.encode()) }
+            method                                                             | doDecrypt
+            DecryptKey.getMethod('decrypt', EncryptionResult)                  | { EncryptionResult enc -> decryptKey.decrypt(enc) }
+            DecryptKey.getMethod('decrypt', Bytes)                             | { EncryptionResult enc -> decryptKey.decrypt(enc.bytes().array()) }
+            DecryptKey.getMethod('decrypt', byte[])                            | { EncryptionResult enc -> decryptKey.decrypt(enc.bytes().array()) }
+            DecryptKey.getMethod('decrypt', EncodedBytes)                      | { EncryptionResult enc -> decryptKey.decrypt(enc.bytes().encode()) }
 
-            DecryptKey.getMethod('decrypt', EncryptedBytes, CipherAlgorithm) | { EncryptedBytes enc -> decryptKey.decrypt(enc, defaultAlgorithm()) }
-            DecryptKey.getMethod('decrypt', Bytes, CipherAlgorithm)          | { EncryptedBytes enc -> decryptKey.decrypt(Bytes.of(enc.array()), defaultAlgorithm()) }
-            DecryptKey.getMethod('decrypt', byte[], CipherAlgorithm)         | { EncryptedBytes enc -> decryptKey.decrypt(enc.array(), defaultAlgorithm()) }
-            DecryptKey.getMethod('decrypt', EncodedBytes, CipherAlgorithm)   | { EncryptedBytes enc -> decryptKey.decrypt(enc.encode(), defaultAlgorithm()) }
+            DecryptKey.getMethod('decrypt', EncryptionResult, CipherAlgorithm) | { EncryptionResult enc -> decryptKey.decrypt(enc, defaultAlgorithm()) }
+            DecryptKey.getMethod('decrypt', Bytes, CipherAlgorithm)            | { EncryptionResult enc -> decryptKey.decrypt(enc.bytes(), defaultAlgorithm()) }
+            DecryptKey.getMethod('decrypt', byte[], CipherAlgorithm)           | { EncryptionResult enc -> decryptKey.decrypt(enc.bytes().array(), defaultAlgorithm()) }
+            DecryptKey.getMethod('decrypt', EncodedBytes, CipherAlgorithm)     | { EncryptionResult enc -> decryptKey.decrypt(enc.bytes().encode(), defaultAlgorithm()) }
 
     }
 
@@ -65,7 +66,7 @@ abstract class CryptoKeyTests extends Specification {
     def 'encrypting works using overloaded method #method'() {
 
         given:
-            def encrypted = doEncrypt() as EncryptedBytes
+            def encrypted = doEncrypt() as EncryptionResult
 
         expect:
             decryptKey.decrypt(encrypted) == message
@@ -106,7 +107,7 @@ abstract class CryptoKeyTests extends Specification {
         then:
             def e = thrown(DecryptionFailedException)
             e.message == 'Unable to decrypt data'
-            e.cause instanceof BadPaddingException
+            e.cause instanceof GeneralSecurityException
 
         where:
             randomMessage = Bytes.of(RandomStringUtils.random(32))

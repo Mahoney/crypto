@@ -32,17 +32,17 @@ public final class CipherAlgorithm<E extends EncryptKey<E, D>, D extends Decrypt
         });
     }
 
-    EncryptedBytes encrypt(final Bytes decrypted, EncryptKey key) throws EncryptionFailedException {
+    EncryptionResult encrypt(final Bytes decrypted, EncryptKey key) throws EncryptionFailedException {
         try {
-            return EncryptedBytes.of(doCrypto(decrypted, key, Cipher.ENCRYPT_MODE));
+            return EncryptionResult.of(doCrypto(decrypted, key, Cipher.ENCRYPT_MODE));
         } catch (final Exception e) {
             throw new EncryptionFailedException(e);
         }
     }
 
-    Bytes decrypt(final EncryptedBytes encrypted, DecryptKey key) throws DecryptionFailedException {
+    Bytes decrypt(final EncryptionResult encrypted, DecryptKey key) throws DecryptionFailedException {
         try {
-            return Bytes.of(doCrypto(encrypted, key, Cipher.DECRYPT_MODE));
+            return Bytes.of(doCrypto(encrypted.bytes(), key, Cipher.DECRYPT_MODE));
         } catch (final Exception e) {
             throw new DecryptionFailedException(e);
         }

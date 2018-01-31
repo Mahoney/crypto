@@ -3,6 +3,7 @@ package uk.org.lidalia.crypto.rsa
 import org.apache.commons.lang3.RandomStringUtils
 import spock.lang.IgnoreIf
 import spock.lang.Specification
+import uk.org.lidalia.crypto.EncryptionResult
 import uk.org.lidalia.encoding.Bytes
 
 import java.nio.file.Path
@@ -117,8 +118,8 @@ class RsaPrivateKeySerializationTests extends Specification {
         resultOf(proc("echo -n '${message}'") | proc("openssl rsautl -encrypt -pubin -inkey $publicKey"))
     }
 
-    private static String openSslDecrypt(Bytes encrypted, Path privateKey) {
-        resultOf(proc("echo -n -e '${hexCodes(encrypted)}'") | proc("openssl rsautl -decrypt -inkey $privateKey")).string()
+    private static String openSslDecrypt(EncryptionResult encrypted, Path privateKey) {
+        resultOf(proc("echo -n -e '${hexCodes(encrypted.bytes())}'") | proc("openssl rsautl -decrypt -inkey $privateKey")).string()
     }
 
     private static String hexCodes(Bytes encrypted) {
