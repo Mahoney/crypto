@@ -133,6 +133,10 @@ public class Bytes extends AbstractList<Byte> implements Encodable<Bytes> {
         return new BigInteger(array());
     }
 
+    public BigInteger unsignedBigInteger() {
+        return new BigInteger(1, array());
+    }
+
     public Base64 encode() {
         return encode(base64);
     }
@@ -161,8 +165,14 @@ public class Bytes extends AbstractList<Byte> implements Encodable<Bytes> {
 
     @Override
     public Bytes subList(int fromIndex, int toIndex) {
-        validate(fromIndex, toIndex);
-        return new Bytes(bytes, this.fromIndex + fromIndex, this.fromIndex + toIndex);
+        if (fromIndex == toIndex) {
+            return empty;
+        } else if (fromIndex == 0 && toIndex == this.size()) {
+            return this;
+        } else {
+            validate(fromIndex, toIndex);
+            return new Bytes(bytes, this.fromIndex + fromIndex, this.fromIndex + toIndex);
+        }
     }
 
     private void validate(int fromIndex, int toIndex) {
@@ -176,5 +186,14 @@ public class Bytes extends AbstractList<Byte> implements Encodable<Bytes> {
         if (toIndex > size) {
             throw new IndexOutOfBoundsException("toIndex ["+toIndex+"] must be <= to size() ["+ size +"]");
         }
+    }
+
+    public Bytes stripLeadingZeros() {
+        if (size() <= 1) return this;
+        if (get(0) != 0) return this;
+        for (int i = fromIndex; i < toIndex; i++) {
+            if (i != 0) return new Bytes(bytes, i, toIndex);
+        }
+        return Bytes.of((byte) 0);
     }
 }

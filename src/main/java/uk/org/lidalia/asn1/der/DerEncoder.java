@@ -58,8 +58,9 @@ public class DerEncoder implements Asn1Encoder<Bytes, Der> {
         if (size < 128) {
             return Bytes.of((byte) size);
         } else {
-            Bytes lengthSize = Bytes.of(BigInteger.valueOf(size));
-            return Bytes.of(Bytes.of((byte) (128 + lengthSize.size())), lengthSize);
+            Bytes lengthSize = Bytes.of(BigInteger.valueOf(size)).stripLeadingZeros();
+            Bytes lengthSizeSize = Bytes.of((byte) (128 + lengthSize.size()));
+            return Bytes.of(lengthSizeSize, lengthSize);
         }
     }
 
@@ -81,7 +82,7 @@ public class DerEncoder implements Asn1Encoder<Bytes, Der> {
 
 
     static int getLength(Bytes lengthBytes) {
-        return lengthBytes.size() == 1 ? lengthBytes.get(0) : lengthBytes.drop(1).bigInteger().intValue();
+        return lengthBytes.size() == 1 ? lengthBytes.get(0) : lengthBytes.drop(1).unsignedBigInteger().intValue();
     }
 
     static Bytes getLengthBytes(Bytes bytes) {
