@@ -32,13 +32,11 @@ public final class CipherAlgorithm<E extends EncryptKey<E, D>, D extends Decrypt
         });
     }
 
-    EncryptedBytes encrypt(final Bytes decrypted, EncryptKey key) {
+    EncryptedBytes encrypt(final Bytes decrypted, EncryptKey key) throws EncryptionFailedException {
         try {
             return EncryptedBytes.of(doCrypto(decrypted, key, Cipher.ENCRYPT_MODE));
-        } catch (BadPaddingException | IllegalBlockSizeException e) {
-            throw new AssertionError("Should not be possible to get these on encryption", e);
-        } catch (InvalidKeyException e) {
-            throw new RuntimeException(e); // TODO better exception!
+        } catch (final Exception e) {
+            throw new EncryptionFailedException(e);
         }
     }
 
