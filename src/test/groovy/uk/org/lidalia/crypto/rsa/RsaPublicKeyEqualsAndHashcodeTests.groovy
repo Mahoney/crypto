@@ -12,8 +12,8 @@ import static uk.org.lidalia.crypto.rsa.X509PublicKeyEncoder.x509PublicKey
 
 class RsaPublicKeyEqualsAndHashcodeTests extends EqualsAndHashcodeTests<PublicKey> {
 
-    @Shared RsaPrivateKey keyPair1 = RSA.generateKeyPair()
-    @Shared RsaPrivateKey keyPair2 = RSA.generateKeyPair()
+    @Shared RsaPrivateKey keyPair1 = RSA.generateKeyPair(1024)
+    @Shared RsaPrivateKey keyPair2 = RSA.generateKeyPair(1024)
 
     RsaPublicKey instance1A = keyPair1.publicKey()
     PublicKey instance1B = javaPublicKey(instance1A.encode(x509PublicKey).raw().array())

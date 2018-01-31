@@ -13,8 +13,8 @@ import static uk.org.lidalia.crypto.rsa.Rsa.RSA
 
 class RsaPrivateCrtKeyEqualsAndHashcodeTests extends EqualsAndHashcodeTests<PrivateKey> {
 
-    @Shared RsaPrivateKey keyPair1 = RSA.generateKeyPair()
-    @Shared RsaPrivateKey keyPair2 = RSA.generateKeyPair()
+    @Shared RsaPrivateKey keyPair1 = RSA.generateKeyPair(1024)
+    @Shared RsaPrivateKey keyPair2 = RSA.generateKeyPair(1024)
 
     RsaPrivateKey instance1A = keyPair1.privateKey()
     PrivateKey instance1B = javaPrivateKey(instance1A.encode(pkcs8).raw().array())

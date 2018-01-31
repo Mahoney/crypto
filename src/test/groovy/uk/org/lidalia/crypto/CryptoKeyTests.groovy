@@ -14,7 +14,7 @@ import static java.nio.charset.StandardCharsets.UTF_8
 
 abstract class CryptoKeyTests extends Specification {
 
-    @Shared Bytes message = Bytes.of(RandomStringUtils.random(60))
+    @Shared Bytes message = Bytes.of(RandomStringUtils.random(15))
 
     @Shared keyPair = generateKeyPair()
     @Shared encryptKey = keyPair.first
@@ -109,6 +109,6 @@ abstract class CryptoKeyTests extends Specification {
             e.cause instanceof BadPaddingException
 
         where:
-            randomMessage = Bytes.of(RandomStringUtils.random(60))
+            randomMessage = Bytes.of(RandomStringUtils.random(32))
     }
 }

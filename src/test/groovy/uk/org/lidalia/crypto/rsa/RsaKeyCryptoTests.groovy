@@ -12,7 +12,7 @@ class RsaKeyCryptoTests extends CryptoKeyTests {
 
     @Override
     Tuple2<EncryptKey, DecryptKey> generateKeyPair() {
-        def pair = RSA.generateKeyPair()
+        def pair = RSA.generateKeyPair(1024)
         new Tuple2<>(pair.publicKey(), pair.privateKey())
     }
 

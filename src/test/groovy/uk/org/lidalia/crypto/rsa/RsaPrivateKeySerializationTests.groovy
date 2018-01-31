@@ -22,7 +22,7 @@ class RsaPrivateKeySerializationTests extends Specification {
     static def keyFilePair = sshKeygen(tmpDir)
     static def privateKeyFile = keyFilePair.first
     static def publicKeyFile = keyFilePair.second
-    static def privateKey = RSA.generateKeyPair()
+    static def privateKey = RSA.generateKeyPair(1024)
     static def publicKey = privateKey.publicKey()
 
     def 'exported public key is same as openssh converted one'() {
@@ -59,7 +59,7 @@ class RsaPrivateKeySerializationTests extends Specification {
             privateKey.decrypt(encryptedBytes).string() == message
 
         where:
-            message = RandomStringUtils.random(100).replaceAll("'", '')
+            message = RandomStringUtils.random(20).replaceAll("'", '')
 
     }
 
@@ -75,7 +75,7 @@ class RsaPrivateKeySerializationTests extends Specification {
             openSslDecrypt(encryptedBytes, privateKeyFile) == message
 
         where:
-            message = RandomStringUtils.random(100).replaceAll("'", '')
+            message = RandomStringUtils.random(20).replaceAll("'", '')
 
     }
     def 'can export private key and decrypt message with it'() {
@@ -91,7 +91,7 @@ class RsaPrivateKeySerializationTests extends Specification {
             openSslDecrypt(encryptedBytes, exportedPrivateKeyFile) == message
 
         where:
-            message = RandomStringUtils.random(50).replaceAll("'", '')
+            message = RandomStringUtils.random(15).replaceAll("'", '')
 
     }
 
@@ -108,7 +108,7 @@ class RsaPrivateKeySerializationTests extends Specification {
             privateKey.decrypt(encryptedBytes).string() == message
 
         where:
-            message = RandomStringUtils.random(50).replaceAll("'", '')
+            message = RandomStringUtils.random(25).replaceAll("'", '')
 
     }
 
@@ -127,7 +127,7 @@ class RsaPrivateKeySerializationTests extends Specification {
     private static Tuple2<Path, Path> sshKeygen(Path tmpDir) {
         def privateKeyFile = tmpDir.resolve('id_rsa')
         def publicKeyFile = tmpDir.resolve('id_rsa.pub')
-        resultOf("ssh-keygen -t rsa -b 4096 -N '' -f $privateKeyFile")
+        resultOf("ssh-keygen -t rsa -b 1024 -N '' -f $privateKeyFile")
         new Tuple2<>(privateKeyFile, publicKeyFile)
     }
 

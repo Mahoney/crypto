@@ -13,8 +13,8 @@ import static uk.org.lidalia.crypto.dsa.Dsa.DSA
 
 class DsaPrivateCrtKeyEqualsAndHashcodeTests extends EqualsAndHashcodeTests<PrivateKey> {
 
-    @Shared DsaKeyPair keyPair1 = DSA.generateKeyPair()
-    @Shared DsaKeyPair keyPair2 = DSA.generateKeyPair()
+    @Shared DsaKeyPair keyPair1 = DSA.generateKeyPair(1024)
+    @Shared DsaKeyPair keyPair2 = DSA.generateKeyPair(1024)
 
     DsaPrivateKey instance1A = keyPair1.privateKey()
     PrivateKey instance1B = javaPrivateKey(instance1A.bytes().array())

@@ -10,7 +10,7 @@ class RsaKeySigningTests extends SigningKeyTests {
 
     @Override
     KeyPair generateKeyPair() {
-        RSA.generateKeyPair()
+        RSA.generateKeyPair(1024)
     }
 
     @Override

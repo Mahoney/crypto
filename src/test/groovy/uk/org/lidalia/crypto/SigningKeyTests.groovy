@@ -20,7 +20,7 @@ abstract class SigningKeyTests extends Specification {
 
     @Shared otherPublicKey = generateKeyPair().publicKey()
 
-    @Shared Bytes message = Bytes.of(RandomStringUtils.random(60))
+    @Shared Bytes message = Bytes.of(RandomStringUtils.random(25))
 
     abstract KeyPair generateKeyPair()
     abstract List<HashAlgorithm> supportedAlgorithms()

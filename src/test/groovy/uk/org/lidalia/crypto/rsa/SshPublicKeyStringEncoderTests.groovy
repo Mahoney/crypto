@@ -8,10 +8,10 @@ class SshPublicKeyStringEncoderTests extends EncoderTests<RsaPublicKey, String, 
 
     SshPublicKeyStringEncoder encoder = SshPublicKeyStringEncoder.sshPublicKeyString
 
-    private static final RsaPrivateKey cached1 = RSA.generateKeyPair()
+    private static final RsaPrivateKey cached1 = RSA.generateKeyPair(1024)
     RsaPublicKey instance1 = cached1.publicKey()
 
-    private static final RsaPrivateKey cached2 = RSA.generateKeyPair()
+    private static final RsaPrivateKey cached2 = RSA.generateKeyPair(1024)
     RsaPublicKey instance2 = cached2.publicKey()
 
     def 'round trip example'() {

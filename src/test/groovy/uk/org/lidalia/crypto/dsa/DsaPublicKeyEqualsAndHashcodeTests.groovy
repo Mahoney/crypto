@@ -13,8 +13,8 @@ import static uk.org.lidalia.crypto.dsa.Dsa.DSA
 
 class DsaPublicKeyEqualsAndHashcodeTests extends EqualsAndHashcodeTests<PublicKey> {
 
-    @Shared DsaKeyPair keyPair1 = DSA.generateKeyPair()
-    @Shared DsaKeyPair keyPair2 = DSA.generateKeyPair()
+    @Shared DsaKeyPair keyPair1 = DSA.generateKeyPair(1024)
+    @Shared DsaKeyPair keyPair2 = DSA.generateKeyPair(1024)
 
     DsaPublicKey instance1A = keyPair1.publicKey()
     PublicKey instance1B = javaPublicKey(instance1A.bytes().array())
