@@ -11,6 +11,7 @@ import javax.crypto.BadPaddingException
 import java.nio.charset.Charset
 
 import static java.nio.charset.StandardCharsets.UTF_8
+import static uk.org.lidalia.encoding.base64.Base64Encoder.base64
 
 abstract class CryptoKeyTests extends Specification {
 
@@ -52,12 +53,12 @@ abstract class CryptoKeyTests extends Specification {
             DecryptKey.getMethod('decrypt', EncryptedBytes)                  | { EncryptedBytes enc -> decryptKey.decrypt(enc) }
             DecryptKey.getMethod('decrypt', Bytes)                           | { EncryptedBytes enc -> decryptKey.decrypt(Bytes.of(enc.array())) }
             DecryptKey.getMethod('decrypt', byte[])                          | { EncryptedBytes enc -> decryptKey.decrypt(enc.array()) }
-            DecryptKey.getMethod('decrypt', EncodedBytes)                    | { EncryptedBytes enc -> decryptKey.decrypt(enc.encode()) }
+            DecryptKey.getMethod('decrypt', EncodedBytes)                    | { EncryptedBytes enc -> decryptKey.decrypt(enc.encode(base64)) }
 
             DecryptKey.getMethod('decrypt', EncryptedBytes, CipherAlgorithm) | { EncryptedBytes enc -> decryptKey.decrypt(enc, defaultAlgorithm()) }
             DecryptKey.getMethod('decrypt', Bytes, CipherAlgorithm)          | { EncryptedBytes enc -> decryptKey.decrypt(Bytes.of(enc.array()), defaultAlgorithm()) }
             DecryptKey.getMethod('decrypt', byte[], CipherAlgorithm)         | { EncryptedBytes enc -> decryptKey.decrypt(enc.array(), defaultAlgorithm()) }
-            DecryptKey.getMethod('decrypt', EncodedBytes, CipherAlgorithm)   | { EncryptedBytes enc -> decryptKey.decrypt(enc.encode(), defaultAlgorithm()) }
+            DecryptKey.getMethod('decrypt', EncodedBytes, CipherAlgorithm)   | { EncryptedBytes enc -> decryptKey.decrypt(enc.encode(base64), defaultAlgorithm()) }
 
     }
 

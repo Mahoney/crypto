@@ -6,6 +6,7 @@ import uk.org.lidalia.encoding.EncodedBytes;
 import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
+import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
 
 public class Signature {
 
@@ -53,6 +54,6 @@ public class Signature {
 
     @Override
     public String toString() {
-        return hash.encode().toString();
+        return hash.encode(base64).toString();
     }
 }

@@ -11,6 +11,7 @@ import java.nio.charset.Charset
 
 import static java.nio.charset.StandardCharsets.UTF_8
 import static uk.org.lidalia.crypto.HashAlgorithm.SHA256
+import static uk.org.lidalia.encoding.base64.Base64Encoder.base64
 
 abstract class SigningKeyTests extends Specification {
 
@@ -55,27 +56,27 @@ abstract class SigningKeyTests extends Specification {
             method                                                                      | doVerify
             PublicKey.getMethod('verify', Signature, Bytes)                             | { Signature sig -> publicKey.verify(sig, message) }
             PublicKey.getMethod('verify', Signature, byte[])                            | { Signature sig -> publicKey.verify(sig, message.array()) }
-            PublicKey.getMethod('verify', Signature, EncodedBytes)                      | { Signature sig -> publicKey.verify(sig, message.encode()) }
+            PublicKey.getMethod('verify', Signature, EncodedBytes)                      | { Signature sig -> publicKey.verify(sig, message.encode(base64)) }
             PublicKey.getMethod('verify', Signature, String, Charset)                   | { Signature sig -> publicKey.verify(sig, message.string(), UTF_8) }
             PublicKey.getMethod('verify', Signature, String)                            | { Signature sig -> publicKey.verify(sig, message.string()) }
 
             PublicKey.getMethod('verify', Bytes, HashAlgorithm, Bytes)                  | { Signature sig -> publicKey.verify(sig.bytes(), SHA256, message) }
             PublicKey.getMethod('verify', Bytes, HashAlgorithm, byte[])                 | { Signature sig -> publicKey.verify(sig.bytes(), SHA256, message.array()) }
-            PublicKey.getMethod('verify', Bytes, HashAlgorithm, EncodedBytes)           | { Signature sig -> publicKey.verify(sig.bytes(), SHA256, message.encode()) }
+            PublicKey.getMethod('verify', Bytes, HashAlgorithm, EncodedBytes)           | { Signature sig -> publicKey.verify(sig.bytes(), SHA256, message.encode(base64)) }
             PublicKey.getMethod('verify', Bytes, HashAlgorithm, String, Charset)        | { Signature sig -> publicKey.verify(sig.bytes(), SHA256, message.string(), UTF_8) }
             PublicKey.getMethod('verify', Bytes, HashAlgorithm, String)                 | { Signature sig -> publicKey.verify(sig.bytes(), SHA256, message.string()) }
 
             PublicKey.getMethod('verify', byte[], HashAlgorithm, Bytes)                 | { Signature sig -> publicKey.verify(sig.bytes().array(), SHA256, message) }
             PublicKey.getMethod('verify', byte[], HashAlgorithm, byte[])                | { Signature sig -> publicKey.verify(sig.bytes().array(), SHA256, message.array()) }
-            PublicKey.getMethod('verify', byte[], HashAlgorithm, EncodedBytes)          | { Signature sig -> publicKey.verify(sig.bytes().array(), SHA256, message.encode()) }
+            PublicKey.getMethod('verify', byte[], HashAlgorithm, EncodedBytes)          | { Signature sig -> publicKey.verify(sig.bytes().array(), SHA256, message.encode(base64)) }
             PublicKey.getMethod('verify', byte[], HashAlgorithm, String, Charset)       | { Signature sig -> publicKey.verify(sig.bytes().array(), SHA256, message.string(), UTF_8) }
             PublicKey.getMethod('verify', byte[], HashAlgorithm, String)                | { Signature sig -> publicKey.verify(sig.bytes().array(), SHA256, message.string()) }
 
-            PublicKey.getMethod('verify', EncodedBytes, HashAlgorithm, Bytes)           | { Signature sig -> publicKey.verify(sig.bytes().encode(), SHA256, message) }
-            PublicKey.getMethod('verify', EncodedBytes, HashAlgorithm, byte[])          | { Signature sig -> publicKey.verify(sig.bytes().encode(), SHA256, message.array()) }
-            PublicKey.getMethod('verify', EncodedBytes, HashAlgorithm, EncodedBytes)    | { Signature sig -> publicKey.verify(sig.bytes().encode(), SHA256, message.encode()) }
-            PublicKey.getMethod('verify', EncodedBytes, HashAlgorithm, String, Charset) | { Signature sig -> publicKey.verify(sig.bytes().encode(), SHA256, message.string(), UTF_8) }
-            PublicKey.getMethod('verify', EncodedBytes, HashAlgorithm, String)          | { Signature sig -> publicKey.verify(sig.bytes().encode(), SHA256, message.string()) }
+            PublicKey.getMethod('verify', EncodedBytes, HashAlgorithm, Bytes)           | { Signature sig -> publicKey.verify(sig.bytes().encode(base64), SHA256, message) }
+            PublicKey.getMethod('verify', EncodedBytes, HashAlgorithm, byte[])          | { Signature sig -> publicKey.verify(sig.bytes().encode(base64), SHA256, message.array()) }
+            PublicKey.getMethod('verify', EncodedBytes, HashAlgorithm, EncodedBytes)    | { Signature sig -> publicKey.verify(sig.bytes().encode(base64), SHA256, message.encode(base64)) }
+            PublicKey.getMethod('verify', EncodedBytes, HashAlgorithm, String, Charset) | { Signature sig -> publicKey.verify(sig.bytes().encode(base64), SHA256, message.string(), UTF_8) }
+            PublicKey.getMethod('verify', EncodedBytes, HashAlgorithm, String)          | { Signature sig -> publicKey.verify(sig.bytes().encode(base64), SHA256, message.string()) }
 
     }
 
@@ -92,13 +93,13 @@ abstract class SigningKeyTests extends Specification {
             method                                                       | doSign
             PrivateKey.getMethod('sign', Bytes, HashAlgorithm)           | { privateKey.sign(message, SHA256) }
             PrivateKey.getMethod('sign', byte[], HashAlgorithm)          | { privateKey.sign(message.array(), SHA256) }
-            PrivateKey.getMethod('sign', EncodedBytes, HashAlgorithm)    | { privateKey.sign(message.encode(), SHA256) }
+            PrivateKey.getMethod('sign', EncodedBytes, HashAlgorithm)    | { privateKey.sign(message.encode(base64), SHA256) }
             PrivateKey.getMethod('sign', String, Charset, HashAlgorithm) | { privateKey.sign(message.string(), UTF_8, SHA256) }
             PrivateKey.getMethod('sign', String, HashAlgorithm)          | { privateKey.sign(message.string(), SHA256) }
 
             PrivateKey.getMethod('sign', Bytes)                          | { privateKey.sign(message) }
             PrivateKey.getMethod('sign', byte[])                         | { privateKey.sign(message.array()) }
-            PrivateKey.getMethod('sign', EncodedBytes)                   | { privateKey.sign(message.encode()) }
+            PrivateKey.getMethod('sign', EncodedBytes)                   | { privateKey.sign(message.encode(base64)) }
             PrivateKey.getMethod('sign', String, Charset)                | { privateKey.sign(message.string(), UTF_8) }
             PrivateKey.getMethod('sign', String)                         | { privateKey.sign(message.string()) }
     }

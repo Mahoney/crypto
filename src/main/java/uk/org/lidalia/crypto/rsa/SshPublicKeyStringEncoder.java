@@ -9,6 +9,7 @@ import uk.org.lidalia.encoding.InvalidEncoding;
 import static java.util.regex.Pattern.DOTALL;
 import static java.util.regex.Pattern.compile;
 import static uk.org.lidalia.crypto.rsa.SshPublicKeyEncoder.sshPublicKey;
+import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
 
 public class SshPublicKeyStringEncoder implements Encoder<RsaPublicKey, String, SshPublicKeyString> {
 
@@ -27,7 +28,7 @@ public class SshPublicKeyStringEncoder implements Encoder<RsaPublicKey, String, 
     @Override
     public SshPublicKeyString encode(RsaPublicKey rsaPublicKey) {
         return new SshPublicKeyString(
-                "ssh-rsa " + sshPublicKey.encode(rsaPublicKey).raw().encode(),
+                "ssh-rsa " + sshPublicKey.encode(rsaPublicKey).raw().encode(base64),
                 rsaPublicKey
         );
     }
