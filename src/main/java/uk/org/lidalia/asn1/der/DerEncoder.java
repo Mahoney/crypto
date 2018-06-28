@@ -47,11 +47,11 @@ public class DerEncoder implements Asn1Encoder<Bytes, Der> {
     private Bytes doEncode(Asn1 asn1) {
         SpecificDerEncoder specificDerEncoder = encodersByJavaType.get(asn1.getClass());
         Bytes value = specificDerEncoder.encode(asn1);
-        return Bytes.of(asList(
+        return Bytes.of(
                 Bytes.of(specificDerEncoder.derType().byteValue()),
                 calculateLengthBytes(value.size()),
                 value
-        ));
+        );
     }
 
     private Bytes calculateLengthBytes(int size) {
