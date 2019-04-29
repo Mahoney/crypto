@@ -1,6 +1,6 @@
 package uk.org.lidalia.encoding.hex;
 
-import uk.org.lidalia.encoding.bytes.NotAnEncodedString;
+import uk.org.lidalia.encoding.core.NotAnEncodedString;
 
 public class NotAHexEncodedString extends NotAnEncodedString {
 

@@ -1,4 +1,4 @@
-package uk.org.lidalia.encoding.bytes;
+package uk.org.lidalia.encoding.core;
 
 import uk.org.lidalia.encoding.core.InvalidEncoding;
 

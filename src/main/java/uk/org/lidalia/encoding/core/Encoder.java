@@ -8,7 +8,7 @@ import uk.org.lidalia.lang.Bytes;
  * form (e.g. a Hex from a String).
  *
  * @param <Decoded> the type of the actual value that has been encoded
- *                 (in the case of a hex string, {@link Bytes})
+ *                 (in the case of a hex string, Bytes)
  * @param <RawEncoded> the type of the encoding
  *                 (in the case of a hex string, a String)
  * @param <E> the {@link Encoded} type
