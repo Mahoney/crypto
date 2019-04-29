@@ -1,6 +1,6 @@
 package uk.org.lidalia.crypto;
 
-import uk.org.lidalia.encoding.Bytes;
+import uk.org.lidalia.lang.Bytes;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;

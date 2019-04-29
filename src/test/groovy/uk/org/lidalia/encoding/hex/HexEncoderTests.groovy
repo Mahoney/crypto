@@ -2,7 +2,7 @@ package uk.org.lidalia.encoding.hex
 
 import org.apache.commons.lang3.RandomStringUtils
 import spock.lang.Unroll
-import uk.org.lidalia.encoding.Bytes
+import uk.org.lidalia.lang.Bytes
 import uk.org.lidalia.encoding.EncoderTests
 
 import static uk.org.lidalia.encoding.hex.HexEncoder.hex

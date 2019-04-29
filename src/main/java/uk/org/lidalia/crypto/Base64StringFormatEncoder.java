@@ -1,6 +1,6 @@
 package uk.org.lidalia.crypto;
 
-import uk.org.lidalia.encoding.Bytes;
+import uk.org.lidalia.lang.Bytes;
 import uk.org.lidalia.encoding.Encoder;
 import uk.org.lidalia.encoding.InvalidEncoding;
 
@@ -31,7 +31,7 @@ public class Base64StringFormatEncoder implements Encoder<Bytes, String, Base64S
     }
 
     private String doEncode(Bytes decoded) {
-        String base64Str = decoded.encode(base64).toString();
+        String base64Str = base64.encode(decoded).toString();
         String base64EncodedBlock = "\n" + base64Str.replaceAll("(.{64})", "$1\n").trim() + "\n";
         return regex.pattern().replace("(?<base64Block>.*)", base64EncodedBlock).replaceAll("\\.\\*", "");
     }

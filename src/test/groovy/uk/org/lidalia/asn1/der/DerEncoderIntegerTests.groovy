@@ -3,7 +3,7 @@ package uk.org.lidalia.asn1.der
 import spock.lang.Unroll
 import uk.org.lidalia.asn1.Asn1
 import uk.org.lidalia.asn1.Asn1Integer
-import uk.org.lidalia.encoding.Bytes
+import uk.org.lidalia.lang.Bytes
 import uk.org.lidalia.encoding.EncoderTests
 
 import static uk.org.lidalia.asn1.der.DerEncoder.der

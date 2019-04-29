@@ -4,7 +4,7 @@ import org.apache.commons.lang3.RandomStringUtils
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
-import uk.org.lidalia.encoding.Bytes
+import uk.org.lidalia.lang.Bytes
 import uk.org.lidalia.encoding.EncodedBytes
 
 import javax.crypto.BadPaddingException
@@ -53,12 +53,12 @@ abstract class CryptoKeyTests extends Specification {
             DecryptKey.getMethod('decrypt', EncryptedBytes)                  | { EncryptedBytes enc -> decryptKey.decrypt(enc) }
             DecryptKey.getMethod('decrypt', Bytes)                           | { EncryptedBytes enc -> decryptKey.decrypt(Bytes.of(enc.array())) }
             DecryptKey.getMethod('decrypt', byte[])                          | { EncryptedBytes enc -> decryptKey.decrypt(enc.array()) }
-            DecryptKey.getMethod('decrypt', EncodedBytes)                    | { EncryptedBytes enc -> decryptKey.decrypt(enc.encode(base64)) }
+            DecryptKey.getMethod('decrypt', EncodedBytes)                    | { EncryptedBytes enc -> decryptKey.decrypt(base64.encode(enc)) }
 
             DecryptKey.getMethod('decrypt', EncryptedBytes, CipherAlgorithm) | { EncryptedBytes enc -> decryptKey.decrypt(enc, defaultAlgorithm()) }
             DecryptKey.getMethod('decrypt', Bytes, CipherAlgorithm)          | { EncryptedBytes enc -> decryptKey.decrypt(Bytes.of(enc.array()), defaultAlgorithm()) }
             DecryptKey.getMethod('decrypt', byte[], CipherAlgorithm)         | { EncryptedBytes enc -> decryptKey.decrypt(enc.array(), defaultAlgorithm()) }
-            DecryptKey.getMethod('decrypt', EncodedBytes, CipherAlgorithm)   | { EncryptedBytes enc -> decryptKey.decrypt(enc.encode(base64), defaultAlgorithm()) }
+            DecryptKey.getMethod('decrypt', EncodedBytes, CipherAlgorithm)   | { EncryptedBytes enc -> decryptKey.decrypt(base64.encode(enc), defaultAlgorithm()) }
 
     }
 

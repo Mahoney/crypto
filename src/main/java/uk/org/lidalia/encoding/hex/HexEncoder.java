@@ -1,7 +1,7 @@
 package uk.org.lidalia.encoding.hex;
 
 import uk.org.lidalia.encoding.ByteEncoder;
-import uk.org.lidalia.encoding.Bytes;
+import uk.org.lidalia.lang.Bytes;
 
 public class HexEncoder implements ByteEncoder<Hex> {
 
@@ -18,7 +18,6 @@ public class HexEncoder implements ByteEncoder<Hex> {
     public Hex encode(Bytes decoded) {
         return new Hex(doEncode(decoded), decoded);
     }
-
 
     private static Bytes doDecode(String encoded) throws NotAHexEncodedString {
         char[] chars = encoded.toCharArray();

@@ -1,6 +1,7 @@
 package uk.org.lidalia.encoding;
 
 import org.junit.Test;
+import uk.org.lidalia.lang.Bytes;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;

@@ -1,6 +1,6 @@
 package uk.org.lidalia.crypto;
 
-import uk.org.lidalia.encoding.Bytes;
+import uk.org.lidalia.lang.Bytes;
 import uk.org.lidalia.encoding.EncodedBytes;
 
 import java.util.Objects;
@@ -54,6 +54,6 @@ public class Signature {
 
     @Override
     public String toString() {
-        return hash.encode(base64).toString();
+        return base64.encode(hash).toString();
     }
 }

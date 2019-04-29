@@ -3,7 +3,7 @@ package uk.org.lidalia.crypto.rsa
 import org.apache.commons.lang3.RandomStringUtils
 import spock.lang.IgnoreIf
 import spock.lang.Specification
-import uk.org.lidalia.encoding.Bytes
+import uk.org.lidalia.lang.Bytes
 
 import java.nio.file.Path
 
@@ -122,7 +122,7 @@ class RsaPrivateKeySerializationTests extends Specification {
     }
 
     private static String hexCodes(Bytes encrypted) {
-        encrypted.encode(hex).toString().split(/(?<=\G.{2})/).collect { /\x$it/ }.join('')
+        hex.encode(encrypted).toString().split(/(?<=\G.{2})/).collect { /\x$it/ }.join('')
     }
 
     private static Tuple2<Path, Path> sshKeygen(Path tmpDir) {

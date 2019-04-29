@@ -1,6 +1,4 @@
-package uk.org.lidalia.encoding;
-
-import uk.org.lidalia.lang.Pair;
+package uk.org.lidalia.lang;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -18,7 +16,7 @@ import java.util.Objects;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 
-public class Bytes extends AbstractList<Byte> implements Encodable<Bytes> {
+public class Bytes extends AbstractList<Byte> {
 
     public static Bytes of(byte[] bytes) {
         return new Bytes(bytes);

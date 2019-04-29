@@ -1,7 +1,7 @@
 package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.Base64StringFormatEncoder;
-import uk.org.lidalia.encoding.Bytes;
+import uk.org.lidalia.lang.Bytes;
 import uk.org.lidalia.encoding.ComposedEncoder;
 import uk.org.lidalia.encoding.Encoder;
 import uk.org.lidalia.encoding.InvalidEncoding;

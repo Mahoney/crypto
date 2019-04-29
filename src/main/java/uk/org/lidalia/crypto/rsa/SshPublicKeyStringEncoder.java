@@ -1,7 +1,7 @@
 package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.Base64StringFormatEncoder;
-import uk.org.lidalia.encoding.Bytes;
+import uk.org.lidalia.lang.Bytes;
 import uk.org.lidalia.encoding.ComposedEncoder;
 import uk.org.lidalia.encoding.Encoder;
 import uk.org.lidalia.encoding.InvalidEncoding;
@@ -28,7 +28,7 @@ public class SshPublicKeyStringEncoder implements Encoder<RsaPublicKey, String, 
     @Override
     public SshPublicKeyString encode(RsaPublicKey rsaPublicKey) {
         return new SshPublicKeyString(
-                "ssh-rsa " + sshPublicKey.encode(rsaPublicKey).raw().encode(base64),
+                "ssh-rsa " + base64.encode(sshPublicKey.encode(rsaPublicKey).raw()),
                 rsaPublicKey
         );
     }

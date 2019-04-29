@@ -1,6 +1,6 @@
 package uk.org.lidalia.crypto.rsa
 
-import uk.org.lidalia.encoding.Bytes
+import uk.org.lidalia.lang.Bytes
 import uk.org.lidalia.encoding.EncoderTests
 
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA

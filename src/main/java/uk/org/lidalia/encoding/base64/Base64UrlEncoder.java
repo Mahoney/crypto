@@ -1,7 +1,7 @@
 package uk.org.lidalia.encoding.base64;
 
 import uk.org.lidalia.encoding.ByteEncoder;
-import uk.org.lidalia.encoding.Bytes;
+import uk.org.lidalia.lang.Bytes;
 import uk.org.lidalia.encoding.Encoder;
 
 import static java.util.Base64.getEncoder;

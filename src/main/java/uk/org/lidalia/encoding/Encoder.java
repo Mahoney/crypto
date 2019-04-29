@@ -1,5 +1,7 @@
 package uk.org.lidalia.encoding;
 
+import uk.org.lidalia.lang.Bytes;
+
 /**
  * Type that allows encoding a value to some encoded form (e.g.
  * encoding some {@link Bytes} as {@link uk.org.lidalia.encoding.hex.Hex},

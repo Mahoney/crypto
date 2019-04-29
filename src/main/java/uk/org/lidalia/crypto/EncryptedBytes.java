@@ -1,6 +1,6 @@
 package uk.org.lidalia.crypto;
 
-import uk.org.lidalia.encoding.Bytes;
+import uk.org.lidalia.lang.Bytes;
 
 public class EncryptedBytes extends Bytes {
 
