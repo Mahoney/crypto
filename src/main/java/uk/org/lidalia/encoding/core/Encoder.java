@@ -1,17 +1,16 @@
-package uk.org.lidalia.encoding;
+package uk.org.lidalia.encoding.core;
 
 import uk.org.lidalia.lang.Bytes;
 
 /**
- * Type that allows encoding a value to some encoded form (e.g.
- * encoding some {@link Bytes} as {@link uk.org.lidalia.encoding.hex.Hex},
- * or constructing a validated encoded form from a raw encoded form
- * (e.g. a {@link uk.org.lidalia.encoding.hex.Hex} from a {@link String}).
+ * Type that allows encoding a value to some encoded form (e.g. encoding some
+ * Bytes as Hex), or constructing a validated encoded form from a raw encoded
+ * form (e.g. a Hex from a String).
  *
  * @param <Decoded> the type of the actual value that has been encoded
  *                 (in the case of a hex string, {@link Bytes})
- * @param <RawEncoded> the type of the encoding (in the case of a hex string,
- *                    a {@link String})
+ * @param <RawEncoded> the type of the encoding
+ *                 (in the case of a hex string, a String)
  * @param <E> the {@link Encoded} type
  */
 public interface Encoder<Decoded, RawEncoded, E extends Encoded<Decoded, RawEncoded>> {

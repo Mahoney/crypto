@@ -1,6 +1,6 @@
 package uk.org.lidalia.crypto.rsa;
 
-import uk.org.lidalia.encoding.CachedEncodedBase;
+import uk.org.lidalia.encoding.core.CachedEncodedBase;
 
 public class Pkcs8String extends CachedEncodedBase<RsaPrivateKey, String> {
 

@@ -1,8 +1,8 @@
 package uk.org.lidalia.encoding.base64;
 
-import uk.org.lidalia.encoding.ByteEncoder;
+import uk.org.lidalia.encoding.bytes.ByteEncoder;
 import uk.org.lidalia.lang.Bytes;
-import uk.org.lidalia.encoding.Encoder;
+import uk.org.lidalia.encoding.core.Encoder;
 
 public class Base64Encoder implements Encoder<Bytes, String, Base64>, ByteEncoder<Base64> {
 

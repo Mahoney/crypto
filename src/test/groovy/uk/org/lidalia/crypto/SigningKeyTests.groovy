@@ -5,7 +5,7 @@ import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 import uk.org.lidalia.lang.Bytes
-import uk.org.lidalia.encoding.EncodedBytes
+import uk.org.lidalia.encoding.bytes.EncodedBytes
 
 import java.nio.charset.Charset
 

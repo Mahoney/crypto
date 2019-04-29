@@ -1,7 +1,7 @@
 package uk.org.lidalia.crypto;
 
 import uk.org.lidalia.lang.Bytes;
-import uk.org.lidalia.encoding.EncodedBytes;
+import uk.org.lidalia.encoding.bytes.EncodedBytes;
 
 public interface DecryptKey<
         E extends EncryptKey<E, D>,

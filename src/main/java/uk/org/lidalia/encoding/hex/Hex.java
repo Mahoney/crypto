@@ -1,8 +1,8 @@
 package uk.org.lidalia.encoding.hex;
 
 import uk.org.lidalia.lang.Bytes;
-import uk.org.lidalia.encoding.CachedEncodedBase;
-import uk.org.lidalia.encoding.EncodedBytes;
+import uk.org.lidalia.encoding.core.CachedEncodedBase;
+import uk.org.lidalia.encoding.bytes.EncodedBytes;
 
 public class Hex extends CachedEncodedBase<Bytes, String> implements EncodedBytes {
 

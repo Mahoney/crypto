@@ -1,8 +1,8 @@
 package uk.org.lidalia.crypto;
 
 import uk.org.lidalia.lang.Bytes;
-import uk.org.lidalia.encoding.Encoder;
-import uk.org.lidalia.encoding.InvalidEncoding;
+import uk.org.lidalia.encoding.core.Encoder;
+import uk.org.lidalia.encoding.core.InvalidEncoding;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

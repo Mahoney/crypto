@@ -1,4 +1,6 @@
-package uk.org.lidalia.encoding;
+package uk.org.lidalia.encoding.bytes;
+
+import uk.org.lidalia.encoding.core.InvalidEncoding;
 
 public abstract class NotAnEncodedString extends InvalidEncoding {
 

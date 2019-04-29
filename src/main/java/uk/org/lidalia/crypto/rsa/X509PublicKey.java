@@ -1,7 +1,7 @@
 package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.lang.Bytes;
-import uk.org.lidalia.encoding.CachedEncodedBase;
+import uk.org.lidalia.encoding.core.CachedEncodedBase;
 
 public class X509PublicKey extends CachedEncodedBase<RsaPublicKey, Bytes> {
 

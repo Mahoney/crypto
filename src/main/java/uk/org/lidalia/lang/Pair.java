@@ -2,14 +2,16 @@ package uk.org.lidalia.lang;
 
 import java.util.Objects;
 
+import static java.util.Objects.requireNonNull;
+
 public final class Pair<A, B> {
 
     public final A first;
     public final B second;
 
     public Pair(A first, B second) {
-        this.first = first;
-        this.second = second;
+        this.first = requireNonNull(first);
+        this.second = requireNonNull(second);
     }
 
     @Override

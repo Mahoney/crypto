@@ -1,5 +1,7 @@
-package uk.org.lidalia.encoding;
+package uk.org.lidalia.encoding.bytes;
 
+import uk.org.lidalia.encoding.core.Encoded;
+import uk.org.lidalia.encoding.core.Encoder;
 import uk.org.lidalia.lang.Bytes;
 
 import java.nio.charset.Charset;

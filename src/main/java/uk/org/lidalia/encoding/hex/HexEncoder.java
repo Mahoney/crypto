@@ -1,6 +1,6 @@
 package uk.org.lidalia.encoding.hex;
 
-import uk.org.lidalia.encoding.ByteEncoder;
+import uk.org.lidalia.encoding.bytes.ByteEncoder;
 import uk.org.lidalia.lang.Bytes;
 
 public class HexEncoder implements ByteEncoder<Hex> {
