@@ -1,6 +1,6 @@
 package uk.org.lidalia.crypto.dsa;
 
-import uk.org.lidalia.crypto.KeyPair;
+import uk.org.lidalia.crypto.core.KeyPair;
 
 import java.security.interfaces.DSAPrivateKey;
 import java.security.interfaces.DSAPublicKey;

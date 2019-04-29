@@ -4,13 +4,15 @@ import org.apache.commons.lang3.RandomStringUtils
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
+import uk.org.lidalia.crypto.core.Hash
+import uk.org.lidalia.crypto.core.HashAlgorithm
 import uk.org.lidalia.lang.Bytes
 import uk.org.lidalia.encoding.bytes.EncodedBytes
 
 import java.nio.charset.Charset
 
 import static java.nio.charset.StandardCharsets.UTF_8
-import static uk.org.lidalia.crypto.HashAlgorithm.SHA256
+import static uk.org.lidalia.crypto.core.HashAlgorithm.SHA256
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64
 
 class HashAlgorithmTest extends Specification {
@@ -92,7 +94,7 @@ class HashAlgorithmTest extends Specification {
 
         where:
             method                                     | matches
-            Hash.getMethod('matches', Bytes)           | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch) }
+        Hash.getMethod('matches', Bytes)               | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch) }
             Hash.getMethod('matches', byte[])          | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch.array()) }
             Hash.getMethod('matches', EncodedBytes)    | { Hash theHash, Bytes toMatch -> theHash.matches(base64.encode(toMatch)) }
             Hash.getMethod('matches', String, Charset) | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch.string(UTF_8), UTF_8) }

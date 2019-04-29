@@ -1,4 +1,4 @@
-package uk.org.lidalia.crypto;
+package uk.org.lidalia.crypto.core;
 
 import uk.org.lidalia.lang.Bytes;
 import uk.org.lidalia.encoding.core.Encoder;

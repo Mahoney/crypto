@@ -1,7 +1,7 @@
 package uk.org.lidalia.crypto.rsa;
 
-import uk.org.lidalia.crypto.EncryptKey;
-import uk.org.lidalia.crypto.PublicKey;
+import uk.org.lidalia.crypto.core.EncryptKey;
+import uk.org.lidalia.crypto.core.PublicKey;
 import uk.org.lidalia.lang.Bytes;
 import uk.org.lidalia.encoding.core.Encodable;
 import uk.org.lidalia.encoding.core.Encoded;

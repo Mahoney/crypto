@@ -1,6 +1,6 @@
 package uk.org.lidalia.crypto.dsa;
 
-import uk.org.lidalia.crypto.AsymmetricKey;
+import uk.org.lidalia.crypto.core.AsymmetricKey;
 
 import java.security.Key;
 import java.security.interfaces.DSAKey;

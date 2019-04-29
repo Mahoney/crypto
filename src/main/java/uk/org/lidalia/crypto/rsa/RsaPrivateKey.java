@@ -1,7 +1,7 @@
 package uk.org.lidalia.crypto.rsa;
 
-import uk.org.lidalia.crypto.DecryptKey;
-import uk.org.lidalia.crypto.PrivateKey;
+import uk.org.lidalia.crypto.core.DecryptKey;
+import uk.org.lidalia.crypto.core.PrivateKey;
 import uk.org.lidalia.lang.Bytes;
 import uk.org.lidalia.encoding.core.Encodable;
 import uk.org.lidalia.encoding.core.Encoded;
@@ -26,7 +26,7 @@ public final class RsaPrivateKey
         extends RsaKey<RSAPrivateCrtKey>
         implements RSAPrivateCrtKey,
                    PrivateKey<RsaPublicKey, RsaPrivateKey, RsaPrivateKey>,
-                   uk.org.lidalia.crypto.KeyPair<RsaPublicKey, RsaPrivateKey, RsaPrivateKey>,
+        uk.org.lidalia.crypto.core.KeyPair<RsaPublicKey, RsaPrivateKey, RsaPrivateKey>,
                    DecryptKey<RsaPublicKey, RsaPrivateKey>,
                    Encodable<RsaPrivateKey> {
 

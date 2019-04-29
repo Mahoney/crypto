@@ -1,6 +1,7 @@
 package uk.org.lidalia.crypto
 
 import uk.org.lidalia.EqualsAndHashcodeTests
+import uk.org.lidalia.crypto.core.AsymmetricKeyAlgorithm
 import uk.org.lidalia.crypto.dsa.Dsa
 import uk.org.lidalia.crypto.rsa.Rsa
 

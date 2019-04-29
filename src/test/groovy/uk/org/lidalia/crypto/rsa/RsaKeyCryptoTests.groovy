@@ -1,10 +1,9 @@
 package uk.org.lidalia.crypto.rsa
 
-import uk.org.lidalia.crypto.CipherAlgorithm
+import uk.org.lidalia.crypto.core.CipherAlgorithm
 import uk.org.lidalia.crypto.CryptoKeyTests
-import uk.org.lidalia.crypto.DecryptKey
-import uk.org.lidalia.crypto.EncryptKey
-import uk.org.lidalia.crypto.rsa.Rsa
+import uk.org.lidalia.crypto.core.DecryptKey
+import uk.org.lidalia.crypto.core.EncryptKey
 
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA
 

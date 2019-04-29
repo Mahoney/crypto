@@ -1,9 +1,9 @@
 package uk.org.lidalia.crypto.rsa;
 
-import uk.org.lidalia.crypto.BaseAsymmetricKeyAlgorithm;
-import uk.org.lidalia.crypto.CipherAlgorithm;
-import uk.org.lidalia.crypto.CryptoKeyAlgorithm;
-import uk.org.lidalia.crypto.RequiredAlgorithmNotPresent;
+import uk.org.lidalia.crypto.core.BaseAsymmetricKeyAlgorithm;
+import uk.org.lidalia.crypto.core.CipherAlgorithm;
+import uk.org.lidalia.crypto.core.CryptoKeyAlgorithm;
+import uk.org.lidalia.crypto.core.RequiredAlgorithmNotPresent;
 
 import javax.crypto.NoSuchPaddingException;
 import java.security.NoSuchAlgorithmException;

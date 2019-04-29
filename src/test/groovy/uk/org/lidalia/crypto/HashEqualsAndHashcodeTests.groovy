@@ -2,8 +2,9 @@ package uk.org.lidalia.crypto
 
 import org.apache.commons.lang3.RandomStringUtils
 import uk.org.lidalia.EqualsAndHashcodeTests
+import uk.org.lidalia.crypto.core.Hash
 
-import static uk.org.lidalia.crypto.HashAlgorithm.SHA256
+import static uk.org.lidalia.crypto.core.HashAlgorithm.SHA256
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64
 
 class HashEqualsAndHashcodeTests extends EqualsAndHashcodeTests<Hash> {

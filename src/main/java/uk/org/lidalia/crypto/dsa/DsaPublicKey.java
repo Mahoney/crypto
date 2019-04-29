@@ -1,6 +1,6 @@
 package uk.org.lidalia.crypto.dsa;
 
-import uk.org.lidalia.crypto.PublicKey;
+import uk.org.lidalia.crypto.core.PublicKey;
 import uk.org.lidalia.lang.Bytes;
 
 import java.math.BigInteger;

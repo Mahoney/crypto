@@ -1,4 +1,4 @@
-package uk.org.lidalia.crypto;
+package uk.org.lidalia.crypto.core;
 
 import java.security.NoSuchAlgorithmException;
 

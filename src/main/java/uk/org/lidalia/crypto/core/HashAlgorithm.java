@@ -1,4 +1,4 @@
-package uk.org.lidalia.crypto;
+package uk.org.lidalia.crypto.core;
 
 import uk.org.lidalia.lang.Bytes;
 import uk.org.lidalia.encoding.bytes.EncodedBytes;
@@ -7,7 +7,7 @@ import java.nio.charset.Charset;
 import java.util.Set;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static uk.org.lidalia.crypto.JreHashAlgorithm.register;
+import static uk.org.lidalia.crypto.core.JreHashAlgorithm.register;
 
 public interface HashAlgorithm {
 

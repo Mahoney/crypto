@@ -1,6 +1,7 @@
 package uk.org.lidalia.crypto
 
 import uk.org.lidalia.EqualsAndHashcodeTests
+import uk.org.lidalia.crypto.core.EncryptedBytes
 import uk.org.lidalia.lang.Bytes
 
 class EncryptedBytesEqualsAndHashcodeTests extends EqualsAndHashcodeTests<Bytes> {

@@ -3,8 +3,9 @@ package uk.org.lidalia.crypto
 import org.apache.commons.lang3.RandomStringUtils
 import spock.lang.Shared
 import uk.org.lidalia.EqualsAndHashcodeTests
+import uk.org.lidalia.crypto.core.Signature
 
-import static uk.org.lidalia.crypto.HashAlgorithm.SHA256
+import static uk.org.lidalia.crypto.core.HashAlgorithm.SHA256
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64
 

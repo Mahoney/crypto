@@ -1,14 +1,12 @@
 package uk.org.lidalia.crypto.dsa
 
-import uk.org.lidalia.crypto.HashAlgorithm
-import uk.org.lidalia.crypto.KeyPair
+import uk.org.lidalia.crypto.core.HashAlgorithm
+import uk.org.lidalia.crypto.core.KeyPair
 import uk.org.lidalia.crypto.SigningKeyTests
-import uk.org.lidalia.crypto.dsa.DsaPrivateKey
-import uk.org.lidalia.crypto.dsa.DsaPublicKey
 
-import static uk.org.lidalia.crypto.HashAlgorithm.SHA1
-import static uk.org.lidalia.crypto.HashAlgorithm.SHA224
-import static uk.org.lidalia.crypto.HashAlgorithm.SHA256
+import static uk.org.lidalia.crypto.core.HashAlgorithm.SHA1
+import static uk.org.lidalia.crypto.core.HashAlgorithm.SHA224
+import static uk.org.lidalia.crypto.core.HashAlgorithm.SHA256
 import static uk.org.lidalia.crypto.dsa.Dsa.DSA
 
 class DsaKeyTests extends SigningKeyTests {

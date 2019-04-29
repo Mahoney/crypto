@@ -4,6 +4,11 @@ import org.apache.commons.lang3.RandomStringUtils
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
+import uk.org.lidalia.crypto.core.CipherAlgorithm
+import uk.org.lidalia.crypto.core.DecryptKey
+import uk.org.lidalia.crypto.core.DecryptionFailedException
+import uk.org.lidalia.crypto.core.EncryptKey
+import uk.org.lidalia.crypto.core.EncryptedBytes
 import uk.org.lidalia.lang.Bytes
 import uk.org.lidalia.encoding.bytes.EncodedBytes
 
@@ -49,11 +54,11 @@ abstract class CryptoKeyTests extends Specification {
             doDecrypt(encrypted) == message
 
         where:
-            method                                                           | doDecrypt
-            DecryptKey.getMethod('decrypt', EncryptedBytes)                  | { EncryptedBytes enc -> decryptKey.decrypt(enc) }
-            DecryptKey.getMethod('decrypt', Bytes)                           | { EncryptedBytes enc -> decryptKey.decrypt(Bytes.of(enc.array())) }
-            DecryptKey.getMethod('decrypt', byte[])                          | { EncryptedBytes enc -> decryptKey.decrypt(enc.array()) }
-            DecryptKey.getMethod('decrypt', EncodedBytes)                    | { EncryptedBytes enc -> decryptKey.decrypt(base64.encode(enc)) }
+            method                                          | doDecrypt
+            DecryptKey.getMethod('decrypt', EncryptedBytes) | { EncryptedBytes enc -> decryptKey.decrypt(enc) }
+            DecryptKey.getMethod('decrypt', Bytes)          | { EncryptedBytes enc -> decryptKey.decrypt(Bytes.of(enc.array())) }
+            DecryptKey.getMethod('decrypt', byte[])         | { EncryptedBytes enc -> decryptKey.decrypt(enc.array()) }
+            DecryptKey.getMethod('decrypt', EncodedBytes)   | { EncryptedBytes enc -> decryptKey.decrypt(base64.encode(enc)) }
 
             DecryptKey.getMethod('decrypt', EncryptedBytes, CipherAlgorithm) | { EncryptedBytes enc -> decryptKey.decrypt(enc, defaultAlgorithm()) }
             DecryptKey.getMethod('decrypt', Bytes, CipherAlgorithm)          | { EncryptedBytes enc -> decryptKey.decrypt(Bytes.of(enc.array()), defaultAlgorithm()) }
