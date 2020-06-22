@@ -4,15 +4,15 @@ import org.apache.commons.lang3.RandomStringUtils
 import spock.lang.IgnoreIf
 import spock.lang.Specification
 import uk.org.lidalia.crypto.EncryptionResult
-import uk.org.lidalia.encoding.Bytes
+import uk.org.lidalia.lang.Bytes
 
 import java.nio.file.Path
 
+import static X509PublicKeyStringEncoder.x509PublicKeyString
 import static java.nio.file.Files.createTempDirectory
 import static uk.org.lidalia.crypto.rsa.Pkcs1StringEncoder.pkcs1String
 import static uk.org.lidalia.crypto.rsa.Pkcs8StringEncoder.pkcs8String
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA
-import static uk.org.lidalia.crypto.rsa.X509PublicKeyStringEncoder.x509PublicKeyString
 import static uk.org.lidalia.encoding.hex.HexEncoder.hex
 
 @IgnoreIf({ 'which ssh-keygen'.execute().waitFor() > 0 })
@@ -123,13 +123,13 @@ class RsaPrivateKeySerializationTests extends Specification {
     }
 
     private static String hexCodes(Bytes encrypted) {
-        encrypted.encode(hex).toString().split(/(?<=\G.{2})/).collect { /\x$it/ }.join('')
+        hex.encode(encrypted).toString().split(/(?<=\G.{2})/).collect { /\x$it/ }.join('')
     }
 
     private static Tuple2<Path, Path> sshKeygen(Path tmpDir) {
         def privateKeyFile = tmpDir.resolve('id_rsa')
         def publicKeyFile = tmpDir.resolve('id_rsa.pub')
-        resultOf("ssh-keygen -t rsa -b 1024 -N '' -f $privateKeyFile")
+        resultOf("ssh-keygen -t rsa -m pem -b 1024 -N '' -f $privateKeyFile")
         new Tuple2<>(privateKeyFile, publicKeyFile)
     }
 

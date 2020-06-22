@@ -1,4 +1,6 @@
-package uk.org.lidalia.encoding;
+package uk.org.lidalia.encoding.core;
+
+import uk.org.lidalia.lang.Bytes;
 
 /**
  * Represents an encoded form of some value - for instance, a byte[] encoded as a hex string.

@@ -1,6 +1,6 @@
 package uk.org.lidalia.encoding.base64;
 
-import uk.org.lidalia.encoding.NotAnEncodedString;
+import uk.org.lidalia.encoding.core.NotAnEncodedString;
 
 public class NotABase64UrlEncodedString extends NotAnEncodedString {
 

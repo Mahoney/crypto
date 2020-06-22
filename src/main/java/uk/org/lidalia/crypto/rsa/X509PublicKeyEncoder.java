@@ -1,8 +1,8 @@
 package uk.org.lidalia.crypto.rsa;
 
-import uk.org.lidalia.encoding.Bytes;
-import uk.org.lidalia.encoding.Encoder;
-import uk.org.lidalia.encoding.InvalidEncoding;
+import uk.org.lidalia.encoding.core.Encoder;
+import uk.org.lidalia.encoding.core.InvalidEncoding;
+import uk.org.lidalia.lang.Bytes;
 
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
@@ -22,7 +22,6 @@ public class X509PublicKeyEncoder implements Encoder<RsaPublicKey, Bytes, X509Pu
     public X509PublicKey encode(RsaPublicKey decoded) {
         return new X509PublicKey(doEncode(decoded), decoded);
     }
-
 
     private static Bytes doEncode(RsaPublicKey decoded) {
         return Bytes.of(decoded.getEncoded());

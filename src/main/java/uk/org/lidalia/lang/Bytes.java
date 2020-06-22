@@ -1,7 +1,4 @@
-package uk.org.lidalia.encoding;
-
-import uk.org.lidalia.encoding.base64.Base64;
-import uk.org.lidalia.lang.Pair;
+package uk.org.lidalia.lang;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -19,9 +16,8 @@ import java.util.Objects;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
-import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
 
-public final class Bytes extends AbstractList<Byte> implements Encodable<Bytes> {
+public final class Bytes extends AbstractList<Byte> {
 
     public static Bytes of(byte[] bytes) {
         return new Bytes(Arrays.copyOf(bytes, bytes.length), 0, bytes.length);
@@ -143,10 +139,6 @@ public final class Bytes extends AbstractList<Byte> implements Encodable<Bytes> 
 
     public BigInteger unsignedBigInteger() {
         return new BigInteger(1, array());
-    }
-
-    public Base64 encode() {
-        return encode(base64);
     }
 
     @Override

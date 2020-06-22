@@ -2,11 +2,11 @@ package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.EncryptKey;
 import uk.org.lidalia.crypto.PublicKey;
-import uk.org.lidalia.encoding.Bytes;
-import uk.org.lidalia.encoding.Encodable;
-import uk.org.lidalia.encoding.Encoded;
-import uk.org.lidalia.encoding.Encoder;
-import uk.org.lidalia.encoding.InvalidEncoding;
+import uk.org.lidalia.encoding.core.Encodable;
+import uk.org.lidalia.encoding.core.Encoded;
+import uk.org.lidalia.encoding.core.Encoder;
+import uk.org.lidalia.encoding.core.InvalidEncoding;
+import uk.org.lidalia.lang.Bytes;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,8 +18,8 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
 import static java.nio.file.Files.newInputStream;
-import static uk.org.lidalia.crypto.rsa.SshPublicKeyStringEncoder.sshPublicKeyString;
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
+import static uk.org.lidalia.crypto.rsa.SshPublicKeyStringEncoder.sshPublicKeyString;
 import static uk.org.lidalia.crypto.rsa.X509PublicKeyStringEncoder.x509PublicKeyString;
 
 public final class RsaPublicKey

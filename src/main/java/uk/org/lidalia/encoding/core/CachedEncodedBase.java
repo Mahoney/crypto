@@ -1,4 +1,4 @@
-package uk.org.lidalia.encoding;
+package uk.org.lidalia.encoding.core;
 
 import static java.util.Objects.requireNonNull;
 

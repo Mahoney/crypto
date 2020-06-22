@@ -1,6 +1,7 @@
 package uk.org.lidalia.encoding
 
 import uk.org.lidalia.EqualsAndHashcodeTests
+import uk.org.lidalia.lang.Bytes
 
 class BytesEqualsAndHashcodeTests extends EqualsAndHashcodeTests<Bytes> {
 

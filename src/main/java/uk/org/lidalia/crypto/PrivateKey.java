@@ -1,7 +1,7 @@
 package uk.org.lidalia.crypto;
 
-import uk.org.lidalia.encoding.Bytes;
-import uk.org.lidalia.encoding.EncodedBytes;
+import uk.org.lidalia.encoding.core.EncodedBytes;
+import uk.org.lidalia.lang.Bytes;
 
 import java.nio.charset.Charset;
 

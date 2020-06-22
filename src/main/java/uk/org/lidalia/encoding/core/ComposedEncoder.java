@@ -1,4 +1,4 @@
-package uk.org.lidalia.encoding;
+package uk.org.lidalia.encoding.core;
 
 public class ComposedEncoder<
         Decoded,

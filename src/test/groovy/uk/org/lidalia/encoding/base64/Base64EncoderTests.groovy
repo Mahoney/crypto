@@ -2,14 +2,10 @@ package uk.org.lidalia.encoding.base64
 
 import org.apache.commons.lang3.RandomStringUtils
 import spock.lang.Unroll
-import uk.org.lidalia.encoding.Bytes
 import uk.org.lidalia.encoding.EncoderTests
-import uk.org.lidalia.encoding.hex.Hex
-import uk.org.lidalia.encoding.hex.HexEncoder
-import uk.org.lidalia.encoding.hex.NotAHexEncodedString
+import uk.org.lidalia.lang.Bytes
 
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64
-import static uk.org.lidalia.encoding.hex.HexEncoder.hex
 
 class Base64EncoderTests extends EncoderTests<Bytes, String, Base64> {
 

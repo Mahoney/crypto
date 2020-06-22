@@ -3,8 +3,8 @@ package uk.org.lidalia.asn1.der
 import spock.lang.Unroll
 import uk.org.lidalia.asn1.Asn1
 import uk.org.lidalia.asn1.Asn1Integer
-import uk.org.lidalia.encoding.Bytes
 import uk.org.lidalia.encoding.EncoderTests
+import uk.org.lidalia.lang.Bytes
 
 import static uk.org.lidalia.asn1.der.DerEncoder.der
 import static uk.org.lidalia.encoding.hex.HexEncoder.hex

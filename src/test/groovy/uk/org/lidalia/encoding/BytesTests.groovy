@@ -1,6 +1,7 @@
 package uk.org.lidalia.encoding
 
 import spock.lang.Specification
+import uk.org.lidalia.lang.Bytes
 
 import static java.nio.charset.StandardCharsets.US_ASCII
 

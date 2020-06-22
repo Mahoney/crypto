@@ -1,10 +1,10 @@
 package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.Base64StringFormatEncoder;
-import uk.org.lidalia.encoding.Bytes;
-import uk.org.lidalia.encoding.ComposedEncoder;
-import uk.org.lidalia.encoding.Encoder;
-import uk.org.lidalia.encoding.InvalidEncoding;
+import uk.org.lidalia.encoding.core.ComposedEncoder;
+import uk.org.lidalia.encoding.core.Encoder;
+import uk.org.lidalia.encoding.core.InvalidEncoding;
+import uk.org.lidalia.lang.Bytes;
 
 import static java.util.regex.Pattern.DOTALL;
 import static java.util.regex.Pattern.compile;

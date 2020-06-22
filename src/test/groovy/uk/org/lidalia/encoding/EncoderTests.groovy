@@ -1,6 +1,8 @@
 package uk.org.lidalia.encoding
 
 import uk.org.lidalia.EqualsAndHashcodeTests
+import uk.org.lidalia.encoding.core.Encoded
+import uk.org.lidalia.encoding.core.Encoder
 
 abstract class EncoderTests<Decoded, RawEncoded, E extends Encoded<Decoded, RawEncoded>> extends EqualsAndHashcodeTests<E> {
 

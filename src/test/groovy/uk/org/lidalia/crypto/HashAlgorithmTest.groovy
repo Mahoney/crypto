@@ -4,13 +4,14 @@ import org.apache.commons.lang3.RandomStringUtils
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
-import uk.org.lidalia.encoding.Bytes
-import uk.org.lidalia.encoding.EncodedBytes
+import uk.org.lidalia.encoding.core.EncodedBytes
+import uk.org.lidalia.lang.Bytes
 
 import java.nio.charset.Charset
 
 import static java.nio.charset.StandardCharsets.UTF_8
 import static uk.org.lidalia.crypto.HashAlgorithm.SHA256
+import static uk.org.lidalia.encoding.base64.Base64Encoder.base64
 
 class HashAlgorithmTest extends Specification {
 
@@ -74,7 +75,7 @@ class HashAlgorithmTest extends Specification {
             method                                           | doHash
             HashAlgorithm.getMethod('hash', Bytes)           | { SHA256.hash(toHash) }
             HashAlgorithm.getMethod('hash', byte[])          | { SHA256.hash(toHash.array()) }
-            HashAlgorithm.getMethod('hash', EncodedBytes)    | { SHA256.hash(toHash.encode()) }
+            HashAlgorithm.getMethod('hash', EncodedBytes)    | { SHA256.hash(base64.encode(toHash)) }
             HashAlgorithm.getMethod('hash', String, Charset) | { SHA256.hash(toHash.string(), UTF_8) }
             HashAlgorithm.getMethod('hash', String)          | { SHA256.hash(toHash.string()) }
     }
@@ -93,7 +94,7 @@ class HashAlgorithmTest extends Specification {
             method                                     | matches
             Hash.getMethod('matches', Bytes)           | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch) }
             Hash.getMethod('matches', byte[])          | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch.array()) }
-            Hash.getMethod('matches', EncodedBytes)    | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch.encode()) }
+            Hash.getMethod('matches', EncodedBytes)    | { Hash theHash, Bytes toMatch -> theHash.matches(base64.encode(toMatch)) }
             Hash.getMethod('matches', String, Charset) | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch.string(UTF_8), UTF_8) }
             Hash.getMethod('matches', String)          | { Hash theHash, Bytes toMatch -> theHash.matches(toMatch.string()) }
     }

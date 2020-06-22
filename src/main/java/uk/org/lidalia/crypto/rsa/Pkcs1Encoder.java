@@ -2,9 +2,9 @@ package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.asn1.Asn1Integer;
 import uk.org.lidalia.asn1.Asn1Sequence;
-import uk.org.lidalia.encoding.Bytes;
-import uk.org.lidalia.encoding.Encoder;
-import uk.org.lidalia.encoding.InvalidEncoding;
+import uk.org.lidalia.encoding.core.Encoder;
+import uk.org.lidalia.encoding.core.InvalidEncoding;
+import uk.org.lidalia.lang.Bytes;
 
 import java.math.BigInteger;
 import java.security.spec.RSAPrivateCrtKeySpec;

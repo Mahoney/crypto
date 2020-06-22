@@ -2,10 +2,10 @@ package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.DecryptKey;
 import uk.org.lidalia.crypto.PrivateKey;
-import uk.org.lidalia.encoding.Bytes;
-import uk.org.lidalia.encoding.Encodable;
-import uk.org.lidalia.encoding.Encoded;
-import uk.org.lidalia.encoding.InvalidEncoding;
+import uk.org.lidalia.encoding.core.Encodable;
+import uk.org.lidalia.encoding.core.Encoded;
+import uk.org.lidalia.encoding.core.InvalidEncoding;
+import uk.org.lidalia.lang.Bytes;
 
 import java.io.IOException;
 import java.io.InputStream;

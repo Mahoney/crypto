@@ -4,8 +4,8 @@ import uk.org.lidalia.EqualsAndHashcodeTests
 import uk.org.lidalia.crypto.dsa.Dsa
 import uk.org.lidalia.crypto.rsa.Rsa
 
-import static uk.org.lidalia.crypto.rsa.Rsa.RSA
 import static uk.org.lidalia.crypto.dsa.Dsa.DSA
+import static uk.org.lidalia.crypto.rsa.Rsa.RSA
 
 class AsymmetricKeyAlgorithmEqualsAndHashcodeTests extends EqualsAndHashcodeTests<AsymmetricKeyAlgorithm> {
 

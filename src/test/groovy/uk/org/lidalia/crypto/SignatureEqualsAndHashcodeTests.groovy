@@ -6,6 +6,7 @@ import uk.org.lidalia.EqualsAndHashcodeTests
 
 import static uk.org.lidalia.crypto.HashAlgorithm.SHA256
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA
+import static uk.org.lidalia.encoding.base64.Base64Encoder.base64
 
 class SignatureEqualsAndHashcodeTests extends EqualsAndHashcodeTests<Signature> {
 
@@ -16,9 +17,9 @@ class SignatureEqualsAndHashcodeTests extends EqualsAndHashcodeTests<Signature> 
 
     Signature instance1A = privateKey.sign(message1)
     Signature instance1B = Signature.of(instance1A.bytes().array(), SHA256)
-    Signature instance1C = Signature.of(instance1A.bytes().encode(), SHA256)
+    Signature instance1C = Signature.of(base64.encode(instance1A.bytes()), SHA256)
 
     Signature instance2A = privateKey.sign(message2)
-    Signature instance2B = Signature.of(instance2A.bytes().encode(), SHA256)
+    Signature instance2B = Signature.of(base64.encode(instance2A.bytes()), SHA256)
     Signature instance2C = Signature.of(instance2A.bytes(), SHA256)
 }
