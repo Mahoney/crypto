@@ -3,4 +3,5 @@ jdk:
   - openjdk8
   - openjdk11
   - openjdk14
-script: mvn verify
+install: true
+script: mvn verify -Dmaven.javadoc.skip=true
