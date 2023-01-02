@@ -37,17 +37,17 @@ public final class Cipher<E extends EncryptKey<E, D>, D extends DecryptKey<E, D>
         });
     }
 
-    EncryptedBytes encrypt(final Bytes decrypted, E key) throws EncryptionFailedException {
+    EncryptedBytes<E, D> encrypt(final Bytes decrypted, E key) throws EncryptionFailedException {
         try {
-            return EncryptedBytes.of(doCrypto(decrypted, key, javax.crypto.Cipher.ENCRYPT_MODE));
+            return EncryptedBytes.of(doCrypto(decrypted, key, javax.crypto.Cipher.ENCRYPT_MODE), this);
         } catch (final Exception e) {
             throw new EncryptionFailedException(e);
         }
     }
 
-    Bytes decrypt(final EncryptedBytes encrypted, D key) throws DecryptionFailedException {
+    Bytes decrypt(final Bytes encrypted, D key) throws DecryptionFailedException {
         try {
-            return Bytes.of(doCrypto(encrypted.bytes(), key, javax.crypto.Cipher.DECRYPT_MODE));
+            return Bytes.of(doCrypto(encrypted, key, javax.crypto.Cipher.DECRYPT_MODE));
         } catch (final Exception e) {
             throw new DecryptionFailedException(e);
         }

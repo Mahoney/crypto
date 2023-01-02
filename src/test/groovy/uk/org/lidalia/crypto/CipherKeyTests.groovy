@@ -16,15 +16,22 @@ import static uk.org.lidalia.encoding.base64.Base64Encoder.base64
 
 abstract class CipherKeyTests extends Specification {
 
-    @Shared Bytes message = Bytes.of(RandomStringUtils.random(15))
+    @Shared
+    Bytes message = Bytes.of(RandomStringUtils.random(15))
 
-    @Shared keyPair = generateKeyPair()
-    @Shared encryptKey = keyPair.v1
-    @Shared decryptKey = keyPair.v2
-    @Shared otherDecryptKey = generateKeyPair().v2
+    @Shared
+            keyPair = generateKeyPair()
+    @Shared
+            encryptKey = keyPair.v1
+    @Shared
+            decryptKey = keyPair.v2
+    @Shared
+            otherDecryptKey = generateKeyPair().v2
 
     abstract Tuple2<EncryptKey, DecryptKey> generateKeyPair()
+
     abstract List<Cipher> supportedAlgorithms()
+
     abstract Cipher defaultAlgorithm()
 
     @Unroll
@@ -34,7 +41,7 @@ abstract class CipherKeyTests extends Specification {
             def encrypted = encryptKey.encrypt(message, algorithm)
 
         expect:
-            decryptKey.decrypt(encrypted, algorithm) == message
+            decryptKey.decrypt(encrypted) == message
 
         where:
             algorithm << supportedAlgorithms()
@@ -50,16 +57,15 @@ abstract class CipherKeyTests extends Specification {
             doDecrypt(encrypted) == message
 
         where:
-            method                                                             | doDecrypt
-            DecryptKey.getMethod('decrypt', EncryptedBytes)                  | { EncryptedBytes enc -> decryptKey.decrypt(enc) }
-            DecryptKey.getMethod('decrypt', Bytes)                           | { EncryptedBytes enc -> decryptKey.decrypt(enc.bytes().array()) }
-            DecryptKey.getMethod('decrypt', byte[])                          | { EncryptedBytes enc -> decryptKey.decrypt(enc.bytes().array()) }
-            DecryptKey.getMethod('decrypt', EncodedBytes)                    | { EncryptedBytes enc -> decryptKey.decrypt(base64.encode(enc.bytes())) }
+            method                                                | doDecrypt
+            DecryptKey.getMethod('decrypt', EncryptedBytes)       | { EncryptedBytes enc -> decryptKey.decrypt(enc) }
+            DecryptKey.getMethod('decrypt', Bytes)                | { EncryptedBytes enc -> decryptKey.decrypt(enc.bytes().array()) }
+            DecryptKey.getMethod('decrypt', byte[])               | { EncryptedBytes enc -> decryptKey.decrypt(enc.bytes().array()) }
+            DecryptKey.getMethod('decrypt', EncodedBytes)         | { EncryptedBytes enc -> decryptKey.decrypt(base64.encode(enc.bytes())) }
 
-            DecryptKey.getMethod('decrypt', EncryptedBytes, Cipher) | { EncryptedBytes enc -> decryptKey.decrypt(enc, defaultAlgorithm()) }
-            DecryptKey.getMethod('decrypt', Bytes, Cipher)          | { EncryptedBytes enc -> decryptKey.decrypt(enc.bytes(), defaultAlgorithm()) }
-            DecryptKey.getMethod('decrypt', byte[], Cipher)         | { EncryptedBytes enc -> decryptKey.decrypt(enc.bytes().array(), defaultAlgorithm()) }
-            DecryptKey.getMethod('decrypt', EncodedBytes, Cipher)   | { EncryptedBytes enc -> decryptKey.decrypt(base64.encode(enc.bytes()), defaultAlgorithm()) }
+            DecryptKey.getMethod('decrypt', Bytes, Cipher)        | { EncryptedBytes enc -> decryptKey.decrypt(enc.bytes(), defaultAlgorithm()) }
+            DecryptKey.getMethod('decrypt', byte[], Cipher)       | { EncryptedBytes enc -> decryptKey.decrypt(enc.bytes().array(), defaultAlgorithm()) }
+            DecryptKey.getMethod('decrypt', EncodedBytes, Cipher) | { EncryptedBytes enc -> decryptKey.decrypt(base64.encode(enc.bytes()), defaultAlgorithm()) }
 
     }
 
@@ -73,11 +79,11 @@ abstract class CipherKeyTests extends Specification {
             decryptKey.decrypt(encrypted) == message
 
         where:
-            method                                                            | doEncrypt
-            EncryptKey.getMethod('encrypt', Bytes)                            | { encryptKey.encrypt(message) }
-            EncryptKey.getMethod('encrypt', byte[])                           | { encryptKey.encrypt(message.array()) }
-            EncryptKey.getMethod('encrypt', String, Charset)                  | { encryptKey.encrypt(message.string(), UTF_8) }
-            EncryptKey.getMethod('encrypt', String)                           | { encryptKey.encrypt(message.string()) }
+            method                                                   | doEncrypt
+            EncryptKey.getMethod('encrypt', Bytes)                   | { encryptKey.encrypt(message) }
+            EncryptKey.getMethod('encrypt', byte[])                  | { encryptKey.encrypt(message.array()) }
+            EncryptKey.getMethod('encrypt', String, Charset)         | { encryptKey.encrypt(message.string(), UTF_8) }
+            EncryptKey.getMethod('encrypt', String)                  | { encryptKey.encrypt(message.string()) }
 
             EncryptKey.getMethod('encrypt', Bytes, Cipher)           | { encryptKey.encrypt(message, defaultAlgorithm()) }
             EncryptKey.getMethod('encrypt', byte[], Cipher)          | { encryptKey.encrypt(message.array(), defaultAlgorithm()) }
