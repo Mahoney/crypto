@@ -1,13 +1,13 @@
 package uk.org.lidalia.crypto.rsa
 
 import uk.org.lidalia.crypto.Cipher
-import uk.org.lidalia.crypto.CryptoKeyTests
+import uk.org.lidalia.crypto.CipherKeyTests
 import uk.org.lidalia.crypto.DecryptKey
 import uk.org.lidalia.crypto.EncryptKey
 
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA
 
-class RsaKeyCryptoTests extends CryptoKeyTests {
+class RsaKeyCryptoTests extends CipherKeyTests {
 
     @Override
     Tuple2<EncryptKey, DecryptKey> generateKeyPair() {

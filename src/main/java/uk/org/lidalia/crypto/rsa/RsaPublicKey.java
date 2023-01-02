@@ -42,6 +42,7 @@ public final class RsaPublicKey
         }
     }
 
+    @SuppressWarnings("unused")
     public static RsaPublicKey loadDefault() throws IOException, InvalidEncoding {
         Path defaultRsaPrivateKey = Paths.get(System.getProperty("user.home"), ".ssh/id_rsa.pub");
         return loadFrom(defaultRsaPrivateKey);

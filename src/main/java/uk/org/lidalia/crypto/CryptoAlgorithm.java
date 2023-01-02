@@ -1,6 +1,6 @@
 package uk.org.lidalia.crypto;
 
-public interface KeyAlgorithm {
+public interface CryptoAlgorithm {
 
     String name();
 

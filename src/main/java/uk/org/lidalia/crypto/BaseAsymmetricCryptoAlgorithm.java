@@ -7,16 +7,16 @@ import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 
-public abstract class BaseAsymmetricKeyAlgorithm<
+public abstract class BaseAsymmetricCryptoAlgorithm<
         Public extends PublicKey<Public, Private, Pair>,
         Private extends PrivateKey<Public, Private, Pair>,
         Pair extends KeyPair<Public, Private, Pair>
-    > implements AsymmetricKeyAlgorithm<Public,Private, Pair> {
+    > implements AsymmetricCryptoAlgorithm<Public,Private, Pair> {
 
     private final String name;
     private final KeyFactory keyFactory;
 
-    protected BaseAsymmetricKeyAlgorithm(String name) {
+    protected BaseAsymmetricCryptoAlgorithm(String name) {
         this.name = requireNonNull(name);
         this.keyFactory = buildKeyFactory();
     }
@@ -47,7 +47,7 @@ public abstract class BaseAsymmetricKeyAlgorithm<
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AsymmetricKeyAlgorithm algorithm = (AsymmetricKeyAlgorithm) o;
+        @SuppressWarnings("rawtypes") AsymmetricCryptoAlgorithm algorithm = (AsymmetricCryptoAlgorithm) o;
         return Objects.equals(name, algorithm.name());
     }
 

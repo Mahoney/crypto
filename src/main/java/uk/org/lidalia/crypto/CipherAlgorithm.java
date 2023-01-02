@@ -1,9 +1,9 @@
 package uk.org.lidalia.crypto;
 
-public interface CryptoKeyAlgorithm<
+public interface CipherAlgorithm<
         Encrypt extends EncryptKey<Encrypt, Decrypt>,
         Decrypt extends DecryptKey<Encrypt, Decrypt>
-        > extends KeyAlgorithm {
+        > extends CryptoAlgorithm {
 
     String name();
 

@@ -10,7 +10,8 @@ public interface KeyPair<
 
     Private privateKey();
 
-    AsymmetricKeyAlgorithm<Public, Private, Pair> algorithm();
+    AsymmetricCryptoAlgorithm<Public, Private, Pair> algorithm();
 
-    java.security.KeyPair toKeyPair();
+    @SuppressWarnings("unused")
+    java.security.KeyPair toJavaKeyPair();
 }

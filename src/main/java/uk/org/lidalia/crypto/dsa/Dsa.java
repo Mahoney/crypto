@@ -1,13 +1,13 @@
 package uk.org.lidalia.crypto.dsa;
 
-import uk.org.lidalia.crypto.BaseAsymmetricKeyAlgorithm;
+import uk.org.lidalia.crypto.BaseAsymmetricCryptoAlgorithm;
 
 import java.security.interfaces.DSAPrivateKey;
 import java.security.interfaces.DSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
-public class Dsa extends BaseAsymmetricKeyAlgorithm<DsaPublicKey, DsaPrivateKey, DsaKeyPair> {
+public class Dsa extends BaseAsymmetricCryptoAlgorithm<DsaPublicKey, DsaPrivateKey, DsaKeyPair> {
 
     public static final Dsa DSA = new Dsa();
 

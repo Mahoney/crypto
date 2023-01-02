@@ -3,11 +3,11 @@ package uk.org.lidalia.crypto;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
-public interface AsymmetricKeyAlgorithm<
+public interface AsymmetricCryptoAlgorithm<
         Public extends PublicKey<Public, Private, Pair>,
         Private extends PrivateKey<Public, Private, Pair>,
         Pair extends KeyPair<Public, Private, Pair>
-    > extends KeyAlgorithm {
+    > extends CryptoAlgorithm {
 
     String name();
 

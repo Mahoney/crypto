@@ -37,7 +37,7 @@ public class DsaKeyPair implements KeyPair<DsaPublicKey, DsaPrivateKey, DsaKeyPa
     }
 
     @Override
-    public java.security.KeyPair toKeyPair() {
+    public java.security.KeyPair toJavaKeyPair() {
         return keyPair;
     }
 }

@@ -6,7 +6,7 @@ import uk.org.lidalia.lang.Bytes;
 public interface DecryptKey<
         E extends EncryptKey<E, D>,
         D extends DecryptKey<E, D>
-    > extends CryptoKey<E, D> {
+    > extends CipherKey<E, D> {
 
     default Bytes decrypt(EncryptedBytes encrypted, Cipher<E, D> cipher) throws DecryptionFailedException {
         //noinspection unchecked

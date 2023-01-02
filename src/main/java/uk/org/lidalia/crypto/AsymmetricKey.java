@@ -9,7 +9,7 @@ public interface AsymmetricKey<
     > extends java.security.Key, Key {
 
     @Override
-    AsymmetricKeyAlgorithm<Public, Private, Pair> algorithm();
+    AsymmetricCryptoAlgorithm<Public, Private, Pair> algorithm();
 
     default java.security.Signature signatureFor(HashAlgorithm hashAlgorithm) {
         final String algorithm = hashAlgorithm.toStringInAlgorithm() + "with" + algorithm();

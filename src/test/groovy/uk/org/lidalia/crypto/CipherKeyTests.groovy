@@ -14,7 +14,7 @@ import java.security.GeneralSecurityException
 import static java.nio.charset.StandardCharsets.UTF_8
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64
 
-abstract class CryptoKeyTests extends Specification {
+abstract class CipherKeyTests extends Specification {
 
     @Shared Bytes message = Bytes.of(RandomStringUtils.random(15))
 

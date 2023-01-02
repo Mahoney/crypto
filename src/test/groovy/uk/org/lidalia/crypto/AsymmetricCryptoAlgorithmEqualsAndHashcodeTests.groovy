@@ -7,7 +7,7 @@ import uk.org.lidalia.crypto.rsa.Rsa
 import static uk.org.lidalia.crypto.dsa.Dsa.DSA
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA
 
-class AsymmetricKeyAlgorithmEqualsAndHashcodeTests extends EqualsAndHashcodeTests<AsymmetricKeyAlgorithm> {
+class AsymmetricCryptoAlgorithmEqualsAndHashcodeTests extends EqualsAndHashcodeTests<AsymmetricCryptoAlgorithm> {
 
     Rsa instance1A = RSA
     Rsa instance1B = RSA
