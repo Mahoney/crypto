@@ -1,12 +1,13 @@
 package uk.org.lidalia.crypto;
 
 import uk.org.lidalia.encoding.core.EncodedBytes;
+import uk.org.lidalia.hash.HashAlgorithm;
 import uk.org.lidalia.lang.Bytes;
 
 import java.nio.charset.Charset;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static uk.org.lidalia.crypto.HashAlgorithm.SHA256;
+import static uk.org.lidalia.hash.HashAlgorithm.SHA256;
 
 public interface PrivateKey<
         Public extends PublicKey<Public, Private, Pair>,

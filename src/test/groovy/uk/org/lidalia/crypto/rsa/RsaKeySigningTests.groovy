@@ -1,6 +1,6 @@
 package uk.org.lidalia.crypto.rsa
 
-import uk.org.lidalia.crypto.HashAlgorithm
+import uk.org.lidalia.hash.HashAlgorithm
 import uk.org.lidalia.crypto.KeyPair
 import uk.org.lidalia.crypto.SigningKeyTests
 

@@ -4,14 +4,14 @@ import org.apache.commons.lang3.RandomStringUtils
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
-import uk.org.lidalia.encoding.base64.Base64Encoder
 import uk.org.lidalia.encoding.core.EncodedBytes
+import uk.org.lidalia.hash.HashAlgorithm
 import uk.org.lidalia.lang.Bytes
 
 import java.nio.charset.Charset
 
 import static java.nio.charset.StandardCharsets.UTF_8
-import static uk.org.lidalia.crypto.HashAlgorithm.SHA256
+import static uk.org.lidalia.hash.HashAlgorithm.SHA256
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64
 
 abstract class SigningKeyTests extends Specification {

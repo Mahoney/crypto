@@ -4,7 +4,7 @@ import org.apache.commons.lang3.RandomStringUtils
 import spock.lang.Shared
 import uk.org.lidalia.EqualsAndHashcodeTests
 
-import static uk.org.lidalia.crypto.HashAlgorithm.SHA256
+import static uk.org.lidalia.hash.HashAlgorithm.SHA256
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64
 

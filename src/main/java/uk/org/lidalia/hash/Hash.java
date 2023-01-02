@@ -1,4 +1,4 @@
-package uk.org.lidalia.crypto;
+package uk.org.lidalia.hash;
 
 import uk.org.lidalia.encoding.core.EncodedBytes;
 import uk.org.lidalia.encoding.hex.NotAHexEncodedString;
@@ -37,24 +37,24 @@ public class Hash {
         this.algorithm = requireNonNull(algorithm);
     }
 
-    public boolean matches(Bytes unhashed) {
-        return algorithm.hash(unhashed).equals(this);
+    public boolean matches(Bytes content) {
+        return algorithm.hash(content).equals(this);
     }
 
-    public boolean matches(byte[] unhashed) {
-        return matches(Bytes.of(unhashed));
+    public boolean matches(byte[] content) {
+        return matches(Bytes.of(content));
     }
 
-    public boolean matches(EncodedBytes unhashed) {
-        return matches(unhashed.decode());
+    public boolean matches(EncodedBytes content) {
+        return matches(content.decode());
     }
 
-    public boolean matches(String unhashed, Charset charset) {
-        return matches(Bytes.of(unhashed, charset));
+    public boolean matches(String content, Charset charset) {
+        return matches(Bytes.of(content, charset));
     }
 
-    public boolean matches(String unhashed) {
-        return matches(unhashed, UTF_8);
+    public boolean matches(String content) {
+        return matches(content, UTF_8);
     }
 
     public Bytes bytes() {

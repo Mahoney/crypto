@@ -1,4 +1,4 @@
-package uk.org.lidalia.crypto;
+package uk.org.lidalia.hash;
 
 import uk.org.lidalia.lang.Bytes;
 

@@ -1,6 +1,7 @@
 package uk.org.lidalia.crypto;
 
 import uk.org.lidalia.encoding.core.EncodedBytes;
+import uk.org.lidalia.hash.HashAlgorithm;
 import uk.org.lidalia.lang.Bytes;
 
 import java.util.Objects;

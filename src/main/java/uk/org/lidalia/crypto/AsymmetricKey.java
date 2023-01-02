@@ -1,5 +1,7 @@
 package uk.org.lidalia.crypto;
 
+import uk.org.lidalia.hash.HashAlgorithm;
+
 import java.security.NoSuchAlgorithmException;
 
 public interface AsymmetricKey<

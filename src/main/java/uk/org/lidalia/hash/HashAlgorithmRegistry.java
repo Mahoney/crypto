@@ -1,4 +1,4 @@
-package uk.org.lidalia.crypto;
+package uk.org.lidalia.hash;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
