@@ -25,7 +25,7 @@ public abstract class EncodedBase<Decoded, Raw> implements Encoded<Decoded, Raw>
     public final boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        EncodedBase that = (EncodedBase) o;
+        @SuppressWarnings("rawtypes") EncodedBase that = (EncodedBase) o;
         return Objects.equals(raw, that.raw);
     }
 
