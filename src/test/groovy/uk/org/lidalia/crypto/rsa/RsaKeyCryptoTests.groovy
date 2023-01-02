@@ -1,10 +1,9 @@
 package uk.org.lidalia.crypto.rsa
 
-import uk.org.lidalia.crypto.CipherAlgorithm
+import uk.org.lidalia.crypto.Cipher
 import uk.org.lidalia.crypto.CryptoKeyTests
 import uk.org.lidalia.crypto.DecryptKey
 import uk.org.lidalia.crypto.EncryptKey
-import uk.org.lidalia.crypto.rsa.Rsa
 
 import static uk.org.lidalia.crypto.rsa.Rsa.RSA
 
@@ -17,12 +16,12 @@ class RsaKeyCryptoTests extends CryptoKeyTests {
     }
 
     @Override
-    List<CipherAlgorithm> supportedAlgorithms() {
+    List<Cipher> supportedAlgorithms() {
         [Rsa.RsaEcbOaepWithSha1AndMgf1Padding, Rsa.RsaEcbOaepWithSha256AndMgf1Padding]
     }
 
     @Override
-    CipherAlgorithm defaultAlgorithm() {
+    Cipher defaultAlgorithm() {
         RSA.defaultCipherAlgorithm()
     }
 }

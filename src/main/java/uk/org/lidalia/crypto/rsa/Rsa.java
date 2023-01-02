@@ -1,7 +1,7 @@
 package uk.org.lidalia.crypto.rsa;
 
 import uk.org.lidalia.crypto.BaseAsymmetricKeyAlgorithm;
-import uk.org.lidalia.crypto.CipherAlgorithm;
+import uk.org.lidalia.crypto.Cipher;
 import uk.org.lidalia.crypto.CryptoKeyAlgorithm;
 import uk.org.lidalia.crypto.RequiredAlgorithmNotPresent;
 
@@ -14,19 +14,19 @@ import java.security.spec.KeySpec;
 
 public class Rsa extends BaseAsymmetricKeyAlgorithm<RsaPublicKey, RsaPrivateKey, RsaPrivateKey> implements CryptoKeyAlgorithm<RsaPublicKey, RsaPrivateKey> {
 
-    public static final CipherAlgorithm<RsaPublicKey, RsaPrivateKey> RsaEcbPkcs1Padding;
-    public static final CipherAlgorithm<RsaPublicKey, RsaPrivateKey> RsaEcbOaepWithSha1AndMgf1Padding;
-    public static final CipherAlgorithm<RsaPublicKey, RsaPrivateKey> RsaEcbOaepWithSha256AndMgf1Padding;
-    public static final CipherAlgorithm<RsaPublicKey, RsaPrivateKey> RsaEcbOaepWithSha384AndMgf1Padding;
-    public static final CipherAlgorithm<RsaPublicKey, RsaPrivateKey> RsaEcbOaepWithSha512AndMgf1Padding;
+    public static final Cipher<RsaPublicKey, RsaPrivateKey> RsaEcbPkcs1Padding;
+    public static final Cipher<RsaPublicKey, RsaPrivateKey> RsaEcbOaepWithSha1AndMgf1Padding;
+    public static final Cipher<RsaPublicKey, RsaPrivateKey> RsaEcbOaepWithSha256AndMgf1Padding;
+    public static final Cipher<RsaPublicKey, RsaPrivateKey> RsaEcbOaepWithSha384AndMgf1Padding;
+    public static final Cipher<RsaPublicKey, RsaPrivateKey> RsaEcbOaepWithSha512AndMgf1Padding;
 
     static {
         try {
-            RsaEcbPkcs1Padding                 = new CipherAlgorithm<>("RSA/ECB/PKCS1Padding");
-            RsaEcbOaepWithSha1AndMgf1Padding   = new CipherAlgorithm<>("RSA/ECB/OAEPWithSHA-1AndMGF1Padding");
-            RsaEcbOaepWithSha256AndMgf1Padding = new CipherAlgorithm<>("RSA/ECB/OAEPWithSHA-256AndMGF1Padding");
-            RsaEcbOaepWithSha384AndMgf1Padding = new CipherAlgorithm<>("RSA/ECB/OAEPWithSHA-384AndMGF1Padding");
-            RsaEcbOaepWithSha512AndMgf1Padding = new CipherAlgorithm<>("RSA/ECB/OAEPWithSHA-512AndMGF1Padding");
+            RsaEcbPkcs1Padding                 = new Cipher<>("RSA/ECB/PKCS1Padding");
+            RsaEcbOaepWithSha1AndMgf1Padding   = new Cipher<>("RSA/ECB/OAEPWithSHA-1AndMGF1Padding");
+            RsaEcbOaepWithSha256AndMgf1Padding = new Cipher<>("RSA/ECB/OAEPWithSHA-256AndMGF1Padding");
+            RsaEcbOaepWithSha384AndMgf1Padding = new Cipher<>("RSA/ECB/OAEPWithSHA-384AndMGF1Padding");
+            RsaEcbOaepWithSha512AndMgf1Padding = new Cipher<>("RSA/ECB/OAEPWithSHA-512AndMGF1Padding");
         } catch (NoSuchPaddingException | NoSuchAlgorithmException e) {
             throw new RequiredAlgorithmNotPresent("", e);
         }
@@ -59,7 +59,7 @@ public class Rsa extends BaseAsymmetricKeyAlgorithm<RsaPublicKey, RsaPrivateKey,
     }
 
     @Override
-    public CipherAlgorithm<RsaPublicKey, RsaPrivateKey> defaultCipherAlgorithm() {
+    public Cipher<RsaPublicKey, RsaPrivateKey> defaultCipherAlgorithm() {
         return RsaEcbOaepWithSha256AndMgf1Padding;
     }
 }

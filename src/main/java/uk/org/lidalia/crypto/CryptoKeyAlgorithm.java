@@ -7,5 +7,5 @@ public interface CryptoKeyAlgorithm<
 
     String name();
 
-    CipherAlgorithm<Encrypt, Decrypt> defaultCipherAlgorithm();
+    Cipher<Encrypt, Decrypt> defaultCipherAlgorithm();
 }

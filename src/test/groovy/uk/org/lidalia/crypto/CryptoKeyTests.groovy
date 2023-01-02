@@ -24,8 +24,8 @@ abstract class CryptoKeyTests extends Specification {
     @Shared otherDecryptKey = generateKeyPair().v2
 
     abstract Tuple2<EncryptKey, DecryptKey> generateKeyPair()
-    abstract List<CipherAlgorithm> supportedAlgorithms()
-    abstract CipherAlgorithm defaultAlgorithm()
+    abstract List<Cipher> supportedAlgorithms()
+    abstract Cipher defaultAlgorithm()
 
     @Unroll
     def 'can use #algorithm to encrypt and decrypt message'() {
@@ -56,10 +56,10 @@ abstract class CryptoKeyTests extends Specification {
             DecryptKey.getMethod('decrypt', byte[])                          | { EncryptedBytes enc -> decryptKey.decrypt(enc.bytes().array()) }
             DecryptKey.getMethod('decrypt', EncodedBytes)                    | { EncryptedBytes enc -> decryptKey.decrypt(base64.encode(enc.bytes())) }
 
-            DecryptKey.getMethod('decrypt', EncryptedBytes, CipherAlgorithm) | { EncryptedBytes enc -> decryptKey.decrypt(enc, defaultAlgorithm()) }
-            DecryptKey.getMethod('decrypt', Bytes, CipherAlgorithm)          | { EncryptedBytes enc -> decryptKey.decrypt(enc.bytes(), defaultAlgorithm()) }
-            DecryptKey.getMethod('decrypt', byte[], CipherAlgorithm)         | { EncryptedBytes enc -> decryptKey.decrypt(enc.bytes().array(), defaultAlgorithm()) }
-            DecryptKey.getMethod('decrypt', EncodedBytes, CipherAlgorithm)   | { EncryptedBytes enc -> decryptKey.decrypt(base64.encode(enc.bytes()), defaultAlgorithm()) }
+            DecryptKey.getMethod('decrypt', EncryptedBytes, Cipher) | { EncryptedBytes enc -> decryptKey.decrypt(enc, defaultAlgorithm()) }
+            DecryptKey.getMethod('decrypt', Bytes, Cipher)          | { EncryptedBytes enc -> decryptKey.decrypt(enc.bytes(), defaultAlgorithm()) }
+            DecryptKey.getMethod('decrypt', byte[], Cipher)         | { EncryptedBytes enc -> decryptKey.decrypt(enc.bytes().array(), defaultAlgorithm()) }
+            DecryptKey.getMethod('decrypt', EncodedBytes, Cipher)   | { EncryptedBytes enc -> decryptKey.decrypt(base64.encode(enc.bytes()), defaultAlgorithm()) }
 
     }
 
@@ -79,10 +79,10 @@ abstract class CryptoKeyTests extends Specification {
             EncryptKey.getMethod('encrypt', String, Charset)                  | { encryptKey.encrypt(message.string(), UTF_8) }
             EncryptKey.getMethod('encrypt', String)                           | { encryptKey.encrypt(message.string()) }
 
-            EncryptKey.getMethod('encrypt', Bytes, CipherAlgorithm)           | { encryptKey.encrypt(message, defaultAlgorithm()) }
-            EncryptKey.getMethod('encrypt', byte[], CipherAlgorithm)          | { encryptKey.encrypt(message.array(), defaultAlgorithm()) }
-            EncryptKey.getMethod('encrypt', String, Charset, CipherAlgorithm) | { encryptKey.encrypt(message.string(), UTF_8, defaultAlgorithm()) }
-            EncryptKey.getMethod('encrypt', String, CipherAlgorithm)          | { encryptKey.encrypt(message.string(), defaultAlgorithm()) }
+            EncryptKey.getMethod('encrypt', Bytes, Cipher)           | { encryptKey.encrypt(message, defaultAlgorithm()) }
+            EncryptKey.getMethod('encrypt', byte[], Cipher)          | { encryptKey.encrypt(message.array(), defaultAlgorithm()) }
+            EncryptKey.getMethod('encrypt', String, Charset, Cipher) | { encryptKey.encrypt(message.string(), UTF_8, defaultAlgorithm()) }
+            EncryptKey.getMethod('encrypt', String, Cipher)          | { encryptKey.encrypt(message.string(), defaultAlgorithm()) }
     }
 
     def 'throws exception decrypting with wrong key'() {
