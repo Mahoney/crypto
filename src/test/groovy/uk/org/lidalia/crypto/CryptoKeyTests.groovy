@@ -19,9 +19,9 @@ abstract class CryptoKeyTests extends Specification {
     @Shared Bytes message = Bytes.of(RandomStringUtils.random(15))
 
     @Shared keyPair = generateKeyPair()
-    @Shared encryptKey = keyPair.first
-    @Shared decryptKey = keyPair.second
-    @Shared otherDecryptKey = generateKeyPair().second
+    @Shared encryptKey = keyPair.v1
+    @Shared decryptKey = keyPair.v2
+    @Shared otherDecryptKey = generateKeyPair().v2
 
     abstract Tuple2<EncryptKey, DecryptKey> generateKeyPair()
     abstract List<CipherAlgorithm> supportedAlgorithms()
@@ -51,15 +51,15 @@ abstract class CryptoKeyTests extends Specification {
 
         where:
             method                                                             | doDecrypt
-            DecryptKey.getMethod('decrypt', EncryptionResult)                  | { EncryptionResult enc -> decryptKey.decrypt(enc) }
-            DecryptKey.getMethod('decrypt', Bytes)                             | { EncryptionResult enc -> decryptKey.decrypt(enc.bytes().array()) }
-            DecryptKey.getMethod('decrypt', byte[])                            | { EncryptionResult enc -> decryptKey.decrypt(enc.bytes().array()) }
-            DecryptKey.getMethod('decrypt', EncodedBytes)                      | { EncryptionResult enc -> decryptKey.decrypt(base64.encode(enc.bytes())) }
+            DecryptKey.getMethod('decrypt', EncryptedBytes)                  | { EncryptedBytes enc -> decryptKey.decrypt(enc) }
+            DecryptKey.getMethod('decrypt', Bytes)                           | { EncryptedBytes enc -> decryptKey.decrypt(enc.bytes().array()) }
+            DecryptKey.getMethod('decrypt', byte[])                          | { EncryptedBytes enc -> decryptKey.decrypt(enc.bytes().array()) }
+            DecryptKey.getMethod('decrypt', EncodedBytes)                    | { EncryptedBytes enc -> decryptKey.decrypt(base64.encode(enc.bytes())) }
 
-            DecryptKey.getMethod('decrypt', EncryptionResult, CipherAlgorithm) | { EncryptionResult enc -> decryptKey.decrypt(enc, defaultAlgorithm()) }
-            DecryptKey.getMethod('decrypt', Bytes, CipherAlgorithm)            | { EncryptionResult enc -> decryptKey.decrypt(enc.bytes(), defaultAlgorithm()) }
-            DecryptKey.getMethod('decrypt', byte[], CipherAlgorithm)           | { EncryptionResult enc -> decryptKey.decrypt(enc.bytes().array(), defaultAlgorithm()) }
-            DecryptKey.getMethod('decrypt', EncodedBytes, CipherAlgorithm)     | { EncryptionResult enc -> decryptKey.decrypt(base64.encode(enc.bytes()), defaultAlgorithm()) }
+            DecryptKey.getMethod('decrypt', EncryptedBytes, CipherAlgorithm) | { EncryptedBytes enc -> decryptKey.decrypt(enc, defaultAlgorithm()) }
+            DecryptKey.getMethod('decrypt', Bytes, CipherAlgorithm)          | { EncryptedBytes enc -> decryptKey.decrypt(enc.bytes(), defaultAlgorithm()) }
+            DecryptKey.getMethod('decrypt', byte[], CipherAlgorithm)         | { EncryptedBytes enc -> decryptKey.decrypt(enc.bytes().array(), defaultAlgorithm()) }
+            DecryptKey.getMethod('decrypt', EncodedBytes, CipherAlgorithm)   | { EncryptedBytes enc -> decryptKey.decrypt(base64.encode(enc.bytes()), defaultAlgorithm()) }
 
     }
 
@@ -67,7 +67,7 @@ abstract class CryptoKeyTests extends Specification {
     def 'encrypting works using overloaded method #method'() {
 
         given:
-            def encrypted = doEncrypt() as EncryptionResult
+            def encrypted = doEncrypt() as EncryptedBytes
 
         expect:
             decryptKey.decrypt(encrypted) == message

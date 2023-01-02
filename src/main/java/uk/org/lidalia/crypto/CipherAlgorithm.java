@@ -26,21 +26,21 @@ public final class CipherAlgorithm<E extends EncryptKey<E, D>, D extends Decrypt
                 try {
                     return Cipher.getInstance(toString());
                 } catch (final NoSuchAlgorithmException | NoSuchPaddingException e) {
-                    throw new AssertionError("Should be impossible - checked construction of " + toString() + " on construction", e);
+                    throw new AssertionError("Should be impossible - checked construction of " + this + " on construction", e);
                 }
             }
         });
     }
 
-    EncryptionResult encrypt(final Bytes decrypted, EncryptKey key) throws EncryptionFailedException {
+    EncryptedBytes encrypt(final Bytes decrypted, E key) throws EncryptionFailedException {
         try {
-            return EncryptionResult.of(doCrypto(decrypted, key, Cipher.ENCRYPT_MODE));
+            return EncryptedBytes.of(doCrypto(decrypted, key, Cipher.ENCRYPT_MODE));
         } catch (final Exception e) {
             throw new EncryptionFailedException(e);
         }
     }
 
-    Bytes decrypt(final EncryptionResult encrypted, DecryptKey key) throws DecryptionFailedException {
+    Bytes decrypt(final EncryptedBytes encrypted, D key) throws DecryptionFailedException {
         try {
             return Bytes.of(doCrypto(encrypted.bytes(), key, Cipher.DECRYPT_MODE));
         } catch (final Exception e) {

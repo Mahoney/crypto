@@ -2,19 +2,19 @@ package uk.org.lidalia.crypto;
 
 import uk.org.lidalia.lang.Bytes;
 
-public final class EncryptionResult {
+public final class EncryptedBytes {
 
     private final Bytes bytes;
 
-    public static EncryptionResult of(byte[] bytes) {
+    public static EncryptedBytes of(byte[] bytes) {
         return of(Bytes.of(bytes));
     }
 
-    public static EncryptionResult of(Bytes bytes) {
-        return new EncryptionResult(bytes);
+    public static EncryptedBytes of(Bytes bytes) {
+        return new EncryptedBytes(bytes);
     }
 
-    private EncryptionResult(Bytes bytes) {
+    private EncryptedBytes(Bytes bytes) {
         this.bytes = bytes;
     }
 

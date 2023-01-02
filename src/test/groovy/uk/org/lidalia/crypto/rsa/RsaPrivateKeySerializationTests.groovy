@@ -3,7 +3,7 @@ package uk.org.lidalia.crypto.rsa
 import org.apache.commons.lang3.RandomStringUtils
 import spock.lang.IgnoreIf
 import spock.lang.Specification
-import uk.org.lidalia.crypto.EncryptionResult
+import uk.org.lidalia.crypto.EncryptedBytes
 import uk.org.lidalia.lang.Bytes
 
 import java.nio.file.Path
@@ -21,8 +21,8 @@ class RsaPrivateKeySerializationTests extends Specification {
     static def tmpDir = createTempDirectory('rsa-tests')
     static { tmpDir.toFile().deleteOnExit() }
     static def keyFilePair = sshKeygen(tmpDir)
-    static def privateKeyFile = keyFilePair.first
-    static def publicKeyFile = keyFilePair.second
+    static def privateKeyFile = keyFilePair.v1
+    static def publicKeyFile = keyFilePair.v2
     static def privateKey = RSA.generateKeyPair(1024)
     static def publicKey = privateKey.publicKey()
 
@@ -33,7 +33,7 @@ class RsaPrivateKeySerializationTests extends Specification {
             def importedPublicKey = RsaPublicKey.loadFrom(publicKeyFile)
 
         expect:
-            importedPublicKey.encode(x509PublicKeyString).raw()+"\n" == publicKeyPemFile.text
+            importedPublicKey.encode(x509PublicKeyString).raw()+"\n" == publicKeyPemFile.toFile().text
 
     }
 
@@ -43,7 +43,7 @@ class RsaPrivateKeySerializationTests extends Specification {
             def importedPrivateKey = RsaPrivateKey.loadFrom(privateKeyFile)
 
         expect:
-            importedPrivateKey.encode(pkcs1String).raw()+"\n" == privateKeyFile.text
+            importedPrivateKey.encode(pkcs1String).raw()+"\n" == privateKeyFile.toFile().text
 
     }
 
@@ -84,7 +84,7 @@ class RsaPrivateKeySerializationTests extends Specification {
 
         given:
             def exportedPrivateKeyFile = tmpDir.resolve('id_rsa_exported')
-            exportedPrivateKeyFile << privateKey.encode(pkcs8String).raw()
+            exportedPrivateKeyFile.toFile() << privateKey.encode(pkcs8String).raw()
 
         when:
             def encryptedBytes = publicKey.encrypt(message, Rsa.RsaEcbPkcs1Padding)
@@ -101,7 +101,7 @@ class RsaPrivateKeySerializationTests extends Specification {
 
         given:
             def exportedPublicKeyFile = tmpDir.resolve('id_rsa_exported.pub')
-            exportedPublicKeyFile << publicKey.encode(x509PublicKeyString)
+            exportedPublicKeyFile.toFile() << publicKey.encode(x509PublicKeyString)
 
         when:
             def encryptedBytes = openSslEncrypt(message, exportedPublicKeyFile)
@@ -118,7 +118,7 @@ class RsaPrivateKeySerializationTests extends Specification {
         resultOf(proc("echo -n '${message}'") | proc("openssl rsautl -encrypt -pubin -inkey $publicKey"))
     }
 
-    private static String openSslDecrypt(EncryptionResult encrypted, Path privateKey) {
+    private static String openSslDecrypt(EncryptedBytes encrypted, Path privateKey) {
         resultOf(proc("echo -n -e '${hexCodes(encrypted.bytes())}'") | proc("openssl rsautl -decrypt -inkey $privateKey")).string()
     }
 
