@@ -4,14 +4,10 @@ import uk.org.lidalia.hash.HashAlgorithm;
 
 import java.security.NoSuchAlgorithmException;
 
-public interface AsymmetricKey<
-        Public extends PublicKey<Public, Private, Pair>,
-        Private extends PrivateKey<Public, Private, Pair>,
-        Pair extends KeyPair<Public, Private, Pair>
-    > extends java.security.Key, Key {
+public interface AsymmetricKey<A extends AsymmetricCryptoAlgorithm<A>> extends java.security.Key, Key<A> {
 
     @Override
-    AsymmetricCryptoAlgorithm<Public, Private, Pair> algorithm();
+    A algorithm();
 
     default java.security.Signature signatureFor(HashAlgorithm hashAlgorithm) {
         final String algorithm = hashAlgorithm.toStringInAlgorithm() + "with" + algorithm();

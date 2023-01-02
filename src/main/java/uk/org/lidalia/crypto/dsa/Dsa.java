@@ -7,7 +7,7 @@ import java.security.interfaces.DSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
-public class Dsa extends BaseAsymmetricCryptoAlgorithm<DsaPublicKey, DsaPrivateKey, DsaKeyPair> {
+public class Dsa extends BaseAsymmetricCryptoAlgorithm<Dsa> {
 
     public static final Dsa DSA = new Dsa();
 
@@ -18,6 +18,11 @@ public class Dsa extends BaseAsymmetricCryptoAlgorithm<DsaPublicKey, DsaPrivateK
     @Override
     public int defaultKeySize() {
         return 2048;
+    }
+
+    @Override
+    public DsaKeyPair generateKeyPair() {
+        return generateKeyPair(defaultKeySize());
     }
 
     @Override

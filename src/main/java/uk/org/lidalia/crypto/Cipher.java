@@ -12,10 +12,9 @@ import java.security.NoSuchAlgorithmException;
 /**
  * Immutable, typed wrapper around a {@link javax.crypto.Cipher}
  *
- * @param <E> The type of {@link EncryptKey} this cipher can use to encrypt
- * @param <D> The type of {@link DecryptKey} this cipher can use to decrypt
+ * @param <A> The {@link CipherAlgorithm} type of this cipher
  */
-public final class Cipher<E extends EncryptKey<E, D>, D extends DecryptKey<E, D>> {
+public final class Cipher<A extends CipherAlgorithm<A>> {
 
     private final String transformation;
     private final ThreadLocal<javax.crypto.Cipher> threadLocalCipher;
@@ -37,7 +36,7 @@ public final class Cipher<E extends EncryptKey<E, D>, D extends DecryptKey<E, D>
         });
     }
 
-    EncryptedBytes<E, D> encrypt(final Bytes decrypted, E key) throws EncryptionFailedException {
+    EncryptedBytes<A> encrypt(final Bytes decrypted, EncryptKey<A> key) throws EncryptionFailedException {
         try {
             return EncryptedBytes.of(doCrypto(decrypted, key, javax.crypto.Cipher.ENCRYPT_MODE), this);
         } catch (final Exception e) {
@@ -45,7 +44,7 @@ public final class Cipher<E extends EncryptKey<E, D>, D extends DecryptKey<E, D>
         }
     }
 
-    Bytes decrypt(final Bytes encrypted, D key) throws DecryptionFailedException {
+    Bytes decrypt(final Bytes encrypted, DecryptKey<A> key) throws DecryptionFailedException {
         try {
             return Bytes.of(doCrypto(encrypted, key, javax.crypto.Cipher.DECRYPT_MODE));
         } catch (final Exception e) {

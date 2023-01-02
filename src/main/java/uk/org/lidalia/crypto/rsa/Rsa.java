@@ -12,13 +12,13 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
-public class Rsa extends BaseAsymmetricCryptoAlgorithm<RsaPublicKey, RsaPrivateKey, RsaPrivateKey> implements CipherAlgorithm<RsaPublicKey, RsaPrivateKey> {
+public class Rsa extends BaseAsymmetricCryptoAlgorithm<Rsa> implements CipherAlgorithm<Rsa> {
 
-    public static final Cipher<RsaPublicKey, RsaPrivateKey> RsaEcbPkcs1Padding;
-    public static final Cipher<RsaPublicKey, RsaPrivateKey> RsaEcbOaepWithSha1AndMgf1Padding;
-    public static final Cipher<RsaPublicKey, RsaPrivateKey> RsaEcbOaepWithSha256AndMgf1Padding;
-    public static final Cipher<RsaPublicKey, RsaPrivateKey> RsaEcbOaepWithSha384AndMgf1Padding;
-    public static final Cipher<RsaPublicKey, RsaPrivateKey> RsaEcbOaepWithSha512AndMgf1Padding;
+    public static final Cipher<Rsa> RsaEcbPkcs1Padding;
+    public static final Cipher<Rsa> RsaEcbOaepWithSha1AndMgf1Padding;
+    public static final Cipher<Rsa> RsaEcbOaepWithSha256AndMgf1Padding;
+    public static final Cipher<Rsa> RsaEcbOaepWithSha384AndMgf1Padding;
+    public static final Cipher<Rsa> RsaEcbOaepWithSha512AndMgf1Padding;
 
     static {
         try {
@@ -44,6 +44,11 @@ public class Rsa extends BaseAsymmetricCryptoAlgorithm<RsaPublicKey, RsaPrivateK
     }
 
     @Override
+    public RsaPrivateKey generateKeyPair() {
+        return generateKeyPair(defaultKeySize());
+    }
+
+    @Override
     public RsaPrivateKey generateKeyPair(int keySize) {
         return RsaPrivateKey.of(generateDecoratedKeyPair(keySize));
     }
@@ -59,7 +64,7 @@ public class Rsa extends BaseAsymmetricCryptoAlgorithm<RsaPublicKey, RsaPrivateK
     }
 
     @Override
-    public Cipher<RsaPublicKey, RsaPrivateKey> defaultCipherAlgorithm() {
+    public Cipher<Rsa> defaultCipherAlgorithm() {
         return RsaEcbOaepWithSha256AndMgf1Padding;
     }
 }

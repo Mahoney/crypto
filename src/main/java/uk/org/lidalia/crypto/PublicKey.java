@@ -8,17 +8,13 @@ import java.nio.charset.Charset;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public interface PublicKey<
-        Public extends PublicKey<Public, Private, Pair>,
-        Private extends PrivateKey<Public, Private, Pair>,
-        Pair extends KeyPair<Public, Private, Pair>
-    > extends
+public interface PublicKey<A extends AsymmetricCryptoAlgorithm<A>> extends
         java.security.PublicKey,
-        AsymmetricKey<Public, Private, Pair> {
+        AsymmetricKey<A> {
 
-    default boolean verify(Signature signature, Bytes signedContents) {
+    default boolean verify(Signature<A> signature, Bytes signedContents) {
         try {
-            final java.security.Signature verifier = signatureFor(signature.algorithm());
+            final java.security.Signature verifier = signatureFor(signature.hashAlgorithm());
             verifier.initVerify(this);
             verifier.update(signedContents.array());
             return verifier.verify(signature.bytes().array());
@@ -30,24 +26,24 @@ public interface PublicKey<
         }
     }
 
-    default boolean verify(Signature signature, byte[] signedContents) {
+    default boolean verify(Signature<A> signature, byte[] signedContents) {
         return verify(signature, Bytes.of(signedContents));
     }
 
-    default boolean verify(Signature signature, EncodedBytes signedContents) {
+    default boolean verify(Signature<A> signature, EncodedBytes signedContents) {
         return verify(signature, signedContents.decode());
     }
 
-    default boolean verify(Signature signature, String signedContents, Charset charset) {
+    default boolean verify(Signature<A> signature, String signedContents, Charset charset) {
         return verify(signature, Bytes.of(signedContents, charset));
     }
 
-    default boolean verify(Signature signature, String signedContents) {
+    default boolean verify(Signature<A> signature, String signedContents) {
         return verify(signature, signedContents, UTF_8);
     }
 
     default boolean verify(Bytes signature, HashAlgorithm hashAlgorithm, Bytes signedContents) {
-        return verify(Signature.of(signature, hashAlgorithm), signedContents);
+        return verify(Signature.of(signature, hashAlgorithm, algorithm()), signedContents);
     }
 
     default boolean verify(Bytes signature, HashAlgorithm hashAlgorithm, byte[] signedContents) {

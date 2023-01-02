@@ -6,15 +6,13 @@ package uk.org.lidalia.crypto;
  * An example of a KeyAlgorithm that is not a CipherAlgorithm would be DSA - it
  * only signs and verifies.
  *
- * @param <Encrypt> The type of the key used for encrypting in this algorithm
- * @param <Decrypt> The type of the key used for decrypting in this algorithm
+ * @param <Self> The type of this algorithm
  */
 public interface CipherAlgorithm<
-        Encrypt extends EncryptKey<Encrypt, Decrypt>,
-        Decrypt extends DecryptKey<Encrypt, Decrypt>
+        Self extends CipherAlgorithm<Self>
         > extends CryptoAlgorithm {
 
     String name();
 
-    Cipher<Encrypt, Decrypt> defaultCipherAlgorithm();
+    Cipher<Self> defaultCipherAlgorithm();
 }

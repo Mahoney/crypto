@@ -7,11 +7,7 @@ import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 
-public abstract class BaseAsymmetricCryptoAlgorithm<
-        Public extends PublicKey<Public, Private, Pair>,
-        Private extends PrivateKey<Public, Private, Pair>,
-        Pair extends KeyPair<Public, Private, Pair>
-    > implements AsymmetricCryptoAlgorithm<Public,Private, Pair> {
+public abstract class BaseAsymmetricCryptoAlgorithm<Self extends AsymmetricCryptoAlgorithm<Self>> implements AsymmetricCryptoAlgorithm<Self> {
 
     private final String name;
     private final KeyFactory keyFactory;

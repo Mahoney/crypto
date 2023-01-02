@@ -13,7 +13,7 @@ import static uk.org.lidalia.crypto.dsa.Dsa.DSA;
 
 public final class DsaPublicKey
         extends DsaKey<DSAPublicKey>
-        implements DSAPublicKey, PublicKey<DsaPublicKey, DsaPrivateKey, DsaKeyPair> {
+        implements DSAPublicKey, PublicKey<Dsa> {
 
     public static DsaPublicKey fromEncoded(final Bytes publicKeyEncoded)
             throws InvalidKeySpecException {

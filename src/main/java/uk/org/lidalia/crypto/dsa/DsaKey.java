@@ -9,7 +9,7 @@ import java.security.interfaces.DSAParams;
 import static java.util.Objects.requireNonNull;
 import static uk.org.lidalia.crypto.dsa.Dsa.DSA;
 
-public abstract class DsaKey<T extends Key & DSAKey> implements DSAKey, AsymmetricKey<DsaPublicKey, DsaPrivateKey, DsaKeyPair> {
+public abstract class DsaKey<T extends Key & DSAKey> implements DSAKey, AsymmetricKey<Dsa> {
 
     final T decorated;
 

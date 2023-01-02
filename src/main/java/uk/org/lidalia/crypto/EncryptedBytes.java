@@ -7,38 +7,26 @@ import java.util.Objects;
 import static java.util.Objects.requireNonNull;
 import static uk.org.lidalia.encoding.base64.Base64Encoder.base64;
 
-public final class EncryptedBytes<
-    Encrypt extends EncryptKey<Encrypt, Decrypt>,
-    Decrypt extends DecryptKey<Encrypt, Decrypt>
-> {
+public final class EncryptedBytes<A extends CipherAlgorithm<A>> {
 
     private final Bytes bytes;
-    private final Cipher<Encrypt, Decrypt> cipher;
+    private final Cipher<A> cipher;
 
-    public static <
-        Encrypt extends EncryptKey<Encrypt, Decrypt>,
-        Decrypt extends DecryptKey<Encrypt, Decrypt>
-    > EncryptedBytes<Encrypt, Decrypt> of(
+    public static <A extends CipherAlgorithm<A>> EncryptedBytes<A> of(
         byte[] bytes,
-        Cipher<Encrypt, Decrypt> cipher
+        Cipher<A> cipher
     ) {
         return of(Bytes.of(bytes), cipher);
     }
 
-    public static <
-        Encrypt extends EncryptKey<Encrypt, Decrypt>,
-        Decrypt extends DecryptKey<Encrypt, Decrypt>
-    > EncryptedBytes<Encrypt, Decrypt> of(
+    public static <A extends CipherAlgorithm<A>> EncryptedBytes<A> of(
         Bytes bytes,
-        Cipher<Encrypt, Decrypt> cipher
+        Cipher<A> cipher
     ) {
         return new EncryptedBytes<>(bytes, cipher);
     }
 
-    private EncryptedBytes(
-        Bytes bytes,
-        Cipher<Encrypt, Decrypt> cipher
-    ) {
+    private EncryptedBytes(Bytes bytes, Cipher<A> cipher) {
         this.bytes = requireNonNull(bytes);
         this.cipher = requireNonNull(cipher);
     }
@@ -47,7 +35,7 @@ public final class EncryptedBytes<
         return bytes;
     }
 
-    public Cipher<Encrypt, Decrypt> cipher() {
+    public Cipher<A> cipher() {
         return cipher;
     }
 

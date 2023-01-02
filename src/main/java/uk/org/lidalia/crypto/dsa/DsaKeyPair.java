@@ -5,7 +5,7 @@ import uk.org.lidalia.crypto.KeyPair;
 import java.security.interfaces.DSAPrivateKey;
 import java.security.interfaces.DSAPublicKey;
 
-public class DsaKeyPair implements KeyPair<DsaPublicKey, DsaPrivateKey, DsaKeyPair> {
+public class DsaKeyPair implements KeyPair<Dsa> {
 
     public static DsaKeyPair from(java.security.KeyPair keyPair) {
         return new DsaKeyPair(keyPair);

@@ -25,9 +25,9 @@ import static uk.org.lidalia.crypto.rsa.Rsa.RSA;
 public final class RsaPrivateKey
         extends RsaKey<RSAPrivateCrtKey>
         implements RSAPrivateCrtKey,
-                   PrivateKey<RsaPublicKey, RsaPrivateKey, RsaPrivateKey>,
-                   uk.org.lidalia.crypto.KeyPair<RsaPublicKey, RsaPrivateKey, RsaPrivateKey>,
-                   DecryptKey<RsaPublicKey, RsaPrivateKey>,
+                   PrivateKey<Rsa>,
+                   uk.org.lidalia.crypto.KeyPair<Rsa>,
+                   DecryptKey<Rsa>,
                    Encodable<RsaPrivateKey> {
 
     public static RsaPrivateKey of(KeyPair keyPair) {

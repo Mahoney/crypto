@@ -6,38 +6,37 @@ import java.nio.charset.Charset;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public interface EncryptKey<E extends EncryptKey<E, D>, D extends DecryptKey<E, D>> extends CipherKey<E, D> {
+public interface EncryptKey<A extends CipherAlgorithm<A>> extends CipherKey<A> {
 
-    default EncryptedBytes<E, D> encrypt(Bytes decrypted, Cipher<E, D> cipher) throws EncryptionFailedException {
-        //noinspection unchecked
-        return cipher.encrypt(decrypted, (E) this);
+    default EncryptedBytes<A> encrypt(Bytes decrypted, Cipher<A> cipher) throws EncryptionFailedException {
+        return cipher.encrypt(decrypted, this);
     }
 
-    default EncryptedBytes<E, D> encrypt(Bytes decrypted) throws EncryptionFailedException {
+    default EncryptedBytes<A> encrypt(Bytes decrypted) throws EncryptionFailedException {
         return encrypt(decrypted, algorithm().defaultCipherAlgorithm());
     }
 
-    default EncryptedBytes<E, D> encrypt(byte[] decrypted, Cipher<E, D> cipher) throws EncryptionFailedException {
+    default EncryptedBytes<A> encrypt(byte[] decrypted, Cipher<A> cipher) throws EncryptionFailedException {
         return encrypt(Bytes.of(decrypted), cipher);
     }
 
-    default EncryptedBytes<E, D> encrypt(byte[] decrypted) throws EncryptionFailedException {
+    default EncryptedBytes<A> encrypt(byte[] decrypted) throws EncryptionFailedException {
         return encrypt(decrypted, algorithm().defaultCipherAlgorithm());
     }
 
-    default EncryptedBytes<E, D> encrypt(String input, Charset charset, Cipher<E, D> cipher) throws EncryptionFailedException {
+    default EncryptedBytes<A> encrypt(String input, Charset charset, Cipher<A> cipher) throws EncryptionFailedException {
         return encrypt(input.getBytes(charset), cipher);
     }
 
-    default EncryptedBytes<E, D> encrypt(String input, Charset charset) throws EncryptionFailedException {
+    default EncryptedBytes<A> encrypt(String input, Charset charset) throws EncryptionFailedException {
         return encrypt(input, charset, algorithm().defaultCipherAlgorithm());
     }
 
-    default EncryptedBytes<E, D> encrypt(String input, Cipher<E, D> cipher) throws EncryptionFailedException {
+    default EncryptedBytes<A> encrypt(String input, Cipher<A> cipher) throws EncryptionFailedException {
         return encrypt(input, UTF_8, cipher);
     }
 
-    default EncryptedBytes<E, D> encrypt(String input) throws EncryptionFailedException {
+    default EncryptedBytes<A> encrypt(String input) throws EncryptionFailedException {
         return encrypt(input, UTF_8);
     }
 

@@ -14,8 +14,7 @@ import static uk.org.lidalia.crypto.dsa.Dsa.DSA;
 
 public final class DsaPrivateKey
         extends DsaKey<DSAPrivateKey>
-        implements DSAPrivateKey,
-                   PrivateKey<DsaPublicKey, DsaPrivateKey, DsaKeyPair> {
+        implements DSAPrivateKey, PrivateKey<Dsa> {
 
     public static DsaPrivateKey from(KeyPair keyPair) {
         return from((DSAPrivateKey) keyPair.getPrivate());

@@ -1,16 +1,12 @@
 package uk.org.lidalia.crypto;
 
-public interface KeyPair<
-        Public extends PublicKey<Public, Private, Pair>,
-        Private extends PrivateKey<Public, Private, Pair>,
-        Pair extends KeyPair<Public, Private, Pair>
-    > {
+public interface KeyPair<A extends AsymmetricCryptoAlgorithm<A>> {
 
-    Public publicKey();
+    PublicKey<A> publicKey();
 
-    Private privateKey();
+    PrivateKey<A> privateKey();
 
-    AsymmetricCryptoAlgorithm<Public, Private, Pair> algorithm();
+    AsymmetricCryptoAlgorithm<A> algorithm();
 
     @SuppressWarnings("unused")
     java.security.KeyPair toJavaKeyPair();

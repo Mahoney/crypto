@@ -24,8 +24,8 @@ import static uk.org.lidalia.crypto.rsa.X509PublicKeyStringEncoder.x509PublicKey
 
 public final class RsaPublicKey
         extends RsaKey<RSAPublicKey>
-        implements RSAPublicKey, PublicKey<RsaPublicKey, RsaPrivateKey, RsaPrivateKey>,
-        EncryptKey<RsaPublicKey, RsaPrivateKey>,
+        implements RSAPublicKey, PublicKey<Rsa>,
+        EncryptKey<Rsa>,
         Encodable<RsaPublicKey> {
 
     public static RsaPublicKey of(final KeySpec publicKeySpec) throws InvalidKeySpecException {

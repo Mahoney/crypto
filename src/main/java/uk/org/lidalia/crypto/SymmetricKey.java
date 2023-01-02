@@ -1,7 +1,5 @@
 package uk.org.lidalia.crypto;
 
-public interface SymmetricKey<
-        S extends SymmetricKey<S> &
-                  EncryptKey<S, S> &
-                  DecryptKey<S, S>> extends EncryptKey<S, S>, DecryptKey<S, S> {
+public interface SymmetricKey<A extends CipherAlgorithm<A>>
+        extends EncryptKey<A>, DecryptKey<A> {
 }

@@ -3,25 +3,21 @@ package uk.org.lidalia.crypto;
 import uk.org.lidalia.encoding.core.EncodedBytes;
 import uk.org.lidalia.lang.Bytes;
 
-public interface DecryptKey<
-        E extends EncryptKey<E, D>,
-        D extends DecryptKey<E, D>
-    > extends CipherKey<E, D> {
+public interface DecryptKey<A extends CipherAlgorithm<A>> extends CipherKey<A> {
 
-    default Bytes decrypt(EncryptedBytes<E, D> encrypted) throws DecryptionFailedException {
+    default Bytes decrypt(EncryptedBytes<A> encrypted) throws DecryptionFailedException {
         return decrypt(encrypted.bytes(), encrypted.cipher());
     }
 
-    default Bytes decrypt(Bytes encrypted, Cipher<E, D> cipher) throws DecryptionFailedException {
-        //noinspection unchecked
-        return cipher.decrypt(encrypted, (D) this);
+    default Bytes decrypt(Bytes encrypted, Cipher<A> cipher) throws DecryptionFailedException {
+        return cipher.decrypt(encrypted, this);
     }
 
     default Bytes decrypt(Bytes encrypted) throws DecryptionFailedException {
         return decrypt(encrypted, algorithm().defaultCipherAlgorithm());
     }
 
-    default Bytes decrypt(byte[] encrypted, Cipher<E, D> cipher) throws DecryptionFailedException {
+    default Bytes decrypt(byte[] encrypted, Cipher<A> cipher) throws DecryptionFailedException {
         return decrypt(Bytes.of(encrypted), cipher);
     }
 
@@ -29,7 +25,7 @@ public interface DecryptKey<
         return decrypt(encrypted, algorithm().defaultCipherAlgorithm());
     }
 
-    default Bytes decrypt(EncodedBytes encrypted, Cipher<E, D> cipher) throws DecryptionFailedException {
+    default Bytes decrypt(EncodedBytes encrypted, Cipher<A> cipher) throws DecryptionFailedException {
         return decrypt(encrypted.decode(), cipher);
     }
 
