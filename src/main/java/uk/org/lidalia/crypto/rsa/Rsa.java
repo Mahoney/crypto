@@ -1,8 +1,8 @@
 package uk.org.lidalia.crypto.rsa;
 
+import uk.org.lidalia.crypto.AsymmetricCipherAlgorithm;
 import uk.org.lidalia.crypto.BaseAsymmetricCryptoAlgorithm;
 import uk.org.lidalia.crypto.Cipher;
-import uk.org.lidalia.crypto.CipherAlgorithm;
 import uk.org.lidalia.crypto.RequiredAlgorithmNotPresent;
 
 import javax.crypto.NoSuchPaddingException;
@@ -12,7 +12,7 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
-public class Rsa extends BaseAsymmetricCryptoAlgorithm<Rsa> implements CipherAlgorithm<Rsa> {
+public class Rsa extends BaseAsymmetricCryptoAlgorithm<Rsa> implements AsymmetricCipherAlgorithm<Rsa> {
 
     public static final Cipher<Rsa> RsaEcbPkcs1Padding;
     public static final Cipher<Rsa> RsaEcbOaepWithSha1AndMgf1Padding;

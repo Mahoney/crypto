@@ -1,7 +1,6 @@
 package uk.org.lidalia.crypto.rsa;
 
-import uk.org.lidalia.crypto.EncryptKey;
-import uk.org.lidalia.crypto.PublicKey;
+import uk.org.lidalia.crypto.PublicEncryptKey;
 import uk.org.lidalia.encoding.core.Encodable;
 import uk.org.lidalia.encoding.core.Encoded;
 import uk.org.lidalia.encoding.core.Encoder;
@@ -24,8 +23,7 @@ import static uk.org.lidalia.crypto.rsa.X509PublicKeyStringEncoder.x509PublicKey
 
 public final class RsaPublicKey
         extends RsaKey<RSAPublicKey>
-        implements RSAPublicKey, PublicKey<Rsa>,
-        EncryptKey<Rsa>,
+        implements RSAPublicKey, PublicEncryptKey<Rsa>,
         Encodable<RsaPublicKey> {
 
     public static RsaPublicKey of(final KeySpec publicKeySpec) throws InvalidKeySpecException {
