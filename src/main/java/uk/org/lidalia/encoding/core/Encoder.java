@@ -4,7 +4,7 @@ import uk.org.lidalia.lang.Bytes;
 
 /**
  * Type that allows encoding a value to some encoded form (e.g.
- * encoding some {@link Bytes} as {@link uk.org.lidalia.encoding.hex.Hex},
+ * encoding some {@link Bytes} as {@link uk.org.lidalia.encoding.hex.Hex}),
  * or constructing a validated encoded form from a raw encoded form
  * (e.g. a {@link uk.org.lidalia.encoding.hex.Hex} from a {@link String}).
  *
@@ -17,8 +17,9 @@ import uk.org.lidalia.lang.Bytes;
 public interface Encoder<Decoded, RawEncoded, E extends Encoded<Decoded, RawEncoded>> {
 
     /**
-     * Validates a raw encoded value is a valid encoded form of the unencoded
-     * type, and returns it wrapped in a type safe value that permits decoding
+     * Validates a raw encoded value is a correctly encoded form of the
+     * unencoded type, and returns it wrapped in a type safe value that permits
+     * decoding.
      *
      * @param encoded the raw encoded value (e.g. a hex string)
      * @return a validated and type safe wrapper around the encoded param

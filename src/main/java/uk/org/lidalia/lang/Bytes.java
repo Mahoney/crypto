@@ -26,7 +26,7 @@ public final class Bytes extends AbstractList<Byte> {
     public static Bytes of(InputStream in) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         copy(in, out);
-        return uncopied(out.toByteArray());
+        return unsafe(out.toByteArray());
     }
 
     private static final int BUF_SIZE = 0x1000; // 4K
@@ -44,7 +44,7 @@ public final class Bytes extends AbstractList<Byte> {
     }
 
     public static Bytes of(String text, Charset charset) {
-        return uncopied(text.getBytes(charset));
+        return unsafe(text.getBytes(charset));
     }
 
     public static Bytes of(String text) {
@@ -52,15 +52,15 @@ public final class Bytes extends AbstractList<Byte> {
     }
 
     public static Bytes of(BigInteger bigInteger) {
-        return uncopied(bigInteger.toByteArray());
+        return unsafe(bigInteger.toByteArray());
     }
 
     public static Bytes of(byte b) {
-        return uncopied(new byte[] { b });
+        return unsafe(new byte[] { b });
     }
 
     public static Bytes of(int integer) {
-        return uncopied(ByteBuffer.allocate(4).putInt(integer).array());
+        return unsafe(ByteBuffer.allocate(4).putInt(integer).array());
     }
 
     private static final Bytes empty = Bytes.of(new byte[0]);
@@ -83,10 +83,19 @@ public final class Bytes extends AbstractList<Byte> {
             System.arraycopy(element.array(), 0, bytes, offset, element.size());
             offset += element.size();
         }
-        return uncopied(bytes);
+        return unsafe(bytes);
     }
 
-    private static Bytes uncopied(byte[] bytes) {
+    /**
+     * Unsafe constructor for {@link Bytes}.
+     * No defensive copy of the byte array is taken, so the caller is
+     * responsible for ensuring the byte array does not escape and so cannot be
+     * mutated.
+     *
+     * @param bytes the raw contents
+     * @return an immutable wrapper around the contents
+     */
+    private static Bytes unsafe(byte[] bytes) {
         return new Bytes(bytes, 0, bytes.length);
     }
 
@@ -99,7 +108,7 @@ public final class Bytes extends AbstractList<Byte> {
     public static Bytes random(int length) {
         byte[] bytes = new byte[length];
         secureRandom.nextBytes(bytes);
-        return uncopied(bytes);
+        return unsafe(bytes);
     }
 
     private final byte[] bytes;

@@ -1,6 +1,7 @@
 # Lidalia Crypto
 
-A library to provide an API that simplifies interactions with the java.security and javax.crypto packages.
+A library to provide an API that simplifies interactions with the
+`java.security` and `javax.crypto` packages.
 
 The goal is to provide an API that:
 
