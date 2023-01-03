@@ -28,7 +28,7 @@ public class DerEncoder implements Asn1Encoder<Bytes, Der> {
 
     private final Map<Integer, SpecificDerEncoder> encodersByDerType = index(encoders, SpecificDerEncoder::derType);
 
-    private final Map<Class, SpecificDerEncoder> encodersByJavaType = index(encoders, SpecificDerEncoder::jvmType);
+    private final Map<Class<?>, SpecificDerEncoder> encodersByJavaType = index(encoders, SpecificDerEncoder::jvmType);
 
     private static <K, V> Map<K, V> index(Collection<? extends V> collection, Function<V, K> keyFun) {
         Collector<V, ?, Map<K,V>> asMap = toMap(keyFun, identity());

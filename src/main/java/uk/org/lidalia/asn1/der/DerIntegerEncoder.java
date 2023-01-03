@@ -8,7 +8,7 @@ import uk.org.lidalia.lang.Bytes;
 class DerIntegerEncoder implements SpecificDerEncoder {
 
     @Override
-    public Class jvmType() {
+    public Class<Asn1Integer> jvmType() {
         return Asn1Integer.class;
     }
 

@@ -17,7 +17,7 @@ import static uk.org.lidalia.asn1.der.DerEncoder.getLengthBytes;
 class DerSequenceEncoder implements SpecificDerEncoder {
 
     @Override
-    public Class jvmType() {
+    public Class<Asn1Sequence> jvmType() {
         return Asn1Sequence.class;
     }
 
